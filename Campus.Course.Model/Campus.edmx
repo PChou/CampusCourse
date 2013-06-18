@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Campus.Course.Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="CampusCourseModelStoreContainer">
+          <EntitySet Name="Class" EntityType="Campus.Course.Model.Store.Class" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Course" EntityType="Campus.Course.Model.Store.Course" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Student" EntityType="Campus.Course.Model.Store.Student" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="ClassNo" />
+          </Key>
+          <Property Name="ClassNo" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Specialty" Type="nvarchar" MaxLength="75" />
+          <Property Name="Grader" Type="nvarchar" MaxLength="50" />
+          <Property Name="Institute" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseNo" />
+          </Key>
+          <Property Name="CourseNo" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CourseName" Type="nvarchar" MaxLength="75" />
+          <Property Name="CourseDescription" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentNo" />
+          </Key>
+          <Property Name="StudentNo" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="StudentName" Type="nvarchar" MaxLength="50" />
+          <Property Name="StudentSex" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Campus.Course.Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="CampusEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Classes" EntityType="Campus.Course.Model.Class" />
+          <EntitySet Name="Courses" EntityType="Campus.Course.Model.Course" />
+          <EntitySet Name="Students" EntityType="Campus.Course.Model.Student" />
+        </EntityContainer>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="ClassNo" />
+          </Key>
+          <Property Type="String" Name="ClassNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Specialty" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Grader" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Institute" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseNo" />
+          </Key>
+          <Property Type="String" Name="CourseNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CourseName" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CourseDescription" MaxLength="300" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentNo" />
+          </Key>
+          <Property Type="String" Name="StudentNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="StudentName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="StudentSex" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CampusCourseModelStoreContainer" CdmEntityContainer="CampusEntities" >
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="Campus.Course.Model.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="Institute" ColumnName="Institute" />
+                <ScalarProperty Name="Grader" ColumnName="Grader" />
+                <ScalarProperty Name="Specialty" ColumnName="Specialty" />
+                <ScalarProperty Name="ClassNo" ColumnName="ClassNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="Campus.Course.Model.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="CourseDescription" ColumnName="CourseDescription" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CourseNo" ColumnName="CourseNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="Campus.Course.Model.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="StudentSex" ColumnName="StudentSex" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="StudentNo" ColumnName="StudentNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
