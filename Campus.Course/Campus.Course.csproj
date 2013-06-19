@@ -21,6 +21,10 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TeachTimeSheetController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -79,6 +84,92 @@
   <ItemGroup>
     <Content Include="calendar.css" />
     <Content Include="calendar.html" />
+    <Content Include="Content\css\boss.css" />
+    <Content Include="Content\css\global.css" />
+    <Content Include="Content\images\+c.gif" />
+    <Content Include="Content\images\+h.gif" />
+    <Content Include="Content\images\1.jpg" />
+    <Content Include="Content\images\2.jpg" />
+    <Content Include="Content\images\3.jpg" />
+    <Content Include="Content\images\4.jpg" />
+    <Content Include="Content\images\arrow-d.png" />
+    <Content Include="Content\images\arrow-r.png" />
+    <Content Include="Content\images\arrowhead_bg.png" />
+    <Content Include="Content\images\blank.gif" />
+    <Content Include="Content\images\body_bottombg.png" />
+    <Content Include="Content\images\body_topbg.png" />
+    <Content Include="Content\images\business_user.png" />
+    <Content Include="Content\images\business_user2.png" />
+    <Content Include="Content\images\business_users.png" />
+    <Content Include="Content\images\business_users2.png" />
+    <Content Include="Content\images\buttom_icon.png" />
+    <Content Include="Content\images\buttom_search.png" />
+    <Content Include="Content\images\buttom_title.png" />
+    <Content Include="Content\images\calendar.png" />
+    <Content Include="Content\images\client.jpg" />
+    <Content Include="Content\images\cover-bg.png" />
+    <Content Include="Content\images\elementary_school.jpg" />
+    <Content Include="Content\images\emaillogo.jpg" />
+    <Content Include="Content\images\generate.png" />
+    <Content Include="Content\images\grip.gif" />
+    <Content Include="Content\images\group_logo.png" />
+    <Content Include="Content\images\hav_bg.png" />
+    <Content Include="Content\images\header_bg.png" />
+    <Content Include="Content\images\img.gif" />
+    <Content Include="Content\images\indicator.gif" />
+    <Content Include="Content\images\landing_logo.png" />
+    <Content Include="Content\images\logo_hr.png" />
+    <Content Include="Content\images\logo_hr_2.png" />
+    <Content Include="Content\images\Menu_sep.png" />
+    <Content Include="Content\images\nav_bg.png" />
+    <Content Include="Content\images\nav_bg_hover.png" />
+    <Content Include="Content\images\opts.png" />
+    <Content Include="Content\images\page_button_bg.png" />
+    <Content Include="Content\images\personal.jpg" />
+    <Content Include="Content\images\personnel_buttom.png" />
+    <Content Include="Content\images\pointer.png" />
+    <Content Include="Content\images\resize.gif" />
+    <Content Include="Content\images\sarrow.png" />
+    <Content Include="Content\images\time_holiday.png" />
+    <Content Include="Content\images\time_work.png" />
+    <Content Include="Content\images\topbg_right.png" />
+    <Content Include="Content\images\track.gif" />
+    <Content Include="Content\images\UploadImages\default.jpg" />
+    <Content Include="Content\images\UploadImages\dialog_bg.jpg" />
+    <Content Include="Content\images\UploadImages\dialog_cb.gif" />
+    <Content Include="Content\images\UploadImages\dialog_cb.png" />
+    <Content Include="Content\images\UploadImages\dialog_closebtn.gif" />
+    <Content Include="Content\images\UploadImages\dialog_closebtn_over.gif" />
+    <Content Include="Content\images\UploadImages\dialog_ct.gif" />
+    <Content Include="Content\images\UploadImages\dialog_ct.png" />
+    <Content Include="Content\images\UploadImages\dialog_lb.gif" />
+    <Content Include="Content\images\UploadImages\dialog_lb.png" />
+    <Content Include="Content\images\UploadImages\dialog_lt.gif" />
+    <Content Include="Content\images\UploadImages\dialog_lt.png" />
+    <Content Include="Content\images\UploadImages\dialog_mlm.gif" />
+    <Content Include="Content\images\UploadImages\dialog_mlm.png" />
+    <Content Include="Content\images\UploadImages\dialog_mrm.gif" />
+    <Content Include="Content\images\UploadImages\dialog_mrm.png" />
+    <Content Include="Content\images\UploadImages\dialog_rb.gif" />
+    <Content Include="Content\images\UploadImages\dialog_rb.png" />
+    <Content Include="Content\images\UploadImages\dialog_rt.gif" />
+    <Content Include="Content\images\UploadImages\dialog_rt.png" />
+    <Content Include="Content\images\UploadImages\generate.png" />
+    <Content Include="Content\images\UploadImages\icon_alert.gif" />
+    <Content Include="Content\images\UploadImages\icon_dialog.gif" />
+    <Content Include="Content\images\UploadImages\icon_query.gif" />
+    <Content Include="Content\images\UploadImages\imgbg.gif" />
+    <Content Include="Content\images\UploadImages\imgbg2.gif" />
+    <Content Include="Content\images\UploadImages\indicator.gif" />
+    <Content Include="Content\images\UploadImages\opts.png" />
+    <Content Include="Content\images\UploadImages\pointer.png" />
+    <Content Include="Content\images\UploadImages\resize.gif" />
+    <Content Include="Content\images\UploadImages\sb.jpg" />
+    <Content Include="Content\images\UploadImages\up_bg_box.gif" />
+    <Content Include="Content\images\UploadImages\window.gif" />
+    <Content Include="Content\images\username.png" />
+    <Content Include="Content\images\_c.gif" />
+    <Content Include="Content\images\_h.gif" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\jquery-ui.css" />
@@ -140,6 +231,9 @@
       <Project>{29FEF391-2C44-47A1-B8EE-1A0704A3B641}</Project>
       <Name>Campus.Course.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
