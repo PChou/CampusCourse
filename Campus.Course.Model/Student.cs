@@ -15,7 +15,10 @@ namespace Campus.Course.Model
     public partial class Student
     {
         public string StudentNo { get; set; }
-        public string StudentName { get; set; }
-        public string StudentSex { get; set; }
+        public string Name { get; set; }
+        public string Sex { get; set; }
+        public string ClassNo { get; set; }
+        public Nullable<System.DateTime> CheckInDate { get; set; }
+        public Nullable<System.DateTime> Birth { get; set; }
     }
 }

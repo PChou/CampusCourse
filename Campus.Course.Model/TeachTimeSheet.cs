@@ -12,10 +12,13 @@ namespace Campus.Course.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Course
+    public partial class TeachTimeSheet
     {
-        public string CourseNo { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public int ID { get; set; }
+        public System.DateTime Date { get; set; }
+        public double BTime { get; set; }
+        public double ETime { get; set; }
+        public string Location { get; set; }
+        public string TeachNo { get; set; }
     }
 }

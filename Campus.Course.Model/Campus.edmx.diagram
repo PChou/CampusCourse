@@ -4,10 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a197b16d4844402fab935e861a73ec2c" Name="Diagram1" >
-        <EntityTypeShape EntityType="Campus.Course.Model.Class" Width="1.5" PointX="9.1769366549220575" PointY="3.1960358485561029" />
-        <EntityTypeShape EntityType="Campus.Course.Model.Course" Width="1.5" PointX="6.4661078483174119" PointY="3.8337875920505207" />
-        <EntityTypeShape EntityType="Campus.Course.Model.Student" Width="1.5" PointX="7.17236567436362" PointY="27.734334809581906" />
+      <Diagram DiagramId="a197b16d4844402fab935e861a73ec2c" Name="Diagram1" ShowGrid="true" >
+        <EntityTypeShape EntityType="Campus.Course.Model.Class" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.Course" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.Student" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.StudentTeach" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.TeachTimeSheet" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.Teach" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.Teacher" Width="1.5" PointX="6.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

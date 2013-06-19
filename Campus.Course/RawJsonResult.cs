@@ -5,7 +5,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace NRemedy.MVC.UI
+namespace Campus.Course
 {
     public class RawJsonResult : JsonResult
     {

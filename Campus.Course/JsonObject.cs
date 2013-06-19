@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Text;
 
-namespace Wicresoft.UnifyShow2.Portal
+namespace Campus.Course
 {
     public class JsonObject : JsonEncoding
     {

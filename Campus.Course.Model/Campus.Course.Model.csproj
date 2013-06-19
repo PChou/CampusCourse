@@ -66,12 +66,23 @@
     <Compile Include="Class.cs">
       <DependentUpon>Campus.tt</DependentUpon>
     </Compile>
-    <Compile Include="Class1.cs" />
     <Compile Include="Course.cs">
       <DependentUpon>Campus.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Student.cs">
+      <DependentUpon>Campus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StudentTeach.cs">
+      <DependentUpon>Campus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Teach.cs">
+      <DependentUpon>Campus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Teacher.cs">
+      <DependentUpon>Campus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TeachTimeSheet.cs">
       <DependentUpon>Campus.tt</DependentUpon>
     </Compile>
   </ItemGroup>

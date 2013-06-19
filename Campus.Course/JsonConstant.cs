@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Wicresoft.UnifyShow2.Portal
+namespace Campus.Course
 {
     public class JsonConstant : JsonEncoding
     {

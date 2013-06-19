@@ -192,7 +192,7 @@ border-bottom:2px solid #c3d9ff;
 	background-position:-60px -68px;
 	width:5px;
 	height:9px;
-	background-image:url(../../image/combined_v40_vr.png)
+	background-image:url(images/combined_v40_vr.png)
 }
 .chip {
 	position:absolute;
@@ -268,7 +268,7 @@ border-bottom:2px solid #c3d9ff;
 	width:9px;
 	height:7px;
 	line-height:7px;
-	background-image:url(../../image/combined_v40_vr.png)
+	background-image:url(images/combined_v40_vr.png)
 }
 .ff2 .cic {
 	display:-moz-inline-box;
@@ -488,7 +488,7 @@ border-bottom:2px solid #c3d9ff;
 	cursor:pointer;
 	width:15px;
 	height:15px;
-	background:url(../../image/combined_v40_vr.png) 0 -50px
+	background:url(images/combined_v40_vr.png) 0 -50px
 }
 .cc-title {
 	padding:2px;
@@ -557,7 +557,7 @@ border-bottom:2px solid #c3d9ff;
 	TOP: -25px; LEFT: -25px
 }
 .bubble-closebutton {
-	POSITION: absolute; WIDTH: 15px; BACKGROUND: url(../../image/combined_v40_vr.png)  -228px -48px; HEIGHT: 15px; TOP: 10px; CURSOR: pointer; RIGHT: 10px
+	POSITION: absolute; WIDTH: 15px; BACKGROUND: url(images/combined_v40_vr.png)  -228px -48px; HEIGHT: 15px; TOP: 10px; CURSOR: pointer; RIGHT: 10px
 }
 .bubble-top {
 	BACKGROUND: #fff; HEIGHT: 24px

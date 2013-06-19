@@ -6,12 +6,22 @@ using System.Web.Mvc;
 using System.Configuration;
 using System.Data.SqlClient;
 using Wicresoft.UnifyShow2.Portal;
+using Campus.Course.Business.Interface;
 
 namespace Campus.Course.Controllers
 {
-    public class TeachTimeSheetController : Controller
+    public class TimeSheetController : Controller
     {
+        private ITimeSheet s_timesheet;
+
+
         private string constr = ConfigurationManager.ConnectionStrings["db"].ConnectionString;
+
+
+        public TimeSheetController(ITimeSheet _s_timesheet)
+        {
+            s_timesheet = _s_timesheet;
+        }
 
         public ActionResult Index()
         {

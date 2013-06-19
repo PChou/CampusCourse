@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Campus.Course.Model
+namespace Campus.Course.Business.Interface
 {
-    public class Class1
+    public interface ITimeSheet
     {
+        string Func();
     }
 }
