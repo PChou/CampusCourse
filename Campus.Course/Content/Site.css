@@ -94,3 +94,17 @@ textarea
 }  
 
 .tdfull{_height:expression(this.offsetParent.offsetHeight+"px");}
+
+
+
+#toppanel
+{
+  height:40px;
+  line-height: 40px;
+  border-bottom: solid 1px #ddd; 
+  margin: 0px 0px 10px 0px;
+}
+#toppanel .btn
+{
+  font-weight:600;
+}

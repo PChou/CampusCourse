@@ -2,146 +2,57 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-
-
-<table class="table_border">
-<tr>
-<td>上课时间</td>
-<td>序号</td>
-<td>周一</td>
-<td>周二</td>
-<td>周三</td>
-<td>周四</td>
-<td>周五</td>
-<td>周六</td>
-<td>周日</td>
-</tr>
-<tr>
-<td>08:00 - 08:45</td>
-<td>1</td>
-<td rowspan="12" colspan="7" class="tdfull"><table id="timesheet" class="table_border_inner" height="100%">
-
-
-</table></td>
-</tr>
-
-<tr>
-<td>08:45 - 09:30</td>
-<td>2</td>
-</tr>
-<tr>
-<td>09:30 - 10:15</td>
-<td>3</td>
-</tr>
-<tr>
-<td>09:30 - 10:15</td>
-<td>4</td>
-</tr>
-<tr>
-<td>09:30 - 10:15</td>
-<td>5</td>
-</tr>
-<tr>
-<td>09:30 - 10:15</td>
-<td>6</td>
-</tr>
-<tr>
-<td>09:30 - 10:15</td>
-<td>7</td>
-</tr>
-<tr>
-<td>09:30 - 10:15</td>
-<td>8</td>
-</tr>
-<tr>
-<td>09:30 - 10:15</td>
-<td>9</td>
-</tr>
-<tr>
-<td>09:30 - 10:15</td>
-<td>10</td>
-
-</tr>
-
-<tr>
-<td>09:30 - 10:15</td>
-<td>11</td>
-
-</tr>
-<tr>
-<td>09:30 - 10:15</td>
-<td>12</td>
-
-</tr>
-</table>
-
-
+@section ScriptAndCss{
+    <script src="@Url.Content("~/Scripts/calendar/xgcalendar_lang_zh_cn.js")"></script>
+    <script src="@Url.Content("~/Scripts/calendar/xgcalendar.js")"></script>
+    <link href="@Url.Content("~/css/lib/calendar/calendar.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/css/timesheet_index.css")" rel="stylesheet" />
+}
 
 <script type="text/javascript">
 
-    $(function () {
-
-        $.ajax({
-
-            url: '/TeachTimeSheet/GetTimeSheetByTeacher',
-            success: function (data) {
-
-                for (var row = 0; row < 12; row++) {
-
-                    var row_html = "<tr>";
-                    for (var col = 0; col < 7; col++) {
-                        if (data[row][col] != null) {
-                            if (row > 0 && data[row - 1][col] == data[row][col]) {  //if same as above
-
-                                var tmp = row - 1;
-                                //find the early same one or until row is -1
-                                for (; tmp >= 0; tmp--) {
-                                    if (data[row][col] != data[tmp][col]) {
-                                        break;
-                                    }
-                                }
-
-                                if (tmp < 0) {
-                                    tmp = 0;
-                                }
-
-                                var above_row = $('#timesheet').children().children(':eq(' + tmp + ')');
-                                var above_cell = above_row.children(':eq(' + col + ')');
-                                var orgspan = above_cell.attr('rowspan');
-                                if (orgspan == undefined) {
-                                    orgspan = 0;
-                                }
-                                else {
-                                    orgspan = parseInt(orgspan);
-                                }
-                                above_cell.attr('rowspan', orgspan + 1);
-                            }
-                            else {
-                                row_html += "<td>" + data[row][col] + "</td>";
-                            }
-                        }
-                        else { //null cell
-                            row_html += "<td></td>";
-                        }
-                    }
+$(function(){
+	
+	var op = {
+        view: "week", //默认视图，这里是周视图
+        theme: 1, //默认的主题风格
+        readonly: true,
+        enableDrag:false,
+        autoload:true, //是否在页面加载完毕后自动获取当前视图时间的数据
+        showday: new Date(), //当前视图的显示时间
+        //EditCmdhandler:edit, //点击的响应事件
+        //DeleteCmdhandler:dcal, //删除的响应事件
+        //ViewCmdhandler:view,    //查看的响应事件
+        //onWeekOrMonthToDay:wtd,//当when weekview or month switch to dayview 
+        //onBeforeRequestData: cal_beforerequest,
+        //onAfterRequestData: cal_afterrequest,
+        //onRequestDataError: cal_onerror, 
+        url: "/TimeSheet/GetTimeSheetByStudent?SNo=20062319",  //url for get event data by ajax request(post)
+        quickAddUrl: "/calendar/add" ,   //url for quick add event data by ajax request(post)
+        quickUpdateUrl: "/calendar/update" ,   //url for quick update event data by ajax request(post)
+        quickDeleteUrl:  "/calendar/delete"  //url for quick delete event data by ajax request(post)
+    };
+	var _MH = document.documentElement.clientHeight; //获取页面高度，不同的文档类型需要不同的计算方法，注意示例中使用的doctype 用这个就搞定了
+	op.height = _MH-70; //container height;
+	op.eventItems =[]; //default event data;
+	$("#xgcalendarp").bcalendar(op);
 
 
-
-                    row_html += "</tr>"
-
-                    $('#timesheet').append(row_html);
-
-                }
-
-
-
-            }
-
-        });
-
-
-    });
+	$('#prevbtn').click(function () { $("#xgcalendarp").BCalPrev(new Date()); });
+	$('#nextbtn').click(function () { $("#xgcalendarp").BCalNext(new Date()); });
+	$('#todaybtn').click(function () { $("#xgcalendarp").BCalGoToday(new Date()); });
+});
 
 </script>
+
+<div id="toppanel">
+    <div class="calbtnp1">
+        <div class="btngroup">
+            <button id="todaybtn" type="button" class="btn">Today</button>
+            <span id="prevbtn" type="button" class="btn prevbtn"><em></em></span>
+            <span id="nextbtn" type="button" class="btn nextbtn"> <em></em></span>
+        </div>
+
+    </div>
+</div>
+<div id="xgcalendarp">这里是日历控件</div>

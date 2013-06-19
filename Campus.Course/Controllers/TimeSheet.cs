@@ -3,20 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Configuration;
-using System.Data.SqlClient;
-using Wicresoft.UnifyShow2.Portal;
 using Campus.Course.Business.Interface;
+using Campus.Course.Model.Business;
+using Campus.Course.Model;
 
 namespace Campus.Course.Controllers
 {
-    public class TimeSheetController : Controller
+    public class TimeSheetController : BaseController
     {
         private ITimeSheet s_timesheet;
-
-
-        private string constr = ConfigurationManager.ConnectionStrings["db"].ConnectionString;
-
 
         public TimeSheetController(ITimeSheet _s_timesheet)
         {
@@ -28,68 +23,55 @@ namespace Campus.Course.Controllers
             return View();
         }
 
-        //
-        // GET: /TeachTimeSheet/
 
-        public ActionResult GetTimeSheetByTeacher()
+        public ActionResult GetTimeSheetByStudent(string SNo, DateTime? showdate, string viewtype)
         {
-            using (SqlConnection conn = new SqlConnection(constr))
+            JsonObject root = new JsonObject();
+            try
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(@"SELECT ttt.Date,ttt.BeginTime,ttt.EndTime,c.CourseName from Teach t
-INNER JOIN TeachTimeSheet ttt ON t.TeachNo = ttt.TeachNo
-INNER JOIN Course c ON t.CourseNo = c.CourseNo
-WHERE t.TeacherNo = '00000001'",conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                var matrix = new string[12,7];
-
-                while (reader.Read())
+                DateTime startTime = default(DateTime);
+                DateTime endTime = default(DateTime);
+                
+                if (viewtype == "week")
                 {
-                    string course = (string)reader["CourseName"];
-                    DateTime dt = (DateTime)reader["Date"];
-                    int col = (int)dt.DayOfWeek - 1;
-                    if(col == -1) col = 6;
-                    List<int> rows = GetRowNumber((double)reader["BeginTime"], (double)reader["EndTime"]);
-                    foreach (var r in rows)
-                    {
-                        matrix[r, col] = course;
-                    }
+                    int chinaDayOfWeekOffset = showdate.Value.DayOfWeek == DayOfWeek.Sunday ? 6 : (int)showdate.Value.DayOfWeek - 1;
+                    startTime = showdate.Value.AddDays(chinaDayOfWeekOffset * -1);
+                    endTime = showdate.Value.AddDays(6-chinaDayOfWeekOffset); 
                 }
 
-                JsonCollection collection = new JsonCollection();
-                for (int i = 0; i < matrix.GetLength(0); i++)
-                {
-                    JsonCollection c = new JsonCollection();
-                    for (int j = 0; j < matrix.GetLength(1); j++)
-                    {
-                        c.AppendObject(new JsonConstant(matrix[i, j]));
-                    }
+                var sheet = s_timesheet.GetSheetCourseInfoByStudent(null, SNo, startTime, endTime);
 
-                    collection.AppendObject(c);
+                root = new JsonObject();
+                JsonCollection events = new JsonCollection();
+                root.MergeProperty("start", new JsonDateTime(startTime));
+                root.MergeProperty("end", new JsonDateTime(endTime));
+                root.MergeProperty("error", new JsonConstant(null));
+                root.MergeProperty("issort", new JsonConstant(true));//if issort is false,must provider a sort function on client
+                root.MergeProperty("events", events);
+                foreach (var s in sheet)
+                {
+                    JsonCollection oneEvent = new JsonCollection();
+                    oneEvent.AppendObject(new JsonConstant(s.ID));
+                    oneEvent.AppendObject(new JsonConstant(s.CourseName));
+                    oneEvent.AppendObject(new JsonDateTime(s.Date.AddMilliseconds(s.BTime * 3600000)));
+                    oneEvent.AppendObject(new JsonDateTime(s.Date.AddMilliseconds(s.ETime * 3600000)));
+                    oneEvent.AppendObject(new JsonConstant(0));
+                    oneEvent.AppendObject(new JsonConstant(0));
+                    oneEvent.AppendObject(new JsonConstant(0));
+                    oneEvent.AppendObject(new JsonConstant(1));//color
+                    oneEvent.AppendObject(new JsonConstant(1));//permission
+                    oneEvent.AppendObject(new JsonConstant(s.Location));
+                    oneEvent.AppendObject(new JsonConstant(s.TeacherName));
+                    events.AppendObject(oneEvent);
                 }
 
-                return new NRemedy.MVC.UI.RawJsonResult() { Data = collection.ToString(),JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
-
-
-        }
-
-        //8.0-18.75 step is 0.75
-        private List<int> GetRowNumber(double b, double e)
-        {
-            int seq = 0;
-            List<int> cover = new List<int>();
-            for (double i = 8.0; i <= 19.5; i += 0.75,seq++)
+            catch(Exception ex)
             {
-                if (i >= e)
-                    break;
-                if (i >= b)
-                    cover.Add(seq);
- 
+                root.MergeProperty("error", new JsonConstant(ex.ToString()));
             }
 
-            return cover;
+            return RawJson(root,JsonRequestBehavior.AllowGet);
         }
 
     }
