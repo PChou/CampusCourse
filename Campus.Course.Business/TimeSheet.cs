@@ -24,7 +24,7 @@ namespace Campus.Course.Business
             }
 
             var q = from sheet in campus.TeachTimeSheets
-                    join teach in campus.Teaches on sheet.TeachNo equals teach.TeacherNo
+                    join teach in campus.Teaches on sheet.TeachNo equals teach.TeachNo
                     join course in campus.Courses on teach.CourseNo equals course.CourseNo
                     join teacher in campus.Teachers on teach.TeacherNo equals teacher.TeacherNo
                     join st in campus.StudentTeaches on teach.TeachNo equals st.TeachNo

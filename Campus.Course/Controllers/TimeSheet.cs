@@ -53,12 +53,12 @@ namespace Campus.Course.Controllers
                     JsonCollection oneEvent = new JsonCollection();
                     oneEvent.AppendObject(new JsonConstant(s.ID));
                     oneEvent.AppendObject(new JsonConstant(s.CourseName));
-                    oneEvent.AppendObject(new JsonDateTime(s.Date.AddMilliseconds(s.BTime * 3600000)));
-                    oneEvent.AppendObject(new JsonDateTime(s.Date.AddMilliseconds(s.ETime * 3600000)));
+                    oneEvent.AppendObject(new JsonDateTime(s.Date.AddMilliseconds(s.BTime * 3600000).ToUniversalTime()));
+                    oneEvent.AppendObject(new JsonDateTime(s.Date.AddMilliseconds(s.ETime * 3600000).ToUniversalTime()));
                     oneEvent.AppendObject(new JsonConstant(0));
                     oneEvent.AppendObject(new JsonConstant(0));
                     oneEvent.AppendObject(new JsonConstant(0));
-                    oneEvent.AppendObject(new JsonConstant(1));//color
+                    oneEvent.AppendObject(new JsonConstant(10));//color
                     oneEvent.AppendObject(new JsonConstant(1));//permission
                     oneEvent.AppendObject(new JsonConstant(s.Location));
                     oneEvent.AppendObject(new JsonConstant(s.TeacherName));
