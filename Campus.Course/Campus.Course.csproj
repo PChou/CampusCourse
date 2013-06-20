@@ -95,12 +95,10 @@
     <Compile Include="RawJsonResult.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\lib\calendar\calendar.css" />
-    <Content Include="calendar.html" />
-    <Content Include="css\lib\calendar\images\combined_v40_vr.png" />
-    <Content Include="css\timesheet_index.css" />
+    <Content Include="Content\css\lib\calendar\calendar.css" />
+    <Content Include="Content\css\lib\calendar\images\combined_v40_vr.png" />
+    <Content Include="Content\css\timesheet_index.css" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\css\boss.css" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\images\+c.gif" />
