@@ -1,0 +1,246 @@
+﻿/*Home style*/
+.Home {
+    height: 410px;
+}
+
+.border {
+    border: solid 1px #E4E4E4;
+}
+
+.bar-left {
+    float: left;
+    width: 80%;
+    height: 100%;
+}
+
+.center_content {
+    float: right;
+    width: 75%;
+    height: 98%;
+    margin: 4px -11px;
+}
+
+.bar-right {
+    float: right;
+    width: 19%;
+    height: 100%;
+    margin: 3px -5px;
+    overflow-y:hidden;
+}
+
+    .bar-right ul {
+        height: 100%;
+    }
+
+        .bar-right ul li {
+            border-bottom: solid 1px gray;
+        }
+
+.brief {
+    width: 25%;
+    height: 99%;
+    float: left;
+    margin: 4px 4px;
+}
+
+.brief_info {
+    width: 100%;
+    height: 50%;
+}
+
+.collections {
+    width: 100%;
+    height: 50%;
+    border-top: 0px;
+}
+
+.info_title {
+    height: 16%;
+    background-color: #EAF0FE;
+}
+
+.info_detail {
+    height: 50%;
+    padding: 7px 12px;
+}
+
+.triheight {
+    height: 33%;
+}
+
+.title_highter {
+    height: 24%;
+}
+
+.info_highter {
+    height: 70%;
+    padding: 6px;
+}
+
+
+.person_title {
+    width: 82%;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    float: right;
+    font-weight: bold;
+}
+
+.block_size {
+    margin: 4px 0px;
+}
+
+.person_info {
+    width: 100%;
+    display: block;
+    float: right;
+}
+
+    .person_info li {
+        margin-bottom: 6px;
+    }
+
+        .person_info li span {
+            /*width: 62px;*/
+            display: inline-block;
+            /*overflow: hidden;
+    text-overflow: ellipsis;
+    float:right;*/
+        }
+
+.collection_first {
+    float: left;
+    width: 80%;
+}
+
+.collection_second {
+    float: right;
+    width: 20%;
+    height: 100%;
+}
+
+.coll_tit {
+    width: 78%;
+}
+
+.collection_item {
+    background: url('../../../Content/images/personnel_buttom.png');
+    height: 40px;
+    width: 200px;
+}
+
+.item_title {
+    display: block;
+}
+
+.right-pic {
+    height: 100px;
+    width: 211px;
+}
+
+.inner_right {
+    float: right;
+    width: 80%;
+    height: 100%;
+}
+
+.item_title {
+    float: left;
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 24px;
+}
+
+.inner_right .tri_border {
+    border-left: solid 1px white;
+    width: 40px;
+    height: 30px;
+    margin-top: 4px;
+}
+
+.centert_title {
+    width: 30%;
+    float: left;
+    display: block;
+}
+
+.learn_more a {
+    color: #0D3481;
+}
+
+.center {
+    /*width: 165px;*/
+}
+
+.joblist {
+    width: 100%;
+    height: 32%;
+}
+
+    .joblist ul {
+        height: 100%;
+    }
+
+        .joblist ul > li {
+            float: left;
+            width: 30%;
+            margin-left: 19px;
+        }
+
+.job_tri {
+    float: left;
+}
+
+.title {
+    width: 34px;
+    line-height: 30px;
+}
+
+.warnning_content {
+    height: 33px;
+    line-height: 33px;
+    padding: 10px;
+}
+
+.info_list li {
+    margin-left: 19px;
+    font-size: 14px;
+}
+
+.news_list li {
+    margin-left: 19px;
+    font-size: 14px;
+    height: 35px;
+}
+
+    .news_list li > a {
+        display: block;
+        float: left;
+        width: 100%;
+    }
+
+.news_details {
+    float: left;
+    height: 25px;
+    line-height: 29px;
+}
+
+.time {
+    float: right;
+    width: 13%;
+    display: block;
+}
+
+.news_title {
+    width: 70%;
+    height: 40px;
+    line-height: 40px;
+}
+
+.team {
+    font-weight: bold;
+    height: 39px;
+    line-height: 39px;
+}

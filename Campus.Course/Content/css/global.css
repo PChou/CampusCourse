@@ -16,7 +16,7 @@ body {
     background: url('/Content/images/body_topbg.png') 0 0 repeat-x;
     height: 100%;
     position: initial;
-    #position: relative;
+    position: relative;
 }
 
 a {
@@ -116,6 +116,10 @@ li {
         text-decoration: none;
         color: white;
     }
+        .header a.active {
+            text-decoration: none;
+            color: red;
+        }
 
 .headerInfo_Top {
     color: #FFF;
@@ -184,6 +188,7 @@ li {
                 /*border-right: solid 1px;*/
                 display: block;
                 padding: 0 20px;
+                
             }
 
     .menuBar .subMenu {

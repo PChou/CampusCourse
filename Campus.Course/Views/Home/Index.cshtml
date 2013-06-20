@@ -1,5 +1,78 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+@section ScriptAndCss{
+    <link href="@Url.Content("~/Content/css/home.css")" rel="stylesheet" />
+    <script type="text/javascript">
+        function marqueeMove(containerID, contentID, copyContentID) {
+            //图片滚动
+            var speed = 20;
+            var container = document.getElementById(containerID);
+            var content = document.getElementById(contentID);
+            var copyContent = document.getElementById(copyContentID);
+            copyContent.innerHTML = content.innerHTML;
 
-<h2></h2>
+            function boxTop() {
+                if (copyContent.offsetTop - container.scrollTop <= 0) { container.scrollTop -= content.offsetHeight }
+                else { container.scrollTop++ }
+            }
+            //function boxRight() {
+            //    if (container.scrollLeft <= 0) { container.scrollLeft += copyContent.offsetWidth }
+            //    else { container.scrollLeft-- }
+            //}
+            //function boxBottom() {
+            //    if (content.offsetTop - container.scrollTop >= 0) { container.scrollTop += copyContent.offsetHeight }
+            //    else { container.scrollTop-- }
+            //}
+            //function boxLeft() {
+            //    if (copyContent.offsetWidth - container.scrollLeft <= 0) { container.scrollLeft -= content.offsetWidth }
+            //    else { container.scrollLeft++ }
+            //}
+
+            var MoveTop = setInterval(boxTop, speed);
+            container.onmouseover = function () { clearInterval(MoveTop); };
+            container.onmouseout = function () { MoveTop = setInterval(boxTop, speed) };
+
+        }
+    </script>
+}
+<div class="Home">
+ <div class='bar-left'>
+      <div class='brief'>
+
+      </div>
+      <div class='center_content'>
+
+      </div>
+ </div>
+ <div class='bar-right' id="marqueeContainer">
+        <div id="marqueeContainer1">
+            <ul>
+                <li><a href="#">
+                    <img src="@Url.Content("~/Content/images/marquee5.jpg")" class="right-pic"></a>
+                </li>
+                <li><a href="#">
+                    <img src="@Url.Content("~/Content/images/marquee6.jpg")" class="right-pic"></a>
+                </li>
+                <li><a href="#">
+                    <img src="@Url.Content("~/Content/images/marquee1.jpg")" class="right-pic"></a>
+                </li>
+                <li><a href="#">
+                    <img src="@Url.Content("~/Content/images/marquee2.jpg")" class="right-pic"></a>
+                </li>
+                <li><a href="#">
+                    <img src="@Url.Content("~/Content/images/marquee3.jpg")" class="right-pic"></a>
+                </li>
+                <li><a href="#">
+                    <img src="@Url.Content("~/Content/images/marquee4.jpg")" class="right-pic"></a>
+                </li>
+            </ul>
+        </div>
+        <div id="marqueeContainer2">
+
+        </div>
+         <script type="text/javascript">
+             marqueeMove("marqueeContainer", "marqueeContainer1", "marqueeContainer2");
+        </script>
+ </div>
+</div>
