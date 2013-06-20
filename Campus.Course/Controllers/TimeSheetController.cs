@@ -12,10 +12,12 @@ namespace Campus.Course.Controllers
     public class TimeSheetController : BaseController
     {
         private ITimeSheet s_timesheet;
+        private IStudent s_student;
 
-        public TimeSheetController(ITimeSheet _s_timesheet)
+        public TimeSheetController(ITimeSheet _s_timesheet,IStudent _s_student)
         {
             s_timesheet = _s_timesheet;
+            s_student = _s_student;
         }
 
         public ActionResult Index()
@@ -38,6 +40,19 @@ namespace Campus.Course.Controllers
                     startTime = showdate.Value.AddDays(chinaDayOfWeekOffset * -1);
                     endTime = showdate.Value.AddDays(6-chinaDayOfWeekOffset); 
                 }
+                else if (viewtype == "month")
+                {
+                    //获取一个月的第一天
+                    DateTime fday = new DateTime(showdate.Value.Year, showdate.Value.Month, 1);
+                    int chinaDayOfWeekOffset = fday.DayOfWeek == DayOfWeek.Sunday ? 6 : (int)fday.DayOfWeek - 1;
+                    startTime = fday.AddDays(chinaDayOfWeekOffset * -1);
+
+                    //获取一个月的最后一天
+                    int Days = DateTime.DaysInMonth(showdate.Value.Year, showdate.Value.Month);
+                    DateTime eday = fday.AddDays(Days);
+                    int chinaDayOfWeekOffset2 = fday.DayOfWeek == DayOfWeek.Sunday ? 6 : (int)fday.DayOfWeek - 1;
+                    endTime = eday.AddDays(6 - chinaDayOfWeekOffset2); 
+                }
 
                 var sheet = s_timesheet.GetSheetCourseInfoByStudent(null, SNo, startTime, endTime);
 
@@ -58,7 +73,7 @@ namespace Campus.Course.Controllers
                     oneEvent.AppendObject(new JsonConstant(0));
                     oneEvent.AppendObject(new JsonConstant(0));
                     oneEvent.AppendObject(new JsonConstant(0));
-                    oneEvent.AppendObject(new JsonConstant(10));//color
+                    oneEvent.AppendObject(new JsonConstant(s.CourseTheme == null ? 1 : s.CourseTheme.Value));//color
                     oneEvent.AppendObject(new JsonConstant(1));//permission
                     oneEvent.AppendObject(new JsonConstant(s.Location));
                     oneEvent.AppendObject(new JsonConstant(s.TeacherName));
@@ -72,6 +87,19 @@ namespace Campus.Course.Controllers
             }
 
             return RawJson(root,JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetStudentInfo(string SNo,DateTime showdate)
+        {
+            var stuInfo = s_student.GetStudentBySNo(null,SNo,showdate);
+            JsonObject j = new JsonObject();
+            j.MergeProperty("grade", new JsonConstant(stuInfo.ClassGrade));
+            j.MergeProperty("gradeq", new JsonConstant(stuInfo.ClassGradeQ));
+            j.MergeProperty("class", new JsonConstant(stuInfo.ClassNo));
+            j.MergeProperty("specialty", new JsonConstant(stuInfo.ClassSpecialty));
+            j.MergeProperty("institute", new JsonConstant(stuInfo.ClassInstitute));
+
+            return RawJson(j, JsonRequestBehavior.AllowGet);
         }
 
     }

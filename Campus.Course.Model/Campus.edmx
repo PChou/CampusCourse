@@ -20,8 +20,23 @@
           </Key>
           <Property Name="ClassNo" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Specialty" Type="nvarchar" MaxLength="75" />
-          <Property Name="Grader" Type="nvarchar" MaxLength="50" />
           <Property Name="Institute" Type="nvarchar" MaxLength="50" />
+          <Property Name="Q1B" Type="datetime" />
+          <Property Name="Q1E" Type="datetime" />
+          <Property Name="Q2B" Type="datetime" />
+          <Property Name="Q2E" Type="datetime" />
+          <Property Name="Q3B" Type="datetime" />
+          <Property Name="Q3E" Type="datetime" />
+          <Property Name="Q4B" Type="datetime" />
+          <Property Name="Q4E" Type="datetime" />
+          <Property Name="Q5B" Type="datetime" />
+          <Property Name="Q5E" Type="datetime" />
+          <Property Name="Q6B" Type="datetime" />
+          <Property Name="Q6E" Type="datetime" />
+          <Property Name="Q7B" Type="datetime" />
+          <Property Name="Q7E" Type="datetime" />
+          <Property Name="Q8B" Type="datetime" />
+          <Property Name="Q8E" Type="datetime" />
         </EntityType>
         <EntityType Name="Course">
           <Key>
@@ -30,6 +45,7 @@
           <Property Name="CourseNo" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Name" Type="nvarchar" MaxLength="75" />
           <Property Name="Description" Type="nvarchar" MaxLength="300" />
+          <Property Name="Theme" Type="int" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -100,8 +116,23 @@
           </Key>
           <Property Type="String" Name="ClassNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Specialty" MaxLength="75" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Grader" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Institute" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Q1B" Precision="3" />
+          <Property Type="DateTime" Name="Q1E" Precision="3" />
+          <Property Type="DateTime" Name="Q2B" Precision="3" />
+          <Property Type="DateTime" Name="Q2E" Precision="3" />
+          <Property Type="DateTime" Name="Q3B" Precision="3" />
+          <Property Type="DateTime" Name="Q3E" Precision="3" />
+          <Property Type="DateTime" Name="Q4B" Precision="3" />
+          <Property Type="DateTime" Name="Q4E" Precision="3" />
+          <Property Type="DateTime" Name="Q5B" Precision="3" />
+          <Property Type="DateTime" Name="Q5E" Precision="3" />
+          <Property Type="DateTime" Name="Q6B" Precision="3" />
+          <Property Type="DateTime" Name="Q6E" Precision="3" />
+          <Property Type="DateTime" Name="Q7B" Precision="3" />
+          <Property Type="DateTime" Name="Q7E" Precision="3" />
+          <Property Type="DateTime" Name="Q8B" Precision="3" />
+          <Property Type="DateTime" Name="Q8E" Precision="3" />
         </EntityType>
         <EntityType Name="Course">
           <Key>
@@ -110,6 +141,7 @@
           <Property Type="String" Name="CourseNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Name" MaxLength="75" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Theme" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -170,8 +202,23 @@
           <EntitySetMapping Name="Classes">
             <EntityTypeMapping TypeName="Campus.Course.Model.Class">
               <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="Q8E" ColumnName="Q8E" />
+                <ScalarProperty Name="Q8B" ColumnName="Q8B" />
+                <ScalarProperty Name="Q7E" ColumnName="Q7E" />
+                <ScalarProperty Name="Q7B" ColumnName="Q7B" />
+                <ScalarProperty Name="Q6E" ColumnName="Q6E" />
+                <ScalarProperty Name="Q6B" ColumnName="Q6B" />
+                <ScalarProperty Name="Q5E" ColumnName="Q5E" />
+                <ScalarProperty Name="Q5B" ColumnName="Q5B" />
+                <ScalarProperty Name="Q4E" ColumnName="Q4E" />
+                <ScalarProperty Name="Q4B" ColumnName="Q4B" />
+                <ScalarProperty Name="Q3E" ColumnName="Q3E" />
+                <ScalarProperty Name="Q3B" ColumnName="Q3B" />
+                <ScalarProperty Name="Q2E" ColumnName="Q2E" />
+                <ScalarProperty Name="Q2B" ColumnName="Q2B" />
+                <ScalarProperty Name="Q1E" ColumnName="Q1E" />
+                <ScalarProperty Name="Q1B" ColumnName="Q1B" />
                 <ScalarProperty Name="Institute" ColumnName="Institute" />
-                <ScalarProperty Name="Grader" ColumnName="Grader" />
                 <ScalarProperty Name="Specialty" ColumnName="Specialty" />
                 <ScalarProperty Name="ClassNo" ColumnName="ClassNo" />
               </MappingFragment>
@@ -180,6 +227,7 @@
           <EntitySetMapping Name="Courses">
             <EntityTypeMapping TypeName="Campus.Course.Model.Course">
               <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="Theme" ColumnName="Theme" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CourseNo" ColumnName="CourseNo" />

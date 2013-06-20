@@ -17,5 +17,6 @@ namespace Campus.Course.Model
         public string CourseNo { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public Nullable<int> Theme { get; set; }
     }
 }

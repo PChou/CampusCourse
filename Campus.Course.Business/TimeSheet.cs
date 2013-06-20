@@ -40,8 +40,8 @@ namespace Campus.Course.Business
                         ETime = sheet.ETime,
                         Location = sheet.Location,
                         CourseName = course.Name,
-                        TeacherName = teacher.Name
-
+                        TeacherName = teacher.Name,
+                        CourseTheme = course.Theme
                     };
             try
             {

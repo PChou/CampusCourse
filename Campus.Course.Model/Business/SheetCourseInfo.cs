@@ -19,6 +19,8 @@ namespace Campus.Course.Model.Business
 
         public string CourseName { get; set; }
 
+        public int? CourseTheme { get; set; }
+
         public string TeacherName { get; set; }
     }
 }

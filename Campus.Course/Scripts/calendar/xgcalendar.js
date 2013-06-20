@@ -326,6 +326,9 @@
             }
             initevents(option.view); //初始化时间
             ResizeView();
+            if (option.afterRender && typeof (option.afterRender) == "function") {
+                option.afterRender();
+            }
             //log.diff("视图生成结束");
         }
 
@@ -392,7 +395,8 @@
             }
             html.push("</tr></tbody></table>");
             html.push("</div>");
-            var bH = GetMonthViewBodyHeight() - GetMonthViewHeaderHeight();
+            //var bH = GetMonthViewBodyHeight() - GetMonthViewHeaderHeight();//parkerz
+            var bH = 530;
 
             html.push("<div id=\"mvEventContainer\" class=\"mv-event-container\" style=\"height:", bH, "px;", "\">");
             BuilderMonthBody(html, showday, config.weekstartday, events, bH);
@@ -562,7 +566,7 @@
                     ht.push("<th abbr='", dateFormat.call(dayarrs[i].date, i18n.xgcalendar.dateformat.fulldayvalue), "' scope=\"col\"><div ", ev, " class='wk-dayname'><span>", dayarrs[i].display, "</span></div></th>");
                 }
             }
-            ht.push("<th width=\"16\" rowspan=\"3\">&nbsp;</th>");
+            //ht.push("<th width=\"16\" rowspan=\"3\">&nbsp;</th>");//parkerz
             ht.push("</tr>"); //end tr1;
             //2:          
             ht.push("<tr>");
@@ -854,7 +858,8 @@
 
                 //title tr
                 htb.push("<tr>");
-                var titletemp = "<td class=\"st-dtitle${titleClass}\" ch='qkadd' abbr='${abbr}' axis='00:00' title=\"${title}\"><a href='javascript:void(0);' class='monthdayshow'>${dayshow}</a></td>";
+                //var titletemp = "<td class=\"st-dtitle${titleClass}\" ch='qkadd' abbr='${abbr}' axis='00:00' title=\"${title}\"><a href='javascript:void(0);' class='monthdayshow'>${dayshow}</a></td>";
+                var titletemp = "<td class=\"st-dtitle${titleClass}\" ch='qkadd' abbr='${abbr}' axis='00:00' title=\"${title}\"><span class='monthdayshow'>${dayshow}</span></td>";
 
                 for (var i = 0; i < 7; i++) {
                     var o = { titleClass: "", dayshow: "" };
@@ -1937,7 +1942,8 @@
                     alert(i18n.xgcalendar.view_no_ready); return;
                 }
                 var dvwkH = $dvwkcontaienr.height() + 2;
-                var calH = option.height - 8 - dvwkH;
+                //var calH = option.height - 8 - dvwkH;//parkerz
+                var calH = 504;
                 $dvtec.height(calH);             
                 if (typeof (option.scoll) == "undefined") {
                     //设置滚动条的位置
@@ -2032,9 +2038,9 @@
                 }
 				else
 				{
-					 $("#mvEventContainer span.monthdayshow").each(function(e){
-						$(this).click(function(e2){    weekormonthtoday.call($(this).parent()[0], e2); });
-					 });
+					 //$("#mvEventContainer span.monthdayshow").each(function(e){
+					 //   $(this).click(function(e2){    weekormonthtoday.call($(this).parent()[0], e2); });
+					 //});//parkerz
 				}
             }
 

@@ -16,7 +16,22 @@ namespace Campus.Course.Model
     {
         public string ClassNo { get; set; }
         public string Specialty { get; set; }
-        public string Grader { get; set; }
         public string Institute { get; set; }
+        public Nullable<System.DateTime> Q1B { get; set; }
+        public Nullable<System.DateTime> Q1E { get; set; }
+        public Nullable<System.DateTime> Q2B { get; set; }
+        public Nullable<System.DateTime> Q2E { get; set; }
+        public Nullable<System.DateTime> Q3B { get; set; }
+        public Nullable<System.DateTime> Q3E { get; set; }
+        public Nullable<System.DateTime> Q4B { get; set; }
+        public Nullable<System.DateTime> Q4E { get; set; }
+        public Nullable<System.DateTime> Q5B { get; set; }
+        public Nullable<System.DateTime> Q5E { get; set; }
+        public Nullable<System.DateTime> Q6B { get; set; }
+        public Nullable<System.DateTime> Q6E { get; set; }
+        public Nullable<System.DateTime> Q7B { get; set; }
+        public Nullable<System.DateTime> Q7E { get; set; }
+        public Nullable<System.DateTime> Q8B { get; set; }
+        public Nullable<System.DateTime> Q8E { get; set; }
     }
 }

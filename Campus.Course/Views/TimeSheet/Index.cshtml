@@ -13,46 +13,93 @@
 
 $(function(){
 	
+    //option will call the function
+    //so this point is calender.option
+    function updateStInfo(){
+        var day = this.showday.getFullYear() + '-' + (this.showday.getMonth() + 1) + '-' + this.showday.getDate();
+        $.post('/TimeSheet/GetStudentInfo',
+            {
+                SNo: '20062319',
+                showdate: day
+            },
+            function (data) {
+                for (var p in data){
+                    $('#' + p).text(data[p]);
+                }
+            });
+    }
+
 	var op = {
         view: "week", //默认视图，这里是周视图
         theme: 1, //默认的主题风格
         readonly: true,
         enableDrag:false,
         autoload:true, //是否在页面加载完毕后自动获取当前视图时间的数据
-        showday: new Date(2013,2), //当前视图的显示时间
+        showday: new Date(2013,4), //当前视图的显示时间
         //EditCmdhandler:edit, //点击的响应事件
         //DeleteCmdhandler:dcal, //删除的响应事件
-        //ViewCmdhandler:view,    //查看的响应事件
+        ViewCmdhandler: function () { },    //查看的响应事件
         //onWeekOrMonthToDay:wtd,//当when weekview or month switch to dayview 
         //onBeforeRequestData: cal_beforerequest,
         //onAfterRequestData: cal_afterrequest,
-        //onRequestDataError: cal_onerror, 
-        url: "/TimeSheet/GetTimeSheetByStudent?SNo=20062319",  //url for get event data by ajax request(post)
-        quickAddUrl: "/calendar/add" ,   //url for quick add event data by ajax request(post)
-        quickUpdateUrl: "/calendar/update" ,   //url for quick update event data by ajax request(post)
-        quickDeleteUrl:  "/calendar/delete"  //url for quick delete event data by ajax request(post)
+	    //onRequestDataError: cal_onerror, 
+        afterRender : updateStInfo,
+        extParam : [{ name:"SNo",value:"20062319" }],
+        url: "/TimeSheet/GetTimeSheetByStudent",  //url for get event data by ajax request(post)
+        //quickAddUrl: "/calendar/add" ,   //url for quick add event data by ajax request(post)
+        //quickUpdateUrl: "/calendar/update" ,   //url for quick update event data by ajax request(post)
+        //quickDeleteUrl:  "/calendar/delete"  //url for quick delete event data by ajax request(post)
     };
 	var _MH = document.documentElement.clientHeight; //获取页面高度，不同的文档类型需要不同的计算方法，注意示例中使用的doctype 用这个就搞定了
-	op.height = _MH-70; //container height;
+	//op.height = _MH-70; //container height;
 	op.eventItems =[]; //default event data;
 	$("#xgcalendarp").bcalendar(op);
+	//updateStInfo("#xgcalendarp");
+
+	$('#prevbtn').click(function () {
+	    $("#xgcalendarp").BCalPrev();
+	    //updateStInfo("#xgcalendarp");
+	});
+	$('#nextbtn').click(function () {
+	    $("#xgcalendarp").BCalNext();
+	    //updateStInfo("#xgcalendarp");
+	});
+	$('#todaybtn').click(function () {
+	    $("#xgcalendarp").BCalGoToday();
+	    //updateStInfo("#xgcalendarp");
+	});
+
+	$('#weekbtn').click(function () {
+	    $("#xgcalendarp").BCalSwtichview('week');
+	});
 
 
-	$('#prevbtn').click(function () { $("#xgcalendarp").BCalPrev(new Date()); });
-	$('#nextbtn').click(function () { $("#xgcalendarp").BCalNext(new Date()); });
-	$('#todaybtn').click(function () { $("#xgcalendarp").BCalGoToday(new Date()); });
+	$('#monthbtn').click(function () {
+	    $("#xgcalendarp").BCalSwtichview('month');
+	});
+
 });
 
 </script>
 
-<div id="toppanel">
+<div id="toppanel" style="width:70%">
     <div class="calbtnp1">
+         <button id="todaybtn" type="button" class="btn">Today</button>
         <div class="btngroup">
-            <button id="todaybtn" type="button" class="btn">Today</button>
             <span id="prevbtn" type="button" class="btn prevbtn"><em></em></span>
             <span id="nextbtn" type="button" class="btn nextbtn"> <em></em></span>
+            <div id="dateshow">
+                <span id="grade"></span>
+                <span id="gradeq"></span>
+                <span id="class"></span>
+                <span id="specialty"></span>
+                <span id="institute"></span>
+            </div>
         </div>
-
+    </div>
+    <div class="calbtnp2">
+        <button id="weekbtn" type="button" class="btn current">Week</button>
+        <button id="monthbtn" type="button" class="btn">Month</button>
     </div>
 </div>
-<div id="xgcalendarp" style="width:70%">这里是日历控件</div>
+<div id="xgcalendarp" style="width:70%"></div>

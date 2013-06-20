@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\SheetCourseInfo.cs" />
+    <Compile Include="Business\StudentInfo.cs" />
     <Compile Include="Campus.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
