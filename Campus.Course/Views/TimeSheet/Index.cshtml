@@ -51,30 +51,35 @@ $(function(){
         //quickDeleteUrl:  "/calendar/delete"  //url for quick delete event data by ajax request(post)
     };
 	var _MH = document.documentElement.clientHeight; //获取页面高度，不同的文档类型需要不同的计算方法，注意示例中使用的doctype 用这个就搞定了
-	//op.height = _MH-70; //container height;
+	op.height = 550; //container height;
 	op.eventItems =[]; //default event data;
 	$("#xgcalendarp").bcalendar(op);
-	//updateStInfo("#xgcalendarp");
 
 	$('#prevbtn').click(function () {
 	    $("#xgcalendarp").BCalPrev();
-	    //updateStInfo("#xgcalendarp");
 	});
 	$('#nextbtn').click(function () {
 	    $("#xgcalendarp").BCalNext();
-	    //updateStInfo("#xgcalendarp");
 	});
 	$('#todaybtn').click(function () {
 	    $("#xgcalendarp").BCalGoToday();
-	    //updateStInfo("#xgcalendarp");
 	});
 
 	$('#weekbtn').click(function () {
+	    $(this).parent().children().each(function () {
+	        $(this).removeClass('current');
+	    });
+	    $(this).addClass('current');
 	    $("#xgcalendarp").BCalSwtichview('week');
+        
 	});
 
 
 	$('#monthbtn').click(function () {
+	    $(this).parent().children().each(function () {
+	        $(this).removeClass('current');
+	    });
+	    $(this).addClass('current');
 	    $("#xgcalendarp").BCalSwtichview('month');
 	});
 
@@ -98,8 +103,37 @@ $(function(){
         </div>
     </div>
     <div class="calbtnp2">
-        <button id="weekbtn" type="button" class="btn current">Week</button>
-        <button id="monthbtn" type="button" class="btn">Month</button>
+        <div id="viewswithbtn" class="btngroup">
+            <button id="weekbtn" type="button" class="btn current">Week</button>
+            <button id="monthbtn" type="button" class="btn">Month</button>
+        </div>
     </div>
 </div>
 <div id="xgcalendarp" style="width:70%"></div>
+<div class="rightpanel">
+
+    <div id="notifypanel">
+        <div class="paneltitle"><span>通知</span></div>
+        <div class="panelcontent">
+            <ul>
+                <li>222222222222222222222222222222222222222222222222222222</li>
+                <li>333333333333333333333333333333333333333333333333333333</li>
+            </ul>
+
+        </div>
+    </div>
+
+
+    <div id="shared">
+        <div class="paneltitle"><span>分享</span></div>
+        <div class="panelcontent">
+            <ul>
+                <li>222222222222222222222222222222222222222222222222222222</li>
+                <li>333333333333333333333333333333333333333333333333333333</li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div><p>111</p></div>
