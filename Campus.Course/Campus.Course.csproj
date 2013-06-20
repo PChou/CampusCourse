@@ -99,6 +99,12 @@
     <Content Include="Content\css\lib\calendar\calendar.css" />
     <Content Include="Content\css\lib\calendar\images\combined_v40_vr.png" />
     <Content Include="Content\css\timesheet_index.css" />
+    <Content Include="Content\images\marquee1.jpg" />
+    <Content Include="Content\images\marquee2.jpg" />
+    <Content Include="Content\images\marquee3.jpg" />
+    <Content Include="Content\images\marquee4.jpg" />
+    <Content Include="Content\images\marquee5.jpg" />
+    <Content Include="Content\images\marquee6.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\images\+c.gif" />
@@ -153,7 +159,9 @@
     <Content Include="Content\images\_c.gif" />
     <Content Include="Content\images\_h.gif" />
     <Content Include="Scripts\calendar\jquery.js" />
+    <Content Include="Scripts\global.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\utility.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
