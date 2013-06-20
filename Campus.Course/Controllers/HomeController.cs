@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Campus.Course.Business.Interface;
 
 namespace Campus.Course.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        //
-        // GET: /Home/
+        private IStudent s_student;
+
+        public HomeController(IStudent _s_student)
+        {
+            s_student = _s_student;
+        }
 
         public ActionResult Index()
         {
