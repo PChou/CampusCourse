@@ -223,13 +223,6 @@ li {
                 border: none;
             }
 
-.person_pic {
-    background: url('/Content/images/personal.jpg');
-    width: 70px;
-    height: 70px;
-    display: block;
-    float: left;
-}
 
 .icons {
     display: block;
@@ -854,42 +847,3 @@ label.query_status {
     font-size: 13px;
     display:inline-block;
 }
-
-/*.form_input_area > li {
-    display: inline-block;
-    width: 100%;
-}
-
-    .form_input_area > li > div {
-        width: 32%;
-        float: left;
-        min-height: 30px;
-        margin: 4px 0;
-    }
-
-.form_input_area .parameter_name {
-    width: 40%;
-    float: left;
-    text-align: right;
-    height: 100%;
-    line-height: 30px;
-    font-size: 14px;
-}
-
-.form_input_area .parameter_input {
-    width: 60%;
-    height: 100%;
-    float: right;
-    line-height: 30px;
-    font-size: 14px;
-}
-
-    .form_input_area .parameter_input input,
-    .form_input_area .parameter_input textarea,
-    .form_input_area .parameter_input select {
-        height: 24px;
-        line-height: 24px;
-        font-size: 14px;
-        vertical-align: bottom;
-        width: 90%;
-    }*/

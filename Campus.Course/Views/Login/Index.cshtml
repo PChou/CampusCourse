@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="@Url.Content("~/Content/css/global.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/login.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.8.3.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        function login() {
+         
+            var _user = document.getElementById("txtUsername").value;
+            var _password = document.getElementById("txtPassword").value;
+
+            $.ajax({
+                type: "POST",
+                url: "/Login/Login",
+                data: { user: _user, password: _password },
+                dataType: "json",
+                success: function (data) {
+                    if (data) {
+                        window.location.href = '/Home';
+                    }
+                    else {
+                        alert('登录失败！');
+                    }
+                }
+            });
+        }
+     </script>
+</head>
+ <body>
+     <h1>@ViewData["success"]</h1>
+     <img src='@Url.Content("Content/images/arrowhead_bg.png")' class="arrowhead_bg" />
+     <div class="logo_landing">
+        <img src='@Url.Content("Content/images/landing_logo.png")' />
+        <div class="username username_password">
+            <span>用户名：</span>
+            <input type="text" id="txtUsername" name="txtUsername" placeholder="请输入用户名！" />
+        </div>
+        <div class="username username_password">
+            <span>密　码：</span>
+            <input type="password" id="txtPassword"  name="txtPassword" placeholder="请输入密码！" />
+        </div>
+        <div class="button_landing">
+            <input type="button" name="btnLogin" value="登录" id="btnLogin" onclick="login();" />
+        </div>
+    </div>
+ </body>

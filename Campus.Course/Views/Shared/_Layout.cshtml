@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Campus.Course.Model.Business.V_CurrentUser currentuser = ((Campus.Course.BaseController)this.ViewContext.Controller).CurrentUser;
+    string classdetail = "";
+    if(currentuser.IsStudent)
+    {
+        classdetail = currentuser.Student.Class.Specialty + " " + currentuser.Student.Class.Institute;
+    }
+}
+<!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title</title>
@@ -8,7 +16,7 @@
 </head>
 
 <body>
-     <div class="headerBar"></div>
+    <div class="headerBar"></div>
     <div class="header-wrapper">
         <div class="header margin_1140_center">
             <div class="logo logo_left">
@@ -16,7 +24,7 @@
             </div>
             <div class="logo">
                 <div class="headerInfo_Top">
-                    <input type="text" />
+                    欢迎 &nbsp; @currentuser.Name &nbsp; @classdetail
                 </div>
                 <img src="/content/images/topbg_right.png" class="fr">
                 <div class="headerInfo_Boottom">

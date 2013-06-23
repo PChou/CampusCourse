@@ -31,7 +31,7 @@ namespace Campus.Course
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "TimeSheet", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Login", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }

@@ -27,8 +27,10 @@ namespace Campus.Course
                     {
                         ContainerBuilder builder = new ContainerBuilder();
                         //register controller
-                        builder.RegisterType<TimeSheetController>();
+                        builder.RegisterType<LoginController>();
+                        
                         builder.RegisterType<HomeController>();
+                        builder.RegisterType<TimeSheetController>();
                         builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
                         container = builder.Build();
                     }
