@@ -89,7 +89,7 @@ namespace Campus.Course
             {
                 BaseController controller = (BaseController)controllerContext.Controller;
                 //controller.User;
-                controller.ViewBag.aa = "11";
+                controller.ViewBag.CurrentUser = controller.CurrentUser;
             }
             return base.InvokeActionMethod(controllerContext, actionDescriptor, parameters);
         }

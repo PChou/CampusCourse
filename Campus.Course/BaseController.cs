@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using Campus.Course.Model.Business;
 using Campus.Course.Business.Interface;
-using Campus.Course.Model.Business;
 using Campus.Course.Business;
 
 namespace Campus.Course
