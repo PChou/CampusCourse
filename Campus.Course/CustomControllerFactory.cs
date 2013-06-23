@@ -76,5 +76,20 @@ namespace Campus.Course
                     ex);
             }
         }
+       
+    }
+
+    internal class CustomControllerActionInvoker : ControllerActionInvoker
+    {
+        protected override ActionResult InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary<string, object> parameters)
+        {
+            if (controllerContext.Controller is BaseController)
+            {
+                BaseController controller = (BaseController)controllerContext.Controller;
+                //controller.User;
+                controller.ViewBag.aa = "11";
+            }
+            return base.InvokeActionMethod(controllerContext, actionDescriptor, parameters);
+        }
     }
 }

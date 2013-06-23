@@ -19,5 +19,9 @@ namespace Campus.Course
             };
         }
 
+        protected override IActionInvoker CreateActionInvoker()
+        {
+            return new CustomControllerActionInvoker();
+        }
     }
 }
