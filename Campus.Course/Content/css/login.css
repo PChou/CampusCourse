@@ -1,0 +1,64 @@
+.arrowhead_bg {
+    position: absolute;
+    top: 20px;
+    left: 0px;
+    z-index: 0;
+}
+
+.logo_landing {
+    margin-left: auto;
+    margin-right: auto;
+    width: 279px;
+    padding-top: 50px;
+}
+
+input:-webkit-autofill {
+    background-color: #d9d9d9 !important;
+}
+
+.logo_landing .username {
+    height: 39px;
+    width: 260px;
+    padding-top: 6px;
+    background: url(../../../Content/images/username.png);
+}
+
+.logo_landing .username_password > span {
+    *margin-top: 5px;
+    margin-top: 5px;
+    margin-left: 33px;
+    font-size: 15px;
+    color: #707070;
+    display: inline-block;
+    vertical-align: inherit;
+}
+
+.logo_landing .username_password > input {
+    width: 160px;
+    height: 24px;
+    background-color: #d9d9d9 !important;
+    border: 0px;
+    font-size: 16px;
+    color: #707070;
+}
+
+    .logo_landing .username_password > input:focus {
+        outline: none;
+    }
+
+.logo_landing .password {
+    height: 39px;
+    width: 260px;
+    padding-top: 6px;
+    background: url(../../../Content/images/username.png) 0 -56px;
+}
+
+.logo_landing .button_landing input {
+    height: 45px;
+    width: 260px;
+    padding-bottom: 5px;
+    background: url(../../../Content/images/username.png) 0 -116px;
+    font-size: 15px;
+    border: 0px;
+    cursor: pointer;
+}

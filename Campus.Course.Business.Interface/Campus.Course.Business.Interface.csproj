@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ILogin.cs" />
     <Compile Include="IStudent.cs" />
     <Compile Include="ITimeSheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

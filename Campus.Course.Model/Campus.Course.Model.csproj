@@ -71,6 +71,7 @@
     <Compile Include="Course.cs">
       <DependentUpon>Campus.tt</DependentUpon>
     </Compile>
+    <Compile Include="Business\V_CurrentUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Student.cs">
       <DependentUpon>Campus.tt</DependentUpon>

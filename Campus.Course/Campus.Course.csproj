@@ -81,6 +81,7 @@
     <Compile Include="BaseController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\TimeSheetController.cs" />
     <Compile Include="CustomControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
@@ -98,6 +99,7 @@
     <Content Include="Content\css\home.css" />
     <Content Include="Content\css\lib\calendar\calendar.css" />
     <Content Include="Content\css\lib\calendar\images\combined_v40_vr.png" />
+    <Content Include="Content\css\login.css" />
     <Content Include="Content\css\timesheet_index.css" />
     <Content Include="Content\images\marquee1.jpg" />
     <Content Include="Content\images\marquee2.jpg" />
@@ -196,6 +198,9 @@
       <Project>{29FEF391-2C44-47A1-B8EE-1A0704A3B641}</Project>
       <Name>Campus.Course.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
