@@ -98,6 +98,9 @@
     <Content Include="Content\css\home.css" />
     <Content Include="Content\css\lib\calendar\calendar.css" />
     <Content Include="Content\css\lib\calendar\images\combined_v40_vr.png" />
+    <Content Include="Content\css\lib\select2\select2-3.0.0.css" />
+    <Content Include="Content\css\lib\select2\select2.png" />
+    <Content Include="Content\css\lib\select2\spinner.gif" />
     <Content Include="Content\css\timesheet_index.css" />
     <Content Include="Content\images\marquee1.jpg" />
     <Content Include="Content\images\marquee2.jpg" />
@@ -161,6 +164,7 @@
     <Content Include="Scripts\calendar\jquery.js" />
     <Content Include="Scripts\global.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\select2\select2-3.0.0.min.js" />
     <Content Include="Scripts\utility.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

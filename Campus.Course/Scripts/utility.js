@@ -628,34 +628,41 @@ function Forbidden() {
     }
 }
 
-function marqueeMove(containerID, contentID, copyContentID) {
+function marqueeMove(containerID, contentID, copyContentID,speed2) {
     //图片滚动
     var speed = 20;
+    if (speed2 != undefined && typeof speed2 == "number")
+        speed = speed2;
     var container = document.getElementById(containerID);
     var content = document.getElementById(contentID);
     var copyContent = document.getElementById(copyContentID);
-    copyContent.innerHTML = content.innerHTML;
+    //if need scroll
+    if (copyContent.offsetTop > container.clientHeight) {
+        copyContent.innerHTML = content.innerHTML;
 
-    function boxTop() {
-        if (copyContent.offsetTop - container.scrollTop <= 0) { container.scrollTop -= content.offsetHeight }
-        else { container.scrollTop++ }
+        function boxTop() {
+            if (copyContent.offsetTop - container.scrollTop <= 0) {
+                container.scrollTop -= content.offsetHeight
+            }
+            else { container.scrollTop++ }
+        }
+        //function boxRight() {
+        //    if (container.scrollLeft <= 0) { container.scrollLeft += copyContent.offsetWidth }
+        //    else { container.scrollLeft-- }
+        //}
+        //function boxBottom() {
+        //    if (content.offsetTop - container.scrollTop >= 0) { container.scrollTop += copyContent.offsetHeight }
+        //    else { container.scrollTop-- }
+        //}
+        //function boxLeft() {
+        //    if (copyContent.offsetWidth - container.scrollLeft <= 0) { container.scrollLeft -= content.offsetWidth }
+        //    else { container.scrollLeft++ }
+        //}
+
+        var MoveTop = setInterval(boxTop, speed);
+        container.onmouseover = function () { clearInterval(MoveTop); };
+        container.onmouseout = function () { MoveTop = setInterval(boxTop, speed) };
     }
-    //function boxRight() {
-    //    if (container.scrollLeft <= 0) { container.scrollLeft += copyContent.offsetWidth }
-    //    else { container.scrollLeft-- }
-    //}
-    //function boxBottom() {
-    //    if (content.offsetTop - container.scrollTop >= 0) { container.scrollTop += copyContent.offsetHeight }
-    //    else { container.scrollTop-- }
-    //}
-    //function boxLeft() {
-    //    if (copyContent.offsetWidth - container.scrollLeft <= 0) { container.scrollLeft -= content.offsetWidth }
-    //    else { container.scrollLeft++ }
-    //}
-
-    var MoveTop = setInterval(boxTop, speed);
-    container.onmouseover = function () { clearInterval(MoveTop); };
-    container.onmouseout = function () { MoveTop = setInterval(boxTop, speed) };
 
 }
 
