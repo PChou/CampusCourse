@@ -47,42 +47,42 @@ namespace Campus.Course.Business
 
                 if (baseDate >= onesc.Class.Q1B && baseDate <= onesc.Class.Q1E)
                 {
-                    si.ClassGrade = "第一学年";
+                    si.ClassGrade = onesc.Class.Q1B.Value.Year.ToString() + "-" + onesc.Class.Q1E.Value.Year.ToString() + "学年";
                     si.ClassGradeQ = "第一学期";
                 }
                 else if (baseDate >= onesc.Class.Q2B && baseDate <= onesc.Class.Q2E)
                 {
-                    si.ClassGrade = "第一学年";
+                    si.ClassGrade = onesc.Class.Q1B.Value.Year.ToString() + "-" + onesc.Class.Q1E.Value.Year.ToString() + "学年";
                     si.ClassGradeQ = "第二学期";
                 }
                 else if (baseDate >= onesc.Class.Q3B && baseDate <= onesc.Class.Q3E)
                 {
-                    si.ClassGrade = "第二学年";
+                    si.ClassGrade = onesc.Class.Q3B.Value.Year.ToString() + "-" + onesc.Class.Q3E.Value.Year.ToString() + "学年";
                     si.ClassGradeQ = "第一学期";
                 }
                 else if (baseDate >= onesc.Class.Q4B && baseDate <= onesc.Class.Q4E)
                 {
-                    si.ClassGrade = "第二学年";
+                    si.ClassGrade = onesc.Class.Q3B.Value.Year.ToString() + "-" + onesc.Class.Q3E.Value.Year.ToString() + "学年";
                     si.ClassGradeQ = "第二学期";
                 }
                 else if (baseDate >= onesc.Class.Q5B && baseDate <= onesc.Class.Q5E)
                 {
-                    si.ClassGrade = "第三学年";
+                    si.ClassGrade = onesc.Class.Q5B.Value.Year.ToString() + "-" + onesc.Class.Q5E.Value.Year.ToString() + "学年";
                     si.ClassGradeQ = "第一学期";
                 }
                 else if (baseDate >= onesc.Class.Q6B && baseDate <= onesc.Class.Q6E)
                 {
-                    si.ClassGrade = "第三学年";
+                    si.ClassGrade = onesc.Class.Q5B.Value.Year.ToString() + "-" + onesc.Class.Q5E.Value.Year.ToString() + "学年";
                     si.ClassGradeQ = "第二学期";
                 }
                 else if (baseDate >= onesc.Class.Q7B && baseDate <= onesc.Class.Q7E)
                 {
-                    si.ClassGrade = "第四学年";
+                    si.ClassGrade = onesc.Class.Q7B.Value.Year.ToString() + "-" + onesc.Class.Q7E.Value.Year.ToString() + "学年";
                     si.ClassGradeQ = "第一学期";
                 }
                 else if (baseDate >= onesc.Class.Q8B && baseDate <= onesc.Class.Q8E)
                 {
-                    si.ClassGrade = "第四学年";
+                    si.ClassGrade = onesc.Class.Q7B.Value.Year.ToString() + "-" + onesc.Class.Q7E.Value.Year.ToString() + "学年";
                     si.ClassGradeQ = "第二学期";
                 }
                 return si;

@@ -1373,6 +1373,7 @@
             if (ll == 0) {
                 return false;
             }
+            return false;//parkerz never check cache
             var r = false;
             var r2 = false;
             for (var i = 0; i < ll; i++) {

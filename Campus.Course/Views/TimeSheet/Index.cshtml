@@ -5,8 +5,13 @@
 @section ScriptAndCss{
     <script src="@Url.Content("~/Scripts/calendar/xgcalendar_lang_zh_cn.js")"></script>
     <script src="@Url.Content("~/Scripts/calendar/xgcalendar.js")"></script>
+    <script src="@Url.Content("~/Scripts/utility.js")"></script>
     <link href="@Url.Content("~/Content/css/lib/calendar/calendar.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/css/timesheet_index.css")" rel="stylesheet" />
+
+    <script src="@Url.Content("~/Scripts/select2/select2-3.0.0.min.js")"></script>
+    <link href="@Url.Content("~/Content/css/lib/select2/select2-3.0.0.css")" rel="stylesheet" />
+
 }
 
 <script type="text/javascript">
@@ -17,7 +22,7 @@ $(function(){
     //so this point is calender.option
     function updateStInfo(){
         var day = this.showday.getFullYear() + '-' + (this.showday.getMonth() + 1) + '-' + this.showday.getDate();
-        $.post('/TimeSheet/GetStudentInfo',
+        $.post('/TimeSheet/GetTimeSheetInfo',
             {
                 SNo: '20062319',
                 showdate: day
@@ -29,58 +34,76 @@ $(function(){
             });
     }
 
+
 	var op = {
         view: "week", //默认视图，这里是周视图
         theme: 1, //默认的主题风格
         readonly: true,
         enableDrag:false,
         autoload:true, //是否在页面加载完毕后自动获取当前视图时间的数据
-        showday: new Date(2013,4), //当前视图的显示时间
-        //EditCmdhandler:edit, //点击的响应事件
-        //DeleteCmdhandler:dcal, //删除的响应事件
+        showday: new Date(2013,8), //当前视图的显示时间
         ViewCmdhandler: function () { },    //查看的响应事件
-        //onWeekOrMonthToDay:wtd,//当when weekview or month switch to dayview 
-        //onBeforeRequestData: cal_beforerequest,
-        //onAfterRequestData: cal_afterrequest,
-	    //onRequestDataError: cal_onerror, 
         afterRender : updateStInfo,
-        extParam : [{ name:"SNo",value:"20062319" }],
+        extParam: [{ name: "SNo", value: "20062319" }, { name: "CNo", value: "" }],
         url: "/TimeSheet/GetTimeSheetByStudent",  //url for get event data by ajax request(post)
-        //quickAddUrl: "/calendar/add" ,   //url for quick add event data by ajax request(post)
-        //quickUpdateUrl: "/calendar/update" ,   //url for quick update event data by ajax request(post)
-        //quickDeleteUrl:  "/calendar/delete"  //url for quick delete event data by ajax request(post)
     };
-	var _MH = document.documentElement.clientHeight; //获取页面高度，不同的文档类型需要不同的计算方法，注意示例中使用的doctype 用这个就搞定了
-	//op.height = _MH-70; //container height;
+	
+	op.height = 550; //container height;
 	op.eventItems =[]; //default event data;
 	$("#xgcalendarp").bcalendar(op);
-	//updateStInfo("#xgcalendarp");
 
 	$('#prevbtn').click(function () {
 	    $("#xgcalendarp").BCalPrev();
-	    //updateStInfo("#xgcalendarp");
 	});
 	$('#nextbtn').click(function () {
 	    $("#xgcalendarp").BCalNext();
-	    //updateStInfo("#xgcalendarp");
 	});
 	$('#todaybtn').click(function () {
 	    $("#xgcalendarp").BCalGoToday();
-	    //updateStInfo("#xgcalendarp");
 	});
 
 	$('#weekbtn').click(function () {
+	    $(this).parent().children().each(function () {
+	        $(this).removeClass('current');
+	    });
+	    $(this).addClass('current');
 	    $("#xgcalendarp").BCalSwtichview('week');
+        
 	});
 
 
 	$('#monthbtn').click(function () {
+	    $(this).parent().children().each(function () {
+	        $(this).removeClass('current');
+	    });
+	    $(this).addClass('current');
 	    $("#xgcalendarp").BCalSwtichview('month');
 	});
+
+	$('#classes').select2({
+	    containerCssClass: "classselect"
+	}).change(function () {
+	    if ($(this).val() == 'my') {
+	        $("#xgcalendarp").BcalGetOp().url = '/TimeSheet/GetTimeSheetByStudent';
+	        $("#xgcalendarp").BcalGetOp().extParam[0].value = '20062319';
+
+	        $("#xgcalendarp").BCalReload();
+	    }
+	    else {
+	        $("#xgcalendarp").BcalGetOp().url = '/TimeSheet/GetTimeSheetByClass';
+	        $("#xgcalendarp").BcalGetOp().extParam[1].value = $(this).val();
+
+	        $("#xgcalendarp").BCalReload();
+	    }
+	});
+
+	marqueeMove("notifypanelcontent", "notifypanelorg", "notifypanelhidden", 100);
 
 });
 
 </script>
+
+
 
 <div id="toppanel" style="width:70%">
     <div class="calbtnp1">
@@ -89,17 +112,66 @@ $(function(){
             <span id="prevbtn" type="button" class="btn prevbtn"><em></em></span>
             <span id="nextbtn" type="button" class="btn nextbtn"> <em></em></span>
             <div id="dateshow">
+                <strong><span id="currentdate"></span></strong>
                 <span id="grade"></span>
                 <span id="gradeq"></span>
-                <span id="class"></span>
-                <span id="specialty"></span>
-                <span id="institute"></span>
+                <span id="currentweek"></span>
             </div>
         </div>
     </div>
+           <select id="classes">
+               <option value="my">我的课程表</option> 
+           @foreach (var li in ViewBag.Classes)
+           {
+               <option value="@li.ClassNo">@li.ClassNo</option> 
+           }
+    </select>
+
     <div class="calbtnp2">
-        <button id="weekbtn" type="button" class="btn current">Week</button>
-        <button id="monthbtn" type="button" class="btn">Month</button>
+
+        <div id="viewswithbtn" class="btngroup">
+            <button id="weekbtn" type="button" class="btn current">Week</button>
+            <button id="monthbtn" type="button" class="btn">Month</button>
+
+        </div>
     </div>
 </div>
 <div id="xgcalendarp" style="width:70%"></div>
+<div class="rightpanel">
+
+    <div id="notifypanel">
+        <div class="paneltitle"><span>通知</span></div>
+        <div id="notifypanelcontent" class="panelcontent">
+            <div id="notifypanelorg">
+                <ul>
+                    <li>222222222222222222222222222222222222222222222222222222</li>
+                    <li>333333333333333333333333333333333333333333333333333333</li>
+                    <li>4444444444444444444444444</li>
+                    <li>55555555555555555555555555555</li>
+                    <li>6666666666666666666666666666666666666666</li>
+                    <li>77777</li>
+                    <li>8888</li>
+                    <li>099999</li>
+                    <li>888888</li>
+                </ul>
+
+            </div>
+            <div id="notifypanelhidden"></div>
+        </div>
+    </div>
+
+
+    <div id="shared">
+        <div class="paneltitle"><span>分享</span></div>
+        <div class="panelcontent">
+            <ul>
+                <li>222222222222222222222222222222222222222222222222222222</li>
+                <li>333333333333333333333333333333333333333333333333333333</li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div><p></p>
+</div>

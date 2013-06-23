@@ -32,5 +32,6 @@ namespace Campus.Course.Model
         public DbSet<TeachTimeSheet> TeachTimeSheets { get; set; }
         public DbSet<Teach> Teaches { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<ClassTeach> ClassTeaches { get; set; }
     }
 }

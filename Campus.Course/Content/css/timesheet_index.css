@@ -7,7 +7,7 @@
 
 .btngroup .btn.current
 {
-   background-color: #eee;
+   background-color: #c7c7c7;
    border-color: #ccc;
    z-index: 888;
 }
@@ -89,6 +89,48 @@
   display: block;
   width: 70px; 
   min-width: 52px;    
+}
+
+.rightpanel {
+    float:right;
+    position:relative;
+    margin-top:-598px;
+    padding-top:3px;
+}
+
+    .rightpanel > div {
+        width:320px;
+    }
+
+    .rightpanel div.paneltitle {
+        height:30px;
+        background-image:url(../images/buttom_search.png);
+        background-repeat:repeat-x;
+        padding-left:5px;
+        color:#fff;
+        margin-top:5px;
+        
+    } 
+        .rightpanel div.paneltitle span {
+            line-height : 30px;
+        } 
+    .rightpanel div.panelcontent {
+        padding-left:5px;
+        padding-right:5px;
+        border:1px solid #ccc;
+        word-wrap:break-word;
+        word-break:break-all;
+    }
+
+    #notifypanelcontent {
+        height:150px;
+        overflow-y:hidden;
+    }
+
+.classselect {
+    float:right;
+    width:120px;
+    margin-left:5px;
 }
 
 .btn

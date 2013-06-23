@@ -154,7 +154,8 @@ border-bottom:2px solid #c3d9ff;
 .tg-col-eventwrapper {
 	position:relative;
 	cursor:default;
-	margin-right:10px;
+	margin-right:1px;
+    margin-left:1px;
 }
 .tg-today {
 	background-color:#f1f1f1;

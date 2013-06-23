@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Business\SheetCourseInfo.cs" />
     <Compile Include="Business\StudentInfo.cs" />
+    <Compile Include="Business\TimeSheetInfo.cs" />
     <Compile Include="Campus.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -66,6 +67,9 @@
       <DependentUpon>Campus.edmx</DependentUpon>
     </Compile>
     <Compile Include="Class.cs">
+      <DependentUpon>Campus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClassTeach.cs">
       <DependentUpon>Campus.tt</DependentUpon>
     </Compile>
     <Compile Include="Course.cs">

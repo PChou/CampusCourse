@@ -7,6 +7,7 @@
     <Schema Namespace="Campus.Course.Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="CampusCourseModelStoreContainer">
           <EntitySet Name="Class" EntityType="Campus.Course.Model.Store.Class" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ClassTeach" EntityType="Campus.Course.Model.Store.ClassTeach" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Course" EntityType="Campus.Course.Model.Store.Course" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Student" EntityType="Campus.Course.Model.Store.Student" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StudentTeach" EntityType="Campus.Course.Model.Store.StudentTeach" store:Type="Tables" Schema="dbo" />
@@ -37,6 +38,14 @@
           <Property Name="Q7E" Type="datetime" />
           <Property Name="Q8B" Type="datetime" />
           <Property Name="Q8E" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ClassTeach">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ClassNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="TeachNo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Course">
           <Key>
@@ -109,6 +118,7 @@
           <EntitySet Name="TeachTimeSheets" EntityType="Campus.Course.Model.TeachTimeSheet" />
           <EntitySet Name="Teaches" EntityType="Campus.Course.Model.Teach" />
           <EntitySet Name="Teachers" EntityType="Campus.Course.Model.Teacher" />
+          <EntitySet Name="ClassTeaches" EntityType="Campus.Course.Model.ClassTeach" />
         </EntityContainer>
         <EntityType Name="Class">
           <Key>
@@ -192,6 +202,14 @@
           <Property Type="String" Name="Sex" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Age" />
           <Property Type="DateTime" Name="Birth" Precision="3" />
+        </EntityType>
+        <EntityType Name="ClassTeach">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ClassNo" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TeachNo" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -286,6 +304,15 @@
                 <ScalarProperty Name="Institute" ColumnName="Institute" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TeacherNo" ColumnName="TeacherNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClassTeaches">
+            <EntityTypeMapping TypeName="Campus.Course.Model.ClassTeach">
+              <MappingFragment StoreEntitySet="ClassTeach">
+                <ScalarProperty Name="TeachNo" ColumnName="TeachNo" />
+                <ScalarProperty Name="ClassNo" ColumnName="ClassNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

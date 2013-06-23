@@ -7,11 +7,12 @@
       <Diagram DiagramId="a197b16d4844402fab935e861a73ec2c" Name="Diagram1" ShowGrid="true" >
         <EntityTypeShape EntityType="Campus.Course.Model.Class" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="Campus.Course.Model.Course" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Campus.Course.Model.Student" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="Campus.Course.Model.StudentTeach" Width="1.5" PointX="2.75" PointY="3.75" />
-        <EntityTypeShape EntityType="Campus.Course.Model.TeachTimeSheet" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Campus.Course.Model.Teach" Width="1.5" PointX="4.75" PointY="3.75" />
-        <EntityTypeShape EntityType="Campus.Course.Model.Teacher" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.Student" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.StudentTeach" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.TeachTimeSheet" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.Teach" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.Teacher" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.ClassTeach" Width="1.5" PointX="2.75" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
