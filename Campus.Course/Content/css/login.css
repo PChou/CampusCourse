@@ -42,11 +42,26 @@ input:-webkit-autofill {
     color: #707070;
 }
 
+.logo_landing .username_password > select {
+    width: 145px;
+    height: 22px;
+    border: 0px;
+    font-size: 16px;
+    color: #707070;
+}
+
     .logo_landing .username_password > input:focus {
         outline: none;
     }
 
 .logo_landing .password {
+    height: 39px;
+    width: 260px;
+    padding-top: 6px;
+    background: url(../../../Content/images/username.png) 0 -56px;
+}
+
+.logo_landing .authentication {
     height: 39px;
     width: 260px;
     padding-top: 6px;

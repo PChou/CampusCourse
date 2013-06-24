@@ -22,13 +22,23 @@ namespace Campus.Course.Controllers
             return View();
         }
 
-        public JsonResult Login(string user, string password)
+        public JsonResult Login(string user, string password, string authentication)
         {
-            bool checkin = _login.CheckLogin(null, user, password, true);
+            bool checkin = true;
+            string UserInfo = user + "|" + authentication;
+           
+            if (authentication == "student")
+            {
+                checkin = _login.CheckLogin(null, user, password, true);
+            }
+            else if (authentication == "teacher")
+            {
+                checkin = _login.CheckLogin(null, user, password, false);
+            }
+            
             if (checkin)
             {
-                FormsAuthentication.SetAuthCookie(user, false);
-                //string returnUrl = Request["ReturnUrl"];
+                FormsAuthentication.SetAuthCookie(UserInfo, false);
                 bool Success = true;
                 return Json(Success);
             }
