@@ -32,7 +32,7 @@ namespace Campus.Course
             get
             {
                 V_CurrentUser current = new Model.Business.V_CurrentUser();
-                /*
+
                 string[] UserInfo = HttpContext.User.Identity.Name.Split('|');
                 string userName = UserInfo[0];
                 string auth = UserInfo[1];
@@ -44,7 +44,7 @@ namespace Campus.Course
                     current = login.GetCurrentUser(null, userName, isStudent);
                     Session["V_CurrentUser"] = current;
                 }
-                */
+               
                 return current;
             }
         }
