@@ -15,5 +15,9 @@ namespace Campus.Course.Business.Interface
         TimeSheetInfo GetTimeSheetInfo(CampusEntities context, string SNo, DateTime baseDate);
 
         IEnumerable<Class> GetClasses(CampusEntities context);
+
+        WeekInQGrade CalWeekInQGrade(DateTime BDate, DateTime showday);
+
+        IEnumerable<SheetCourseInfo> GetTimesheetsByTeachNo(CampusEntities context, string TeachNo);
     }
 }

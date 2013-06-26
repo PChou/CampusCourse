@@ -82,6 +82,7 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PreparationController.cs" />
     <Compile Include="Controllers\TimeSheetController.cs" />
     <Compile Include="CustomControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
@@ -99,10 +100,42 @@
     <Content Include="Content\css\home.css" />
     <Content Include="Content\css\lib\calendar\calendar.css" />
     <Content Include="Content\css\lib\calendar\images\combined_v40_vr.png" />
+    <Content Include="Content\css\lib\jqtree\jqtree-circle.png" />
+    <Content Include="Content\css\lib\jqtree\jqtree.css" />
+    <Content Include="Content\css\lib\jqui\images\animated-overlay.gif" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_diagonals-small_25_c5ddfc_40x40.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_diagonals-thick_20_e69700_40x40.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_flat_0_e69700_40x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_flat_0_e6b900_40x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_flat_20_e69700_40x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_flat_22_1484e6_40x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_flat_26_2293f7_40x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_highlight-soft_100_f9f9f9_1x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-bg_inset-hard_100_eeeeee_1x100.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-icons_0a82eb_256x240.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-icons_0b54d5_256x240.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-icons_5fa5e3_256x240.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-icons_fcdd4a_256x240.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\css\lib\jqui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\css\lib\jqui\jquery-ui-1.10.3.datepicker.min.css" />
     <Content Include="Content\css\login.css" />
     <Content Include="Content\css\lib\select2\select2-3.0.0.css" />
     <Content Include="Content\css\lib\select2\select2.png" />
     <Content Include="Content\css\lib\select2\spinner.gif" />
+    <Content Include="Content\css\preparation_index.css" />
     <Content Include="Content\css\timesheet_index.css" />
     <Content Include="Content\images\marquee1.jpg" />
     <Content Include="Content\images\marquee2.jpg" />
@@ -165,7 +198,9 @@
     <Content Include="Content\images\_h.gif" />
     <Content Include="Scripts\calendar\jquery.js" />
     <Content Include="Scripts\global.js" />
+    <Content Include="Scripts\jqtree\tree.jquery.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\jqui\jquery-ui-1.10.3.datepicker.min.js" />
     <Content Include="Scripts\select2\select2-3.0.0.min.js" />
     <Content Include="Scripts\utility.js" />
     <Content Include="Web.config" />
@@ -206,6 +241,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Login\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Preparation\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

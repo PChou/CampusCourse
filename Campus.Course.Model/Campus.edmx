@@ -9,6 +9,9 @@
           <EntitySet Name="Class" EntityType="Campus.Course.Model.Store.Class" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ClassTeach" EntityType="Campus.Course.Model.Store.ClassTeach" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Course" EntityType="Campus.Course.Model.Store.Course" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="InstituteSheet" EntityType="Campus.Course.Model.Store.InstituteSheet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Preparation" EntityType="Campus.Course.Model.Store.Preparation" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PreparationMeteiral" EntityType="Campus.Course.Model.Store.PreparationMeteiral" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Student" EntityType="Campus.Course.Model.Store.Student" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StudentTeach" EntityType="Campus.Course.Model.Store.StudentTeach" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Teach" EntityType="Campus.Course.Model.Store.Teach" store:Type="Tables" Schema="dbo" />
@@ -56,6 +59,38 @@
           <Property Name="Description" Type="nvarchar" MaxLength="300" />
           <Property Name="Theme" Type="int" />
         </EntityType>
+        <EntityType Name="InstituteSheet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="BDate" Type="date" />
+          <Property Name="EDate" Type="date" />
+          <Property Name="Grade" Type="nvarchar" MaxLength="50" />
+          <Property Name="QGrade" Type="nvarchar" MaxLength="50" />
+          <Property Name="HolidayBegin" Type="date" />
+          <Property Name="HolidayEnd" Type="date" />
+        </EntityType>
+        <EntityType Name="Preparation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TeachTimeSheetId" Type="int" />
+          <Property Name="PrepName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PrepContent" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PreparationMeteiral">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PreparationId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhysicalStore" Type="nvarchar" MaxLength="300" />
+        </EntityType>
         <EntityType Name="Student">
           <Key>
             <PropertyRef Name="StudentNo" />
@@ -82,6 +117,7 @@
           <Property Name="TeachNo" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
           <Property Name="TeacherNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="InstituteId" Type="int" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -119,6 +155,9 @@
           <EntitySet Name="Teaches" EntityType="Campus.Course.Model.Teach" />
           <EntitySet Name="Teachers" EntityType="Campus.Course.Model.Teacher" />
           <EntitySet Name="ClassTeaches" EntityType="Campus.Course.Model.ClassTeach" />
+          <EntitySet Name="InstituteSheets" EntityType="Campus.Course.Model.InstituteSheet" />
+          <EntitySet Name="Preparations" EntityType="Campus.Course.Model.Preparation" />
+          <EntitySet Name="PreparationMeteirals" EntityType="Campus.Course.Model.PreparationMeteiral" />
         </EntityContainer>
         <EntityType Name="Class">
           <Key>
@@ -190,6 +229,7 @@
           <Property Type="String" Name="TeachNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CourseNo" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="TeacherNo" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="InstituteId" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -210,6 +250,38 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="ClassNo" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="TeachNo" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="InstituteSheet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="BDate" Precision="0" />
+          <Property Type="DateTime" Name="EDate" Precision="0" />
+          <Property Type="String" Name="Grade" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="QGrade" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="HolidayBegin" Precision="0" />
+          <Property Type="DateTime" Name="HolidayEnd" Precision="0" />
+        </EntityType>
+        <EntityType Name="Preparation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="TeachTimeSheetId" />
+          <Property Type="String" Name="PrepName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PrepContent" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PreparationMeteiral">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PreparationId" />
+          <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Type" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PhysicalStore" MaxLength="300" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -288,6 +360,7 @@
           <EntitySetMapping Name="Teaches">
             <EntityTypeMapping TypeName="Campus.Course.Model.Teach">
               <MappingFragment StoreEntitySet="Teach">
+                <ScalarProperty Name="InstituteId" ColumnName="InstituteId" />
                 <ScalarProperty Name="TeacherNo" ColumnName="TeacherNo" />
                 <ScalarProperty Name="CourseNo" ColumnName="CourseNo" />
                 <ScalarProperty Name="TeachNo" ColumnName="TeachNo" />
@@ -312,6 +385,41 @@
               <MappingFragment StoreEntitySet="ClassTeach">
                 <ScalarProperty Name="TeachNo" ColumnName="TeachNo" />
                 <ScalarProperty Name="ClassNo" ColumnName="ClassNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InstituteSheets">
+            <EntityTypeMapping TypeName="Campus.Course.Model.InstituteSheet">
+              <MappingFragment StoreEntitySet="InstituteSheet">
+                <ScalarProperty Name="HolidayEnd" ColumnName="HolidayEnd" />
+                <ScalarProperty Name="HolidayBegin" ColumnName="HolidayBegin" />
+                <ScalarProperty Name="QGrade" ColumnName="QGrade" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="EDate" ColumnName="EDate" />
+                <ScalarProperty Name="BDate" ColumnName="BDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Preparations">
+            <EntityTypeMapping TypeName="Campus.Course.Model.Preparation">
+              <MappingFragment StoreEntitySet="Preparation">
+                <ScalarProperty Name="PrepContent" ColumnName="PrepContent" />
+                <ScalarProperty Name="PrepName" ColumnName="PrepName" />
+                <ScalarProperty Name="TeachTimeSheetId" ColumnName="TeachTimeSheetId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PreparationMeteirals">
+            <EntityTypeMapping TypeName="Campus.Course.Model.PreparationMeteiral">
+              <MappingFragment StoreEntitySet="PreparationMeteiral">
+                <ScalarProperty Name="PhysicalStore" ColumnName="PhysicalStore" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PreparationId" ColumnName="PreparationId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

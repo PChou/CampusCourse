@@ -93,6 +93,54 @@ namespace Campus.Course.Controllers
             return RawJson(j, JsonRequestBehavior.AllowGet);
         }
 
+
+        public ActionResult GetTimesheetsByTeachNo(DateTime QGradeBegin ,string TeachNo)
+        {
+            var timesheets = s_timesheet.GetTimesheetsByTeachNo(null,TeachNo);
+            JsonCollection collection = new JsonCollection();
+            if (timesheets != null) {
+                Dictionary<int, JsonCollection> tmp = new Dictionary<int, JsonCollection>();
+                
+                foreach (var time in timesheets)
+                {
+                    int week = s_timesheet.CalWeekInQGrade(QGradeBegin, time.Date).Week;
+                    if (tmp.ContainsKey(week))
+                    {
+                        JsonObject child = new JsonObject();
+                        child.MergeProperty("label", new JsonConstant(time.PreparationName));
+                        child.MergeProperty("id", new JsonConstant(time.PreparationID));
+                        child.MergeProperty("date", new JsonConstant(time.Date.ToShortDateString()));
+                        tmp[week].AppendObject(child);
+                    }
+                    else
+                    {
+                        JsonObject each = new JsonObject();
+                        each.MergeProperty("label", new JsonConstant("第" + week + "周"));
+
+                        JsonObject child = new JsonObject();
+                        child.MergeProperty("label", new JsonConstant(time.PreparationName));
+                        child.MergeProperty("id", new JsonConstant(time.PreparationID));
+                        child.MergeProperty("date", new JsonConstant(time.Date.ToShortDateString()));
+                        JsonCollection children = new JsonCollection();
+                        children.AppendObject(child);
+                        each.MergeProperty("children", children);
+
+                        collection.AppendObject(each);
+
+                        //store in dic
+                        tmp.Add(week, children);                   
+
+                    }
+ 
+                }
+
+                
+            }
+            return RawJson(collection, JsonRequestBehavior.AllowGet);
+ 
+
+        }
+
         private void CalculateDateDuration(string viewtype, DateTime? showdate, out DateTime startTime, out DateTime endTime)
         {
             if (viewtype == "week")
@@ -158,5 +206,6 @@ namespace Campus.Course.Controllers
 
             return root;
         }
+
     }
 }

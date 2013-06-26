@@ -45,7 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ILogin.cs" />
+    <Compile Include="IPreparation.cs" />
     <Compile Include="IStudent.cs" />
+    <Compile Include="ITeach.cs" />
+    <Compile Include="ITeacher.cs" />
     <Compile Include="ITimeSheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

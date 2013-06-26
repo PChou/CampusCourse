@@ -8,7 +8,7 @@ namespace Campus.Course
 {
     public class JsonCollection : JsonEncoding
     {
-        private List<JsonEncoding> dic = new List<JsonEncoding>();
+        public List<JsonEncoding> dic = new List<JsonEncoding>();
 
 
         public void AppendObject(JsonEncoding e)

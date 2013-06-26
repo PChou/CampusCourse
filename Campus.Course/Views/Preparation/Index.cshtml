@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section ScriptAndCss{
+    <script src="@Url.Content("~/Scripts/jqui/jquery-ui-1.10.3.datepicker.min.js")"></script>
+    <link href="@Url.Content("~/Content/css/lib/jqui/jquery-ui-1.10.3.datepicker.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/preparation_index.css")" rel="stylesheet" />
+
+    <script src="@Url.Content("~/Scripts/jqtree/tree.jquery.js")"></script>
+    <link href="@Url.Content("~/Content/css/lib/jqtree/jqtree.css")" rel="stylesheet" />
+
+}
+
+
+<script type="text/javascript">
+
+    $(function () {
+        $('#menuleft').accordion({
+            heightStyle: "content",
+            beforeActivate: function (event, ui) {
+                var div = ui.newPanel;
+                if (div.attr('loaded') == "false")
+                {
+                    $.post(
+                        '/TimeSheet/GetTimesheetsByTeachNo',
+                        {
+                            TeachNo: div.attr('id'),
+                            QGradeBegin: '@ViewBag.QGradeBegin'
+                        },
+                        function (data) {
+                            div.tree({
+                                data: data,
+                                autoOpen: true,
+                                selectable: true,
+                                onCanSelectNode: function (node) {
+                                    if (node.children.length == 0) {
+                                        // Nodes without children can be selected
+                                        return true;
+                                    }
+                                    else {
+                                        // Nodes with children cannot be selected
+                                        return false;
+                                    }
+                                },
+
+                                onCreateLi: function(node, $li) {
+                                    // Add 'icon' span before title
+                                    if (node.id != undefined) {
+                                        $li.find('.jqtree-title').after('<span class="li-date-right">' + node.date + '</span>');
+                                    }
+                                }
+                            })
+                            .bind('tree.select',
+                                function (event) {
+                                    if (event.node) {
+                                        // node was selected
+                                        var node = event.node;
+                                        alert(node.id);
+                                    }
+                                    else {
+                                        return false;
+                                    }
+                            });
+                            div.attr('loaded', 'true');
+                        }
+                    );
+                }
+            }
+        });
+    });
+
+</script>
+
+<div class="leftregion">
+    <span>@ViewBag.Grade</span><span>@ViewBag.QGrade</span><br />
+    <span>第@(ViewBag.WeekInfo.Week)周</span><span>
+        @(ViewBag.WeekInfo.WeekBDay.Year)年@(ViewBag.WeekInfo.WeekBDay.Month)月@(ViewBag.WeekInfo.WeekBDay.Day)日
+        -
+         @(ViewBag.WeekInfo.WeekEDay.Year)年@(ViewBag.WeekInfo.WeekEDay.Month)月@(ViewBag.WeekInfo.WeekEDay.Day)日</span>
+    <div id="menuleft">
+        @foreach (var t in ViewBag.TeachInfoes)
+        {
+            <h3>@t.Course.Name</h3> 
+            <div id="@t.Teach.TeachNo" loaded="false"></div>
+        }
+    </div>
+</div>

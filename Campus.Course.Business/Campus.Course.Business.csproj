@@ -45,7 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Login.cs" />
+    <Compile Include="Preparation.cs" />
     <Compile Include="Student.cs" />
+    <Compile Include="Teach.cs" />
+    <Compile Include="Teacher.cs" />
     <Compile Include="TimeSheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

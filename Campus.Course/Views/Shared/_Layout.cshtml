@@ -35,11 +35,11 @@
     </div>
     <div class="menuBar">
         <ul class="mainMenu margin_1140_center">
-            <li class="normal active">
-                <a href=''><span>课程信息</span></a>
+            <li class="normal @(ViewContext.RouteData.Values["controller"].ToString() == "TimeSheet" ? "active" : "")">
+                <a href='@Url.Action("Index","TimeSheet")'><span>课程信息</span></a>
             </li>
-            <li class="normal">
-                <a href=''><span>备课</span></a>
+            <li class="normal @(ViewContext.RouteData.Values["controller"].ToString() == "Preparation" ? "active" : "")">
+                <a href='@Url.Action("Index","Preparation")'><span>备课</span></a>
             </li>
             <li class="normal">
                 <a href=''><span>作业</span></a>

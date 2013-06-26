@@ -17,5 +17,6 @@ namespace Campus.Course.Model
         public string TeachNo { get; set; }
         public string CourseNo { get; set; }
         public string TeacherNo { get; set; }
+        public Nullable<int> InstituteId { get; set; }
     }
 }
