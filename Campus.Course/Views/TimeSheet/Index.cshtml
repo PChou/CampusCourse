@@ -1,17 +1,20 @@
 ﻿@{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section ScriptAndCss{
     <script src="@Url.Content("~/Scripts/calendar/xgcalendar_lang_zh_cn.js")"></script>
     <script src="@Url.Content("~/Scripts/calendar/xgcalendar.js")"></script>
-    <script src="@Url.Content("~/Scripts/utility.js")"></script>
+@*    <script src="@Url.Content("~/Scripts/utility.js")"></script>*@
     <link href="@Url.Content("~/Content/css/lib/calendar/calendar.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/css/timesheet_index.css")" rel="stylesheet" />
 
     <script src="@Url.Content("~/Scripts/select2/select2-3.0.0.min.js")"></script>
     <link href="@Url.Content("~/Content/css/lib/select2/select2-3.0.0.css")" rel="stylesheet" />
 
+    <script src="@Url.Content("~/Scripts/jqui/jquery-ui-1.10.3.datepicker.min.js")"></script>
+    <link href="@Url.Content("~/Content/css/lib/jqui/jquery-ui-1.10.3.datepicker.min.css")" rel="stylesheet" />
 }
 
 <script type="text/javascript">
@@ -35,13 +38,20 @@ $(function(){
     }
 
 
+    $('#minicalpicker').datepicker({
+        autoSize: true,
+        onSelect: function (val) {
+            $("#xgcalendarp").BCalGoToday(new Date(val));
+        }
+    });
+
 	var op = {
         view: "week", //默认视图，这里是周视图
         theme: 1, //默认的主题风格
         readonly: true,
         enableDrag:false,
         autoload:true, //是否在页面加载完毕后自动获取当前视图时间的数据
-        showday: new Date(2013,8), //当前视图的显示时间
+        showday: new Date(), //当前视图的显示时间
         ViewCmdhandler: function () { },    //查看的响应事件
         afterRender : updateStInfo,
         extParam: [{ name: "SNo", value: "20062319" }, { name: "CNo", value: "" }],
@@ -54,12 +64,15 @@ $(function(){
 
 	$('#prevbtn').click(function () {
 	    $("#xgcalendarp").BCalPrev();
+	    $("#minicalpicker").datepicker("setDate", $("#xgcalendarp").BcalGetOp().showday);
 	});
 	$('#nextbtn').click(function () {
 	    $("#xgcalendarp").BCalNext();
+	    $("#minicalpicker").datepicker("setDate", $("#xgcalendarp").BcalGetOp().showday);
 	});
 	$('#todaybtn').click(function () {
 	    $("#xgcalendarp").BCalGoToday();
+	    $("#minicalpicker").datepicker("setDate", $("#xgcalendarp").BcalGetOp().showday);
 	});
 
 	$('#weekbtn').click(function () {
@@ -105,7 +118,7 @@ $(function(){
 
 
 
-<div id="toppanel" style="width:70%">
+<div id="toppanel" style="width:90%">
     <div class="calbtnp1">
          <button id="todaybtn" type="button" class="btn">Today</button>
         <div class="btngroup">
@@ -136,8 +149,10 @@ $(function(){
         </div>
     </div>
 </div>
-<div id="xgcalendarp" style="width:70%"></div>
-<div class="rightpanel">
+<div id="minicalpicker" style="width:20%;float:left;"></div>
+<div id="xgcalendarp" style="width:70%;float:left;margin-left:2px;"></div>
+
+@*<div class="rightpanel">
 
     <div id="notifypanel">
         <div class="paneltitle"><span>通知</span></div>
@@ -171,7 +186,7 @@ $(function(){
 
         </div>
     </div>
-</div>
+</div>*@
 
-<div><p>@ViewBag.aa</p>
-</div>
+@*<div><p>@ViewBag.aa</p>
+</div>*@
