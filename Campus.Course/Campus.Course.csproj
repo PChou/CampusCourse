@@ -201,6 +201,7 @@
     <Content Include="Scripts\calendar\xgcalendar_lang_zh_cn.js" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Code\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

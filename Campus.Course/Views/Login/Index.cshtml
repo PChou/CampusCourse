@@ -12,11 +12,12 @@
          
             var _user = document.getElementById("txtUsername").value;
             var _password = document.getElementById("txtPassword").value;
+            var _authentication = document.getElementById("ddlauthentication").value;
 
             $.ajax({
                 type: "POST",
                 url: "/Login/Login",
-                data: { user: _user, password: _password },
+                data: { user: _user, password: _password, authentication: _authentication },
                 dataType: "json",
                 success: function (data) {
                     if (data) {
@@ -39,9 +40,16 @@
             <span>用户名：</span>
             <input type="text" id="txtUsername" name="txtUsername" placeholder="请输入用户名！" />
         </div>
-        <div class="username username_password">
+        <div class="password username_password">
             <span>密　码：</span>
             <input type="password" id="txtPassword"  name="txtPassword" placeholder="请输入密码！" />
+        </div>
+        <div class="authentication username_password">
+            <span>身　份：</span>
+            <select id="ddlauthentication">
+                <option value ="student">学生</option>
+                <option value ="teacher">老师</option>
+            </select>
         </div>
         <div class="button_landing">
             <input type="button" name="btnLogin" value="登录" id="btnLogin" onclick="login();" />
