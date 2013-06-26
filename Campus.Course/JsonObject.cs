@@ -8,7 +8,7 @@ namespace Campus.Course
 {
     public class JsonObject : JsonEncoding
     {
-        private Dictionary<string, JsonEncoding> dic = new Dictionary<string, JsonEncoding>();
+        public Dictionary<string, JsonEncoding> dic = new Dictionary<string, JsonEncoding>();
 
         public void MergeProperty(string name, JsonEncoding e)
         {

@@ -33,5 +33,8 @@ namespace Campus.Course.Model
         public DbSet<Teach> Teaches { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<ClassTeach> ClassTeaches { get; set; }
+        public DbSet<InstituteSheet> InstituteSheets { get; set; }
+        public DbSet<Preparation> Preparations { get; set; }
+        public DbSet<PreparationMeteiral> PreparationMeteirals { get; set; }
     }
 }

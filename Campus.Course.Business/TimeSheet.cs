@@ -215,5 +215,50 @@ namespace Campus.Course.Business
                     campus.Dispose();
             }
         }
+
+        public WeekInQGrade CalWeekInQGrade(DateTime BDate,  DateTime showday)
+        {
+            WeekInQGrade w = new WeekInQGrade();
+            int chinaDayOfWeekOffset = BDate.DayOfWeek == DayOfWeek.Sunday ? 6 : (int)BDate.DayOfWeek - 1;
+            var startTime = BDate.AddDays(chinaDayOfWeekOffset * -1);
+            w.Week = (showday - startTime).Days / 7 + 1;
+            w.WeekBDay = startTime.AddDays((w.Week - 1) * 7);
+            w.WeekEDay = w.WeekBDay.AddDays(6);
+            return w;
+        }
+
+        public IEnumerable<SheetCourseInfo> GetTimesheetsByTeachNo(CampusEntities context, string TeachNo)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+
+            try
+            {
+                var q = from s in campus.TeachTimeSheets
+                        join prep in campus.Preparations on s.ID equals prep.TeachTimeSheetId into sprep
+                        from sp in sprep.DefaultIfEmpty()
+                        where s.TeachNo == TeachNo
+                        orderby s.BTime
+                        select new SheetCourseInfo { 
+                            ID = s.ID,
+                            PreparationID = sp == null ? -1 : sp.ID,
+                            PreparationName = sp == null ? "尚未备课" : sp.PrepName,
+                            Date = s.Date
+                        };
+                return q.ToArray();
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
+        }
     }
 }

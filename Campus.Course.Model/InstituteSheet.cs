@@ -12,11 +12,15 @@ namespace Campus.Course.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Teach
+    public partial class InstituteSheet
     {
-        public string TeachNo { get; set; }
-        public string CourseNo { get; set; }
-        public string TeacherNo { get; set; }
-        public Nullable<int> InstituteId { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public Nullable<System.DateTime> BDate { get; set; }
+        public Nullable<System.DateTime> EDate { get; set; }
+        public string Grade { get; set; }
+        public string QGrade { get; set; }
+        public Nullable<System.DateTime> HolidayBegin { get; set; }
+        public Nullable<System.DateTime> HolidayEnd { get; set; }
     }
 }

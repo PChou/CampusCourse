@@ -12,11 +12,12 @@ namespace Campus.Course.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Teach
+    public partial class PreparationMeteiral
     {
-        public string TeachNo { get; set; }
-        public string CourseNo { get; set; }
-        public string TeacherNo { get; set; }
-        public Nullable<int> InstituteId { get; set; }
+        public int ID { get; set; }
+        public Nullable<int> PreparationId { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string PhysicalStore { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace Campus.Course
 {
     public class JsonConstant : JsonEncoding
     {
-        private object _obejct;
+        public object _obejct;
 
         public JsonConstant(object o)
         {
