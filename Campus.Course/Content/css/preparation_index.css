@@ -3,6 +3,17 @@
     float:left;
 }
 
+
+.right-content {
+    padding:0.5em 1.0em;
+    width:75%;
+    float:left;
+}
+
 span.li-date-right {
     float:right;
 }
+
+#homework_tabs { margin-top: 1em; }
+#homework_tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
+#add_homework_tab { cursor: pointer; }
