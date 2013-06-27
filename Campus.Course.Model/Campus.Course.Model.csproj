@@ -78,6 +78,12 @@
       <DependentUpon>Campus.tt</DependentUpon>
     </Compile>
     <Compile Include="Business\V_CurrentUser.cs" />
+    <Compile Include="HomeWork.cs">
+      <DependentUpon>Campus.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HomeWorkPush.cs">
+      <DependentUpon>Campus.tt</DependentUpon>
+    </Compile>
     <Compile Include="InstituteSheet.cs">
       <DependentUpon>Campus.tt</DependentUpon>
     </Compile>

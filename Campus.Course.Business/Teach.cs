@@ -41,5 +41,38 @@ namespace Campus.Course.Business
             }
  
         }
+
+        public IEnumerable<TeachInfo> GetTeachInfoByStudent(CampusEntities context, string SNo, int InsId)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            try
+            {
+                var q = from stutea in campus.StudentTeaches
+                        join teach in campus.Teaches on stutea.TeachNo equals teach.TeachNo
+                        join course in campus.Courses on teach.CourseNo equals course.CourseNo
+                        where teach.InstituteId == InsId && stutea.StudentNo == SNo
+                        select new TeachInfo
+                        {
+                            Teach = teach,
+                            Course = course
+                        };
+
+                return q.ToArray();
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
+
+        }
     }
 }

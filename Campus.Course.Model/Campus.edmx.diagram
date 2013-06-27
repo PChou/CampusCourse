@@ -16,6 +16,8 @@
         <EntityTypeShape EntityType="Campus.Course.Model.InstituteSheet" Width="1.5" PointX="6.75" PointY="3.75" />
         <EntityTypeShape EntityType="Campus.Course.Model.Preparation" Width="1.5" PointX="4.75" PointY="7.75" />
         <EntityTypeShape EntityType="Campus.Course.Model.PreparationMeteiral" Width="1.5" PointX="6.75" PointY="7.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.HomeWork" Width="1.5" PointX="7.921701436825888" PointY="9.9091213987717044" />
+        <EntityTypeShape EntityType="Campus.Course.Model.HomeWorkPush" Width="1.5" PointX="9.9103919686332311" PointY="1.5915530033370262" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -3,6 +3,11 @@
     float:left;
 }
 
+.rightregion {
+    width:78%;
+    float:right;
+}
+
 span.li-date-right {
     float:right;
 }

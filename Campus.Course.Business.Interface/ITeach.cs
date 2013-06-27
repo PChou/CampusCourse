@@ -10,5 +10,6 @@ namespace Campus.Course.Business.Interface
     public interface ITeach
     {
         IEnumerable<TeachInfo> GetTeachInfoByTeacher(CampusEntities context, string TNo, int InsId);
+        IEnumerable<TeachInfo> GetTeachInfoByStudent(CampusEntities context, string SNo, int InsId);
     }
 }

@@ -94,5 +94,36 @@ namespace Campus.Course.Business
                     campus.Dispose();
             }
         }
+
+        public InstituteSheet GetInstituteInfoByStudent(CampusEntities context, string SNo, DateTime? showday)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            try
+            {
+                DateTime d = DateTime.Now;
+                if (showday != null)
+                    d = showday.Value;
+
+                var q = from stud in campus.Students
+                        join clas in campus.Classes on stud.ClassNo equals clas.ClassNo
+                        join ins in campus.InstituteSheets on clas.Institute equals ins.Name
+                        where ins.BDate <= d && ins.EDate >= d && stud.StudentNo == SNo
+                        select ins;
+                return q.FirstOrDefault();
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
+        }
     }
 }
