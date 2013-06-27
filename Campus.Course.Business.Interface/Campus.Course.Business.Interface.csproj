@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IHomeWorkBiz.cs" />
+    <Compile Include="IHomeWorkPushBiz.cs" />
     <Compile Include="ILogin.cs" />
     <Compile Include="IPreparation.cs" />
     <Compile Include="IStudent.cs" />

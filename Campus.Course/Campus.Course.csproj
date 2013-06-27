@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="BaseController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\CorrectsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PreparationController.cs" />
@@ -244,6 +245,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preparation\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Corrects\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Corrects\_CorrectsPartial.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

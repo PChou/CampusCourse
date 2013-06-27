@@ -36,5 +36,7 @@ namespace Campus.Course.Model
         public DbSet<InstituteSheet> InstituteSheets { get; set; }
         public DbSet<Preparation> Preparations { get; set; }
         public DbSet<PreparationMeteiral> PreparationMeteirals { get; set; }
+        public DbSet<HomeWork> HomeWorks { get; set; }
+        public DbSet<HomeWorkPush> HomeWorkPushes { get; set; }
     }
 }

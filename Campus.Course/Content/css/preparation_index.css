@@ -3,13 +3,11 @@
     float:left;
 }
 
-
 .right-content {
-    padding:0.5em 1.0em;
-    width:75%;
-    float:left;
+    padding: 0.5em 1.0em;
+    width: 75%;
+    float: left;
 }
-
 span.li-date-right {
     float:right;
 }
