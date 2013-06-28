@@ -14,13 +14,15 @@ namespace Campus.Course.Controllers
         private ITimeSheet s_timesheet = null;
         private ITeach s_teach = null;
         private IPreparation s_prep = null;
+        private IHomeWorkPushBiz s_homeworkpush = null;
 
-        public PreparationController(ITeacher _teahcer, ITimeSheet _timesheet,ITeach _teach,IPreparation _prep)
+        public PreparationController(ITeacher _teahcer, ITimeSheet _timesheet, ITeach _teach, IPreparation _prep, IHomeWorkPushBiz _homeworkpush)
         {
             s_teacher = _teahcer;
             s_timesheet = _timesheet;
             s_teach = _teach;
             s_prep = _prep;
+            s_homeworkpush = _homeworkpush;
         }
 
         //
@@ -86,6 +88,30 @@ namespace Campus.Course.Controllers
  
         }
 
+        //[
+            //{id:sheetid:subject:description:deadline,pushdate},
+            //{id:sheetid:subject:description:deadline,pushdate}
+        //]
+        public ActionResult GetHomworkPush(int TimeSheetId)
+        {
+            var homeworkpushes = s_homeworkpush.GetHomeWorkPushByWorkSheetId(null, TimeSheetId);
+            JsonCollection mcollection = new JsonCollection();
+            foreach (var push in homeworkpushes)
+            {
+                JsonObject o = new JsonObject();
+                o.MergeProperty("id", new JsonConstant(push.ID));
+                o.MergeProperty("sheetid", new JsonConstant(push.TeachTimeSheetId));
+                o.MergeProperty("subject", new JsonConstant(push.Subject));
+                o.MergeProperty("description", new JsonConstant(push.Description));
+                o.MergeProperty("deadline", new JsonConstant(push.DeadLine.Value.ToShortDateString()));
+                o.MergeProperty("pushdate", new JsonConstant(push.PushDate.Value.ToShortDateString()));
+                mcollection.AppendObject(o);
+            }
+
+            return RawJson(mcollection, JsonRequestBehavior.AllowGet);
+        }
+
+
         //        {
         //    id:
         //    sheetid:
@@ -111,6 +137,9 @@ namespace Campus.Course.Controllers
             }
             return RawJson(o, JsonRequestBehavior.DenyGet);
         }
+
+
+
 
     }
 }

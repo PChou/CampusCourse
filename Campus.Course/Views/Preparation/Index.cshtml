@@ -11,6 +11,8 @@
     <script src="@Url.Content("~/Scripts/jqtree/tree.jquery.js")"></script>
     <link href="@Url.Content("~/Content/css/lib/jqtree/jqtree.css")" rel="stylesheet" />
 
+    <script src="@Url.Content("~/Scripts/underscore/underscore.js")"></script>
+
 }
 
 
@@ -54,10 +56,18 @@
                             function (data) {
                                 bindPrep(data);
                             });//post /Preparation/GetPreparation
+
+                       $.post(
+                            '/Preparation/GetHomworkPush',
+                            {
+                                TimeSheetId: node.sheetid
+                            },
+                            function (data) {
+                                bindHomework(data);
+                            });//post /Preparation/GetPreparation
+
                     }
-                    else {
-                        //return false;
-                    }
+
                 }); //tree.select
         div.attr('loaded', 'true');
     }
@@ -86,6 +96,29 @@
         if (data.error != undefined) {
             alert(data.error);
         }
+    }
+
+    function bindHomework(data)
+    {
+        $li = _.template($('#homework-li-template').html());
+        $div = _.template($('#homework-content-template').html());
+
+        
+        var html = [];
+        html.push('<ul>');
+        _.each(data, function (e) {
+            html.push($li(e));
+        });
+        html.push('</ul>');
+        _.each(data, function (e) {
+            html.push($div(e));
+        });
+
+        //$("#homework_tabs").tabs("destroy");
+
+        $("#homework_tabs").html(html.join(''));
+
+        $("#homework_tabs").tabs("refresh").tabs("option", { active: 0 });
     }
 
     $(function () {
@@ -144,15 +177,15 @@
         });
 
         // 作业tab
-        var tabs = $("#homework_tabs").tabs();
-        tabs.delegate("span.ui-icon-close", "click", function () {
-            var panelId = $(this).closest("li").remove().attr("aria-controls");
-            //$("#" + panelId).remove();
-            tabs.tabs("refresh");
-        });
+        $("#homework_tabs").tabs();
+        //tabs.delegate("span.ui-icon-close", "click", function () {
+        //    var panelId = $(this).closest("li").remove().attr("aria-controls");
+        //    //$("#" + panelId).remove();
+        //    tabs.tabs("refresh");
+        //});
 
-        var tabTemplate =
-            "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>";
+        //var tabTemplate =
+        //    "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>";
 
         //添加作业
         $('#add_homework_tab')
@@ -165,7 +198,7 @@
                 tabs.tabs("refresh");
             });
 
-        $('.datepicker').datepicker();
+        //$('.datepicker').datepicker();
     });
 
 </script>
@@ -208,35 +241,36 @@
     <h2>布置作业</h2>
     <input type="button" id="add_homework_tab" value="添加作业"/>
     <div id="homework_tabs">
-        <ul>
-            <li><a href="#">作业1</a> 
-                @*<span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span>*@
 
-            </li>
-        </ul>
-
-        <div id="homework_1">
-            <table>
-                <tr><td><label>作业名</label></td><td>
-            <input type="text" class="homeworkname" /></td></tr>
-                <tr><td><label>作业描述</label></td><td>
-            <input type="text" class="homeworkdescription" /></td></tr>
-                <tr><td><label>考评标准</label></td><td>
-            <select class="homeworkdescription"><option>A\B\C</option></select></td></tr>
-                <tr><td>素材上传</td><td>
-                    <table>
-
-                    </table>
-                                 </td></tr>
-
-                <tr><td><label>作业发送给</label></td><td>
-                    <input type="radio" value="所有授课学生" />所有授课学生
-                                                 </td></tr>
-                <tr><td><label>作业截止时间</label></td><td>
-                    <input type="text" class="datepicker" />
-                                                 </td></tr>
-            </table>
-        </div>
     </div>
 
 </div>
+
+<script type="text/template" id="homework-li-template" style="display:none;">
+
+    <li id="li<%= id %>"><a href="#tabs-<%= id %>"><%= subject %></a> 
+                @*<span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span>*@
+    </li>
+</script>
+
+<script type="text/template" id="homework-content-template" style="display:none;">
+       <div id="tabs-<%= id %>">
+        <table>
+            <tr><td><label>作业名</label></td><td>
+        <input type="text" name="subject" value="<%= subject %>"/></td></tr>
+            <tr><td><label>作业描述</label></td><td>
+        <input type="text" name="description" value="<%= description %>"/></td></tr>
+            <tr><td><label>考评标准</label></td><td>
+        <select name="evaluation"><option>A\B\C</option></select></td></tr>
+            <tr><td>素材上传</td><td>
+                <table>
+                </table></td></tr>
+            <tr><td><label>作业发送给</label></td><td>
+                <input type="radio" value="all" checked />所有授课学生
+                                                </td></tr>
+            <tr><td><label>作业截止时间</label></td><td>
+                <input type="text" name="deadline" value="<%= deadline %>" />
+                                                </td></tr>
+        </table>
+    </div>
+</script>

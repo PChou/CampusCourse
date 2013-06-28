@@ -203,6 +203,7 @@
     <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jqui\jquery-ui-1.10.3.datepicker.min.js" />
     <Content Include="Scripts\select2\select2-3.0.0.min.js" />
+    <Content Include="Scripts\underscore\underscore.js" />
     <Content Include="Scripts\utility.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
