@@ -73,14 +73,14 @@
 
     function TreeClick(nodeID) {
         $.post(
-            '/Corrects/PartialView',
-            {
-                WorkId: nodeID
-            },
-            function (data) {
-                $('#PartialContent').html(data);
-            }
-       )
+           '/Corrects/PartialView',
+           {
+               TimeSheetId: 3
+           },
+           function (data) {
+               $('#PartialContent').html(data);
+           }
+      )
        
     }
 </script>

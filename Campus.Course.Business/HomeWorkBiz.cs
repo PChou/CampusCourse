@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Campus.Course.Business
 {
-    public class HomeWorkBiz
+    public class HomeWorkBiz : IHomeWorkBiz
     {
         public IEnumerable<HomeWork> GetHomeWorkByPushId(CampusEntities context, int PushId)
         {
@@ -34,6 +34,35 @@ namespace Campus.Course.Business
                 if (context == null)
                     campus.Dispose();
             }
+        }
+
+        public List<HomeWorkExtend> GetHomeWorkExtendByPushId(CampusEntities context, int TeachTimeSheetId)
+        {
+            List<HomeWorkExtend> result = new List<HomeWorkExtend>();
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            var q = from push in campus.HomeWorkPushes
+                    where push.TeachTimeSheetId == TeachTimeSheetId
+                    select push;
+            List<HomeWorkPush> pushs = q.ToList();
+            foreach (var item in pushs)
+            {
+                HomeWorkExtend extend = new HomeWorkExtend();
+                var w = from work in campus.HomeWorks
+                        where work.HomeWorkPushID == item.ID
+                        select work;
+                extend.HomeWorkPush = item;
+                extend.HomeWorkList = w.ToList();
+                result.Add(extend);
+            }
+            return result;
         }
     }
 }

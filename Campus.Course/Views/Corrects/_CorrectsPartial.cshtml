@@ -1,9 +1,16 @@
-﻿
+﻿@using Campus.Course.Model.Business;
+@{
+    List<HomeWorkExtend> list = ViewData["HomeWorkExtend"] as List<HomeWorkExtend>;
+}
 <div  class="form_content">
     <ul class="form_options">
-         <li class="active" data-form-target="homework_1" order='1'>作业一</li>
-         <li data-form-target="homework_2" order='2'>作业二</li>
+         @foreach (var t in list)
+         {
+              <li data-form-target="homework_1" >@t.HomeWorkPush.Subject</li>
+         }
     </ul>
+     @foreach (var t in list)
+     {
      <div class="form_main_content" id="homework_1">
          <div class="content_border">
               <div class="content_title">
@@ -12,11 +19,11 @@
               <ul class="form_input_area">
                   <li>
                        <div class="parameter_name"><span>作业题目</span></div>
-                       <div class="parameter_input"><span>XXX</span></div>       
+                       <div class="parameter_input"><span>@t.HomeWorkPush.Subject</span></div>       
                   </li>
                   <li>
                        <div class="parameter_name"><span>作业要求</span></div>
-                       <div class="parameter_input"><span>XXX</span></div>       
+                       <div class="parameter_input"><span>@t.HomeWorkPush.Description</span></div>       
                   </li>
               </ul>
           </div>
@@ -38,26 +45,22 @@
                            <td>状态</td>
                            <td>作业评分</td>
                        </tr>
-                       <tr>
-                           <td>XXXX</td>
-                           <td>XXXX</td>
-                           <td>XXXX</td>
-                           <td>XXXX</td>
-                           <td>XXXX</td>
-                           <td>XXXX</td>
-                       </tr>
-                        <tr>
-                           <td>XXXX</td>
-                           <td>XXXX</td>
-                           <td>XXXX</td>
-                           <td>XXXX</td>
-                           <td>XXXX</td>
-                           <td>XXXX</td>
-                       </tr>
+                        @foreach (var l in t.HomeWorkList)
+                        {
+                           <tr>
+                               <td>@l.StudentNo</td>
+                               <td>@l.StudentNo</td>
+                               <td>@t.HomeWorkPush.Subject</td>
+                               <td>@l.SubmitDate</td>
+                               <td>@l.Status</td>
+                               <td>@l.Score</td>
+                           </tr>
+                        }
                      </table>
               </div>
           </div>
      </div>
+     }
 </div>
          
               
