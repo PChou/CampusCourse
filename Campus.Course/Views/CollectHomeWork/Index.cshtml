@@ -66,8 +66,7 @@
              function (event) {
                  if (event.node) {
                      // node was selected
-                     var node = event.node;
-                     TreeClick(node.id);
+                     TreeClick(event.node);
                  }
                  else {
                      return false;
@@ -76,11 +75,11 @@
         div.attr('loaded', 'true');
     }
 
-    function TreeClick(nodeID) {
+    function TreeClick(node) {
         $.post(
            '/CollectHomeWork/CollectHomeWorkPartialView',
            {
-               TimeSheetId: 3
+               TimeSheetId: node.sheetid
            },
            function (data) {
                $('#PartialContent').html(data);
@@ -88,6 +87,7 @@
       )
        
     }
+
 </script>
 
 <div class="left_content">

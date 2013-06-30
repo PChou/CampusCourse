@@ -41,7 +41,7 @@ namespace Campus.Course.Controllers
 
         public ActionResult CollectHomeWorkPartialView(int TimeSheetId)
         {
-            List<HomeWorkExtend> list = _HomeWork.GetHomeWorkExtendByPushId(null, TimeSheetId);
+            List<HomeWorkExtend> list = _HomeWork.GetHomeWorkExtendBySheetId(null, TimeSheetId);
             ViewData["HomeWorkExtend"] = list;
             return PartialView("_CollectHomeWorkPartial");
         } 

@@ -76,7 +76,7 @@
           $.post(
           '/SubmitHomeWork/SubmitHomeWorkPartialView',
           {
-              TeachNo: "00000002"
+              TimeSheetId: node.sheetid
           },
           function (data) {
               $('#PartialContent').html(data);

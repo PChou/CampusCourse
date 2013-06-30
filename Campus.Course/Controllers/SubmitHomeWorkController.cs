@@ -39,9 +39,9 @@ namespace Campus.Course.Controllers
             return View();
         }
 
-        public ActionResult SubmitHomeWorkPartialView(string TeachNo)
+        public ActionResult SubmitHomeWorkPartialView(int TimeSheetId)
         {
-            List<HomeWorkInfo> list = _HomeWork.GetHomeWorkInfoByTeachNo(null, TeachNo, CurrentUser.Student.Student.StudentNo);
+            List<HomeWorkInfo> list = _HomeWork.GetHomeWorkInfoBySheetId(null, TimeSheetId);
             ViewBag.HomeWorks = list;
             return PartialView("_SubmitHomeWorkPartial");
         }

@@ -37,7 +37,7 @@ namespace Campus.Course.Business
             }
         }
 
-        public List<HomeWorkExtend> GetHomeWorkExtendByPushId(CampusEntities context, int TeachTimeSheetId)
+        public List<HomeWorkExtend> GetHomeWorkExtendBySheetId(CampusEntities context, int TeachTimeSheetId)
         {
             List<HomeWorkExtend> result = new List<HomeWorkExtend>();
             CampusEntities campus = null;
@@ -80,6 +80,24 @@ namespace Campus.Course.Business
             var q = from work in campus.HomeWorks
                     join push in campus.HomeWorkPushes on work.HomeWorkPushID equals push.ID
                     where work.TeachNo == TeachNo && work.StudentNo == StudentNo
+                    select new HomeWorkInfo { HomeWork = work, HomeWorkPush = push };
+            return q.ToList();
+        }
+
+        public List<HomeWorkInfo> GetHomeWorkInfoBySheetId(CampusEntities context, int TeachTimeSheetId)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            var q = from work in campus.HomeWorks
+                    join push in campus.HomeWorkPushes on work.HomeWorkPushID equals push.ID
+                    where push.TeachTimeSheetId == TeachTimeSheetId
                     select new HomeWorkInfo { HomeWork = work, HomeWorkPush = push };
             return q.ToList();
         }
