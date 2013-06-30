@@ -2,6 +2,7 @@
 using Campus.Course.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -121,6 +122,7 @@ namespace Campus.Course.Controllers
         //    error:
         //          }
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult SavePreparation(Preparation prep)
         {
             JsonObject o = new JsonObject();
@@ -139,7 +141,46 @@ namespace Campus.Course.Controllers
         }
 
 
+        //{id:sheetid:subject:description:deadline,pushdate,error}
+        [HttpPost]
+        public ActionResult SaveHomeworkPush(HomeWorkPush homework)
+        {
+            JsonObject o = new JsonObject();
+            try
+            {
+                var hwp = s_homeworkpush.SaveHomeworkPush(null, homework);
+                o.MergeProperty("id", new JsonConstant(hwp.ID));
+                o.MergeProperty("sheetid", new JsonConstant(hwp.TeachTimeSheetId));
+                o.MergeProperty("subject", new JsonConstant(hwp.Subject));
+                o.MergeProperty("description", new JsonConstant(hwp.Description));
+                o.MergeProperty("deadline", new JsonConstant(hwp.DeadLine.Value.ToShortDateString()));
+                o.MergeProperty("pushdate", new JsonConstant(hwp.PushDate.Value.ToShortDateString()));
+            }
+            catch(Exception ex)
+            {
+                o.MergeProperty("error", new JsonConstant(ex.Message));
+            }
+            return RawJson(o, JsonRequestBehavior.DenyGet);
+        }
 
+        //[
+        //    {id:type:name:path},
+        //    {id:type:name:path}
+        //    ]
+        public ActionResult GetPrepMateiral(int PrepId)
+        {
+            JsonCollection ms = new JsonCollection();
+            var pms = s_prep.GetPrepMateiralByPrepId(null, PrepId);
 
+            foreach (var pm in pms)
+            {
+                JsonObject o = new JsonObject();
+                o.MergeProperty("id", new JsonConstant(pm.ID));
+                o.MergeProperty("name", new JsonConstant(pm.Name));
+                ms.AppendObject(o);
+            }
+
+            return RawJson(ms, JsonRequestBehavior.AllowGet);
+        }
     }
 }

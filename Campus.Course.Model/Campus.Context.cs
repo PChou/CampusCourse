@@ -12,6 +12,9 @@ namespace Campus.Course.Model
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Objects;
+    using System.Data.Objects.DataClasses;
+    using System.Linq;
     
     public partial class CampusEntities : DbContext
     {
@@ -38,5 +41,42 @@ namespace Campus.Course.Model
         public DbSet<PreparationMeteiral> PreparationMeteirals { get; set; }
         public DbSet<HomeWork> HomeWorks { get; set; }
         public DbSet<HomeWorkPush> HomeWorkPushes { get; set; }
+    
+        public virtual int sp_PublishHomework(Nullable<int> timesheetId, Nullable<System.DateTime> deadLine, string teachNo, string subject, string description, string notice, string evaluation, string htmlContent)
+        {
+            var timesheetIdParameter = timesheetId.HasValue ?
+                new ObjectParameter("TimesheetId", timesheetId) :
+                new ObjectParameter("TimesheetId", typeof(int));
+    
+            var deadLineParameter = deadLine.HasValue ?
+                new ObjectParameter("DeadLine", deadLine) :
+                new ObjectParameter("DeadLine", typeof(System.DateTime));
+    
+            var teachNoParameter = teachNo != null ?
+                new ObjectParameter("TeachNo", teachNo) :
+                new ObjectParameter("TeachNo", typeof(string));
+    
+            var subjectParameter = subject != null ?
+                new ObjectParameter("Subject", subject) :
+                new ObjectParameter("Subject", typeof(string));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("Description", description) :
+                new ObjectParameter("Description", typeof(string));
+    
+            var noticeParameter = notice != null ?
+                new ObjectParameter("Notice", notice) :
+                new ObjectParameter("Notice", typeof(string));
+    
+            var evaluationParameter = evaluation != null ?
+                new ObjectParameter("Evaluation", evaluation) :
+                new ObjectParameter("Evaluation", typeof(string));
+    
+            var htmlContentParameter = htmlContent != null ?
+                new ObjectParameter("HtmlContent", htmlContent) :
+                new ObjectParameter("HtmlContent", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_PublishHomework", timesheetIdParameter, deadLineParameter, teachNoParameter, subjectParameter, descriptionParameter, noticeParameter, evaluationParameter, htmlContentParameter);
+        }
     }
 }

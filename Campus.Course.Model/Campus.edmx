@@ -174,6 +174,16 @@
           <Property Name="Location" Type="nvarchar" MaxLength="50" />
           <Property Name="TeachNo" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Function Name="sp_PublishHomework" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TimesheetId" Type="int" Mode="In" />
+          <Parameter Name="DeadLine" Type="datetime" Mode="In" />
+          <Parameter Name="TeachNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="Subject" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar" Mode="In" />
+          <Parameter Name="Notice" Type="nvarchar" Mode="In" />
+          <Parameter Name="Evaluation" Type="nvarchar" Mode="In" />
+          <Parameter Name="HtmlContent" Type="nvarchar(max)" Mode="In" />
+        </Function>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -192,6 +202,16 @@
           <EntitySet Name="PreparationMeteirals" EntityType="Campus.Course.Model.PreparationMeteiral" />
           <EntitySet Name="HomeWork" EntityType="Campus.Course.Model.HomeWork" />
           <EntitySet Name="HomeWorkPushes" EntityType="Campus.Course.Model.HomeWorkPush" />
+          <FunctionImport Name="sp_PublishHomework">
+            <Parameter Name="TimesheetId" Mode="In" Type="Int32" />
+            <Parameter Name="DeadLine" Mode="In" Type="DateTime" />
+            <Parameter Name="TeachNo" Mode="In" Type="String" />
+            <Parameter Name="Subject" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Notice" Mode="In" Type="String" />
+            <Parameter Name="Evaluation" Mode="In" Type="String" />
+            <Parameter Name="HtmlContent" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Class">
           <Key>
@@ -520,6 +540,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_PublishHomework" FunctionName="Campus.Course.Model.Store.sp_PublishHomework" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

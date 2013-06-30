@@ -81,6 +81,7 @@
     <Compile Include="BaseController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\CorrectsController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PreparationController.cs" />
@@ -99,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\home.css" />
+    <Content Include="Content\css\lib\attpool\attpool.css" />
     <Content Include="Content\css\lib\calendar\calendar.css" />
     <Content Include="Content\css\lib\calendar\images\combined_v40_vr.png" />
     <Content Include="Content\css\lib\jqtree\jqtree-circle.png" />
@@ -197,6 +199,7 @@
     <Content Include="Content\images\username.png" />
     <Content Include="Content\images\_c.gif" />
     <Content Include="Content\images\_h.gif" />
+    <Content Include="Scripts\attpool\attpool.js" />
     <Content Include="Scripts\calendar\jquery.js" />
     <Content Include="Scripts\global.js" />
     <Content Include="Scripts\jqtree\tree.jquery.js" />
@@ -205,6 +208,30 @@
     <Content Include="Scripts\select2\select2-3.0.0.min.js" />
     <Content Include="Scripts\underscore\underscore.js" />
     <Content Include="Scripts\utility.js" />
+    <Content Include="Scripts\xheditor\xheditor-1.1.14-zh-cn.min.js" />
+    <Content Include="Scripts\xheditor\xheditor_skin\blank.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\iframe.css" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\anchor.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\close.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\flash.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\icons.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\loading.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\progress.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\progressbg.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\tag-address.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\tag-div.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\tag-h1.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\tag-h2.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\tag-h3.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\tag-h4.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\tag-h5.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\tag-h6.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\tag-p.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\tag-pre.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\waiting.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\wmp.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\img\wordimg.gif" />
+    <Content Include="Scripts\xheditor\xheditor_skin\default\ui.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

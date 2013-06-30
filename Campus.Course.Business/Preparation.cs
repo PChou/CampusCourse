@@ -3,8 +3,13 @@ using Campus.Course.Model;
 using Campus.Course.Model.Business;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Transactions;
+using System.Web;
 
 namespace Campus.Course.Business
 {
@@ -80,6 +85,134 @@ namespace Campus.Course.Business
  
                 }
 
+
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
+        }
+
+        public PreparationMeteiral SavePrepMateiral(CampusEntities context, PreparationMeteiral preparation,HttpPostedFileBase file,string targetbase)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            //TODO Transaction support
+            //TransactionScope scope = null;
+            try
+            {
+                //scope = new TransactionScope();
+                campus.PreparationMeteirals.Add(preparation);
+                campus.SaveChanges();
+
+                int Id = preparation.ID;
+                string path = Path.Combine(targetbase, preparation.PreparationId.ToString(), Id.ToString());
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                string target = Path.Combine(path, file.FileName);
+                if (File.Exists(target))
+                {
+                    throw new Exception("Duplicate file " + file.FileName);
+                }
+                else
+                {
+                    file.SaveAs(target);
+                }
+
+                //scope.Complete();
+                return preparation;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
+        }
+
+        public PreparationMeteiral GetPrepMateiralById(CampusEntities context, int mId)
+        { 
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            try
+            {
+                var q = from m in campus.PreparationMeteirals
+                        where m.ID == mId
+                        select m;
+                return q.FirstOrDefault();
+
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
+        }
+
+        public IEnumerable<PreparationMeteiral> GetPrepMateiralByPrepId(CampusEntities context, int PrepId)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            try
+            {
+                var q = from m in campus.PreparationMeteirals
+                        where m.PreparationId == PrepId
+                        select m;
+                return q.ToArray();
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
+        }
+
+
+        public void DeletePrepMateiralById(CampusEntities context, int mId)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            try
+            {
+                var q = from m in campus.PreparationMeteirals
+                        where m.ID == mId
+                        select m;
+                campus.PreparationMeteirals.Remove(q.First());
+                campus.SaveChanges();
 
             }
             finally
