@@ -10,5 +10,7 @@ namespace Campus.Course.Business.Interface
     public interface IHomeWorkPushBiz
     {
         IEnumerable<HomeWorkPush> GetHomeWorkPushByWorkSheetId(CampusEntities context, int TeachTimeSheetId);
+
+        HomeWorkPush SaveHomeworkPush(CampusEntities context, HomeWorkPush hwp);
     }
 }
