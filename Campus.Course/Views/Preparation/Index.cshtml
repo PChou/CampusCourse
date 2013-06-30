@@ -11,12 +11,150 @@
     <script src="@Url.Content("~/Scripts/jqtree/tree.jquery.js")"></script>
     <link href="@Url.Content("~/Content/css/lib/jqtree/jqtree.css")" rel="stylesheet" />
 
+    <script src="@Url.Content("~/Scripts/underscore/underscore.js")"></script>
+
 }
 
 
 <script type="text/javascript">
 
+    function buildtree(div,data)
+    {
+        div.tree('destroy');
+        div.tree({
+            data: data,
+            autoOpen: true,
+            selectable: true,
+            onCanSelectNode: function (node) {
+                if (node.children.length == 0) {
+                    // Nodes without children can be selected
+                    return true;
+                }
+                else {
+                    // Nodes with children cannot be selected
+                    return false;
+                }
+            },
+
+            onCreateLi: function (node, $li) {
+                // Add date span after title
+                if (node.sheetid != undefined) {
+                    $li.find('.jqtree-title').after('<span class="li-date-right">' + node.date + '</span>');
+                }
+            }
+        }).bind('tree.select',
+                function (event) {
+                    if (event.node) {
+                        // node was selected
+                        var node = event.node;
+                        $.post(
+                            '/Preparation/GetPreparation',
+                            {
+                                prepId: node.prepid,
+                                sheetid: node.sheetid
+                            },
+                            function (data) {
+                                bindPrep(data);
+                            });//post /Preparation/GetPreparation
+
+                       $.post(
+                            '/Preparation/GetHomworkPush',
+                            {
+                                TimeSheetId: node.sheetid
+                            },
+                            function (data) {
+                                bindHomework(data);
+                            });//post /Preparation/GetPreparation
+
+                    }
+
+                }); //tree.select
+        div.attr('loaded', 'true');
+    }
+
+    function bindPrep(data)
+    {
+        if (data.id == undefined) {
+            $('#name').val('');
+            $('#prepId').val('');
+            $('#content').text('');
+            $('#PrepMeteiral').html('');
+        }
+        else {
+            $('#name').val(data.name);
+            $('#content').text(data.content);
+            $('#prepId').val(data.id);
+            if (data.m != undefined) {
+                var mts_html = [];
+                $.each(data.m, function (a, b) {
+                    mts_html.push('<tr><td>' + b.name + '</td></tr>');
+                });
+                $('#PrepMeteiral').html(mts_html.join(''));
+            }
+        }
+        $('#sheetid').val(data.sheetid);
+        if (data.error != undefined) {
+            alert(data.error);
+        }
+    }
+
+    function bindHomework(data)
+    {
+        $li = _.template($('#homework-li-template').html());
+        $div = _.template($('#homework-content-template').html());
+
+        
+        var html = [];
+        html.push('<ul>');
+        _.each(data, function (e) {
+            html.push($li(e));
+        });
+        html.push('</ul>');
+        _.each(data, function (e) {
+            html.push($div(e));
+        });
+
+        //$("#homework_tabs").tabs("destroy");
+
+        $("#homework_tabs").html(html.join(''));
+
+        $("#homework_tabs").tabs("refresh").tabs("option", { active: 0 });
+    }
+
     $(function () {
+
+        //保存
+        $("input#save_prep")
+          .button()
+          .click(function (event) {
+              event.preventDefault();
+              var id = $('#prepId').val();
+              $.post('/Preparation/SavePreparation',
+                  {
+                      ID: id == undefined ? 0 : id,
+                      TeachTimeSheetId: $('#sheetid').val(),
+                      PrepName: $('#name').val(),
+                      PrepContent: $('#content').text()
+                  },
+                  function (data) {
+                      bindPrep(data);
+                      if (data.error == undefined) {
+                          alert('保存成功');
+                      }
+                      var teachno = $('#teachno').val();
+                      $.post(
+                        '/TimeSheet/GetTimesheetsByTeachNo',
+                        {
+                            TeachNo: teachno,
+                            QGradeBegin: '@ViewBag.QGradeBegin'
+                        },
+                         function (data) {
+                             buildtree($('#' + teachno), data);
+                      });
+              });
+        });
+
+        //左菜单
         $('#menuleft').accordion({
             heightStyle: "content",
             beforeActivate: function (event, ui) {
@@ -30,45 +168,37 @@
                             QGradeBegin: '@ViewBag.QGradeBegin'
                         },
                         function (data) {
-                            div.tree({
-                                data: data,
-                                autoOpen: true,
-                                selectable: true,
-                                onCanSelectNode: function (node) {
-                                    if (node.children.length == 0) {
-                                        // Nodes without children can be selected
-                                        return true;
-                                    }
-                                    else {
-                                        // Nodes with children cannot be selected
-                                        return false;
-                                    }
-                                },
-
-                                onCreateLi: function(node, $li) {
-                                    // Add 'icon' span before title
-                                    if (node.id != undefined) {
-                                        $li.find('.jqtree-title').after('<span class="li-date-right">' + node.date + '</span>');
-                                    }
-                                }
-                            })
-                            .bind('tree.select',
-                                function (event) {
-                                    if (event.node) {
-                                        // node was selected
-                                        var node = event.node;
-                                        alert(node.id);
-                                    }
-                                    else {
-                                        return false;
-                                    }
-                            });
-                            div.attr('loaded', 'true');
+                            buildtree(div, data);
                         }
-                    );
+                    );//post /TimeSheet/GetTimesheetsByTeachNo
                 }
-            }
+                $('#teachno').val(div.attr('id'));
+            }//accordion beforeActive
         });
+
+        // 作业tab
+        $("#homework_tabs").tabs();
+        //tabs.delegate("span.ui-icon-close", "click", function () {
+        //    var panelId = $(this).closest("li").remove().attr("aria-controls");
+        //    //$("#" + panelId).remove();
+        //    tabs.tabs("refresh");
+        //});
+
+        //var tabTemplate =
+        //    "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>";
+
+        //添加作业
+        $('#add_homework_tab')
+            .button()
+            .click(function (event) {
+                event.preventDefault();
+                li = $(tabTemplate.replace(/#\{href\}/g, "#" + 1).replace(/#\{label\}/g, "未命名作业")),
+                tabs.find(".ui-tabs-nav").append(li);
+                tabs.append("<div></div>");
+                tabs.tabs("refresh");
+            });
+
+        //$('.datepicker').datepicker();
     });
 
 </script>
@@ -87,3 +217,60 @@
         }
     </div>
 </div>
+<div class="right-content">
+
+    <h2>备课</h2>
+    <table>
+        <tr><td><input type="button" value="保存" id="save_prep"/></td></tr>
+        <tr><td><label>授课内容</label>
+            <input type="text" id="name" />
+
+            <input type="hidden" id="prepId" />
+            <input type="hidden" id="sheetid" />
+            <input type="hidden" id="teachno" />
+
+            </td></tr>
+        <tr><td> <textarea id="content"></textarea></td></tr>
+        <tr><td>
+    <table id="PrepMeteiral">
+
+    </table>
+            </td></tr>
+    </table>
+
+    <h2>布置作业</h2>
+    <input type="button" id="add_homework_tab" value="添加作业"/>
+    <div id="homework_tabs">
+
+    </div>
+
+</div>
+
+<script type="text/template" id="homework-li-template" style="display:none;">
+
+    <li id="li<%= id %>"><a href="#tabs-<%= id %>"><%= subject %></a> 
+                @*<span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span>*@
+    </li>
+</script>
+
+<script type="text/template" id="homework-content-template" style="display:none;">
+       <div id="tabs-<%= id %>">
+        <table>
+            <tr><td><label>作业名</label></td><td>
+        <input type="text" name="subject" value="<%= subject %>"/></td></tr>
+            <tr><td><label>作业描述</label></td><td>
+        <input type="text" name="description" value="<%= description %>"/></td></tr>
+            <tr><td><label>考评标准</label></td><td>
+        <select name="evaluation"><option>A\B\C</option></select></td></tr>
+            <tr><td>素材上传</td><td>
+                <table>
+                </table></td></tr>
+            <tr><td><label>作业发送给</label></td><td>
+                <input type="radio" value="all" checked />所有授课学生
+                                                </td></tr>
+            <tr><td><label>作业截止时间</label></td><td>
+                <input type="text" name="deadline" value="<%= deadline %>" />
+                                                </td></tr>
+        </table>
+    </div>
+</script>

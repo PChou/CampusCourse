@@ -9,8 +9,22 @@ using System.Text;
 
 namespace Campus.Course.Business
 {
-    public class Student : IStudent
+    public class StudentBiz : IStudent
     {
+        public Student GetStudentBySNo(CampusEntities context, string SNo)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            return campus.Students.FirstOrDefault(p => p.StudentNo == SNo);
+        }
+
         public StudentInfo GetStudentBySNo(CampusEntities context,string SNo,DateTime baseDate)
         {
             CampusEntities campus = null;

@@ -46,12 +46,12 @@
   <ItemGroup>
     <Compile Include="HomeWorkBiz.cs" />
     <Compile Include="HomeWorkPushBiz.cs" />
-    <Compile Include="Login.cs" />
-    <Compile Include="Preparation.cs" />
-    <Compile Include="Student.cs" />
-    <Compile Include="Teach.cs" />
-    <Compile Include="Teacher.cs" />
-    <Compile Include="TimeSheet.cs" />
+    <Compile Include="LoginBiz.cs" />
+    <Compile Include="PreparationBiz.cs" />
+    <Compile Include="StudentBiz.cs" />
+    <Compile Include="TeachBiz.cs" />
+    <Compile Include="TeacherBiz.cs" />
+    <Compile Include="TimeSheetBiz.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

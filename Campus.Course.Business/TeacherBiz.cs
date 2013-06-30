@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Campus.Course.Business
 {
-    public class Preparation : IPreparation
+    public class TeacherBiz : ITeacher
     {
-        public void GetPreparationByPId(CampusEntities context,int PId)
+        public InstituteSheet GetInstituteInfoByTeacher(CampusEntities context, string TNo, DateTime? showday)
         {
             CampusEntities campus = null;
             if (context == null)
@@ -22,8 +22,15 @@ namespace Campus.Course.Business
             }
             try
             {
-               //var q = from prep in campus.Preparations
-               //        join 
+                DateTime d = DateTime.Now;
+                if (showday != null)
+                    d = showday.Value;
+
+                var q = from teacher in campus.Teachers
+                        join ins in campus.InstituteSheets on teacher.Institute equals ins.Name
+                        where ins.BDate <= d && ins.EDate >= d && teacher.TeacherNo == TNo
+                        select ins;
+                return q.FirstOrDefault();
             }
             finally
             {

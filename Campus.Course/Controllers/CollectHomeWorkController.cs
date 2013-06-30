@@ -9,14 +9,14 @@ using Campus.Course.Model.Business;
 
 namespace Campus.Course.Controllers
 {
-    public class CorrectsController : BaseController
+    public class CollectHomeWorkController : BaseController
     {
         private ITeacher _teacher = null;
         private ITimeSheet _timesheet = null;
         private ITeach _teach = null;
         private IHomeWorkBiz _HomeWork = null;
 
-        public CorrectsController(ITeacher __teahcer, ITimeSheet __timesheet, ITeach __teach, IHomeWorkBiz __HomeWork)
+        public CollectHomeWorkController(ITeacher __teahcer, ITimeSheet __timesheet, ITeach __teach, IHomeWorkBiz __HomeWork)
         {
             _teacher = __teahcer;
             _timesheet = __timesheet;
@@ -39,13 +39,11 @@ namespace Campus.Course.Controllers
             return View();
         }
 
-        public ActionResult PartialView(int TimeSheetId)
+        public ActionResult CollectHomeWorkPartialView(int TimeSheetId)
         {
             List<HomeWorkExtend> list = _HomeWork.GetHomeWorkExtendByPushId(null, TimeSheetId);
             ViewData["HomeWorkExtend"] = list;
-            return PartialView("_CorrectsPartial");
-
-
+            return PartialView("_CollectHomeWorkPartial");
         } 
     }
 }

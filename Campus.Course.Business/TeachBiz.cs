@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Campus.Course.Business
 {
-    public class Teach : ITeach
+    public class TeachBiz : ITeach
     {
         public IEnumerable<TeachInfo> GetTeachInfoByTeacher(CampusEntities context, string TNo, int InsId)
         {
@@ -73,6 +73,33 @@ namespace Campus.Course.Business
                     campus.Dispose();
             }
 
+        }
+
+        public IEnumerable<Student> GetStudentsByTeachNo(CampusEntities context, string TeachNo)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            try
+            {
+                var q = from stutea in campus.StudentTeaches
+                        join stud in campus.Students on stutea.StudentNo equals stud.StudentNo
+                        where stutea.TeachNo == TeachNo
+                        select stud;
+
+                return q.ToArray();
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
         }
     }
 }

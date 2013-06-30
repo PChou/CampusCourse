@@ -1,4 +1,5 @@
 ﻿using Campus.Course.Model;
+using Campus.Course.Model.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace Campus.Course.Business.Interface
 {
     public interface IPreparation
     {
-        void GetPreparationByPId(CampusEntities context,int PId);
+        IEnumerable<PreparationInfo> GetPreparationByPId(CampusEntities context, int PId);
+
+        Preparation SavePreparation(CampusEntities context, Preparation preparation);
     }
 }

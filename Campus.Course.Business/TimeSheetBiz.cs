@@ -9,7 +9,7 @@ using Campus.Course.Model.Business;
 
 namespace Campus.Course.Business
 {
-    public class TimeSheet : ITimeSheet
+    public class TimeSheetBiz : ITimeSheet
     {
         public IEnumerable<SheetCourseInfo> GetSheetCourseInfoByStudent(CampusEntities context,string StudentNo, DateTime StartDate, DateTime EndDate)
         {
