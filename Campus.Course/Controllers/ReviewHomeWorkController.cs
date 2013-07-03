@@ -26,7 +26,7 @@ namespace Campus.Course.Controllers
         {
             if (CurrentUser.IsStudent)
                 throw new Exception("The current user is not teacher.permission denied.");
-            List<HomeWorkInfo> list = _HomeWork.GetHomeWorkInfoByTeachNo(null, TeachNo, SudentNo);
+            List<HomeWorkInfo> list = _HomeWork.GetStudentHomeWorkInfoByTeachNo(null, TeachNo, SudentNo);
             List<Student> students = _teach.GetStudentsByTeachNo(null, TeachNo).ToList();
             int homeworkid = -1;
             int.TryParse(CurrentHomeWorkId, out homeworkid);

@@ -81,7 +81,6 @@
     <Compile Include="BaseController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\CollectHomeWorkController.cs" />
-
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -269,6 +268,10 @@
     <ProjectReference Include="..\Campus.Course.Model\Campus.Course.Model.csproj">
       <Project>{29FEF391-2C44-47A1-B8EE-1A0704A3B641}</Project>
       <Name>Campus.Course.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Campus.Course.Utility\Campus.Course.Utility.csproj">
+      <Project>{c6e23478-3e74-4b38-bab8-96005c0f5452}</Project>
+      <Name>Campus.Course.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

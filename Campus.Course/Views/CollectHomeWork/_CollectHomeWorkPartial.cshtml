@@ -36,7 +36,13 @@
               </ul>
           </div>
           <div>
-              <span>按时交作业35/37 迟交作业1/37 未交作业1/37</span>
+              @{
+                  var allcount = list[i].AllCount;
+                  var submitcount = list[i].SubmitCount;
+                  var latecount = list[i].LateCount;
+                  var newcount = list[i].NewCount;
+               }
+              <span>按时交作业 @submitcount/@allcount  迟交作业 @latecount/@allcount  未交作业 @newcount/@allcount</span>
           </div>
           <div class="content_border">
                <div class="content_title">
@@ -56,14 +62,23 @@
                        </tr>
                         @foreach (var l in list[i].HomeWorkList)
                         {
-                           var utlstr = "/ReviewHomeWork?TeachNo=00000002&SudentNo=20062319&CurrentHomeWorkId=5";
+                            var utlstr = "/ReviewHomeWork?TeachNo=" + l.TeachNo + "&SudentNo=" + l.StudentNo + "&CurrentHomeWorkId=" + l.ID;
+                            var statuscn = "未交";
+                            if (l.Status == Campus.Course.Utility.HomeWorkStatus.Submit)
+                            {
+                                statuscn = "已交";
+                            }
+                            else if (l.Status == Campus.Course.Utility.HomeWorkStatus.Late)
+                            {
+                                statuscn = "晚交";
+                            }
                            <tr>
                                <td> <a href="@utlstr"><span class="icons icon_search"></span></a></td>
                                <td>@l.StudentNo</td>
                                <td>@l.StudentNo</td>
                                <td>@list[i].HomeWorkPush.Subject</td>
                                <td>@l.SubmitDate</td>
-                               <td>@l.Status</td>
+                               <td>@statuscn</td>
                                <td>@l.Score</td>
                            </tr>
                         }

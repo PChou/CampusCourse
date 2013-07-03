@@ -30,7 +30,17 @@
 <div id="menuHomeWork">
    @foreach (Campus.Course.Model.Business.HomeWorkInfo t in ViewBag.HomeWorks)
         {
-            <h3>@t.HomeWorkPush.Subject</h3> 
+            var statuscn = "未交";
+            if (t.HomeWork.Status == Campus.Course.Utility.HomeWorkStatus.Submit)
+            {
+                statuscn = "已交";
+            }
+            else if (t.HomeWork.Status == Campus.Course.Utility.HomeWorkStatus.Late)
+            {
+                statuscn = "晚交";
+            }
+            var reviwedcn = t.HomeWork.Score == null ? "未批改" : t.HomeWork.Score;
+            <h3>第 @t.WeekInQGrade.Week 周 | @t.HomeWorkPush.Subject | @statuscn | @reviwedcn</h3> 
             <div id="@t.HomeWork.ID" loaded="false">
                   <ul class="form_input_area">
                       <li>

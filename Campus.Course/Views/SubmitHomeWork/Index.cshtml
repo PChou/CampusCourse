@@ -62,8 +62,7 @@
                  function (event) {
                      if (event.node) {
                          // node was selected
-                         var node = event.node;
-                         TreeClick(node.id);
+                         TreeClick(event.node);
                      }
                      else {
                          return false;
@@ -72,7 +71,7 @@
             div.attr('loaded', 'true');
         }
 
-        function TreeClick(nodeID) {
+        function TreeClick(node) {
           $.post(
           '/SubmitHomeWork/SubmitHomeWorkPartialView',
           {
