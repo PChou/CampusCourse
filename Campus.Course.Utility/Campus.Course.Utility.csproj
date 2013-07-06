@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5722859D-86AD-440D-8600-86BD1AC2262B}</ProjectGuid>
+    <ProjectGuid>{C6E23478-3E74-4B38-BAB8-96005C0F5452}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Campus.Course.Business</RootNamespace>
-    <AssemblyName>Campus.Course.Business</AssemblyName>
+    <RootNamespace>Campus.Course.Utility</RootNamespace>
+    <AssemblyName>Campus.Course.Utility</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,15 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,29 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HomeWorkBiz.cs" />
-    <Compile Include="HomeWorkPushBiz.cs" />
-    <Compile Include="LoginBiz.cs" />
-    <Compile Include="PreparationBiz.cs" />
-    <Compile Include="StudentBiz.cs" />
-    <Compile Include="TeachBiz.cs" />
-    <Compile Include="TeacherBiz.cs" />
-    <Compile Include="TimeSheetBiz.cs" />
+    <Compile Include="Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Campus.Course.Business.Interface\Campus.Course.Business.Interface.csproj">
-      <Project>{046c94ef-b3ce-41a2-a78d-09eb6b217c40}</Project>
-      <Name>Campus.Course.Business.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Campus.Course.Model\Campus.Course.Model.csproj">
-      <Project>{29fef391-2c44-47a1-b8ee-1a0704a3b641}</Project>
-      <Name>Campus.Course.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Campus.Course.Utility\Campus.Course.Utility.csproj">
-      <Project>{c6e23478-3e74-4b38-bab8-96005c0f5452}</Project>
-      <Name>Campus.Course.Utility</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

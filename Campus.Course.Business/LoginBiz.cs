@@ -9,7 +9,7 @@ using Campus.Course.Model.Business;
 
 namespace Campus.Course.Business
 {
-    public class Login : ILogin
+    public class LoginBiz : ILogin
     {
         public bool CheckLogin(CampusEntities context, string user, string password, bool isStudent)
         {

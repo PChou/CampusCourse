@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\HomeWorkExtend.cs" />
+    <Compile Include="Business\HomeWorkInfo.cs" />
     <Compile Include="Business\PreparationInfo.cs" />
     <Compile Include="Business\SheetCourseInfo.cs" />
     <Compile Include="Business\StudentInfo.cs" />

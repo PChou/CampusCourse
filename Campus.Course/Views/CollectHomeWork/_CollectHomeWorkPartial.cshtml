@@ -1,0 +1,106 @@
+﻿@using Campus.Course.Model.Business;
+@{
+    List<HomeWorkExtend> list = ViewData["HomeWorkExtend"] as List<HomeWorkExtend>;
+}
+ <div class="content_title">
+      <span class="icons icon_note"></span><span>批改作业 </span>
+</div>
+<div  class="form_content">
+    <ul class="form_options">
+         @for (int i =0; i < list.Count;i++)
+         {
+             var classstr = i == 0 ? "active" : "";
+             var targetid = "homework_" + i;
+             var liId = "li_" + i; 
+             <li data-form-target="@targetid" class="@classstr" id="@liId" onclick="lionclick($(this));">@list[i].HomeWorkPush.Subject</li>
+         }
+    </ul>
+     @for (int i = 0; i < list.Count; i++)
+     {
+     var stylestr = i == 0 ? "display: block;" : "display: none;";
+     var divid = "homework_" + i;
+     <div class="form_main_content" id="@divid" style="@stylestr">
+         <div class="content_border">
+              <div class="content_title">
+                    <span>基础信息</span>
+               </div>
+              <ul class="form_input_area">
+                  <li>
+                       <div class="parameter_name"><span>作业题目</span></div>
+                       <div class="parameter_input"><span>@list[i].HomeWorkPush.Subject</span></div>       
+                  </li>
+                  <li>
+                       <div class="parameter_name"><span>作业要求</span></div>
+                       <div class="parameter_input"><span>@list[i].HomeWorkPush.Description</span></div>       
+                  </li>
+              </ul>
+          </div>
+          <div>
+              @{
+                  var allcount = list[i].AllCount;
+                  var submitcount = list[i].SubmitCount;
+                  var latecount = list[i].LateCount;
+                  var newcount = list[i].NewCount;
+               }
+              <span>按时交作业 @submitcount/@allcount  迟交作业 @latecount/@allcount  未交作业 @newcount/@allcount</span>
+          </div>
+          <div class="content_border">
+               <div class="content_title">
+                    <span>学生作业</span>
+               </div>
+              <div>
+                   <table width="100%" border="0" cellpadding="0" cellspacing="1" class="table_form"
+                            id="newest_vacation_my">
+                       <tr>
+                           <td>批改</td>
+                           <td>学号</td>
+                           <td>姓名</td>
+                           <td>作业名</td>
+                           <td>提交日期</td>
+                           <td>状态</td>
+                           <td>作业评分</td>
+                       </tr>
+                        @foreach (var l in list[i].HomeWorkList)
+                        {
+                            var utlstr = "/ReviewHomeWork?TeachNo=" + l.TeachNo + "&SudentNo=" + l.StudentNo + "&CurrentHomeWorkId=" + l.ID;
+                            var statuscn = "未交";
+                            if (l.Status == Campus.Course.Utility.HomeWorkStatus.Submit)
+                            {
+                                statuscn = "已交";
+                            }
+                            else if (l.Status == Campus.Course.Utility.HomeWorkStatus.Late)
+                            {
+                                statuscn = "晚交";
+                            }
+                           <tr>
+                               <td> <a href="@utlstr"><span class="icons icon_search"></span></a></td>
+                               <td>@l.StudentNo</td>
+                               <td>@l.StudentNo</td>
+                               <td>@list[i].HomeWorkPush.Subject</td>
+                               <td>@l.SubmitDate</td>
+                               <td>@statuscn</td>
+                               <td>@l.Score</td>
+                           </tr>
+                        }
+                     </table>
+              </div>
+          </div>
+     </div>
+     }
+</div>
+<script type="text/javascript">
+    function lionclick(elemet) {
+        $('.form_main_content').hide();
+        var thisid = elemet.attr("id")
+        $('.form_options>li').each(function () {
+            if (($(this).attr("id")) == thisid) {
+                $(this).addClass('active').siblings().removeClass('active');
+                $('#' + $(this).attr('data-form-target')).show();
+            }
+        });
+    }
+</script>
+         
+              
+
+       

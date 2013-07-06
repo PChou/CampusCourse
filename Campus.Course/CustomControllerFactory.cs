@@ -32,7 +32,9 @@ namespace Campus.Course
                         builder.RegisterType<HomeController>();
                         builder.RegisterType<TimeSheetController>();
                         builder.RegisterType<PreparationController>();
-                        builder.RegisterType<CorrectsController>();
+                        builder.RegisterType<CollectHomeWorkController>();
+                        builder.RegisterType<ReviewHomeWorkController>();
+                        builder.RegisterType<SubmitHomeWorkController>();
                         builder.RegisterType<FileController>();
                         builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
                         container = builder.Build();

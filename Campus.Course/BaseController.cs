@@ -37,7 +37,7 @@ namespace Campus.Course
                 string userName = UserInfo[0];
                 string auth = UserInfo[1];
                 bool isStudent = auth == "student";
-                Login login = new Login();
+                LoginBiz login = new LoginBiz();
                 current = Session["V_CurrentUser"] as V_CurrentUser;
                 if (current == null)
                 {

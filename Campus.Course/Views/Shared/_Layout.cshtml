@@ -1,5 +1,7 @@
 ﻿@{
     Campus.Course.Model.Business.V_CurrentUser CurrentUser = ViewBag.CurrentUser;
+    var studentdisplay = CurrentUser.IsStudent ? "display:block;" : "display:none;";
+    var teacherdisplay = CurrentUser.IsStudent ? "display:none;" : "display:block;";
 }
 <!DOCTYPE html>
 <html>
@@ -37,11 +39,14 @@
             <li class="normal @(ViewContext.RouteData.Values["controller"].ToString() == "TimeSheet" ? "active" : "")">
                 <a href='@Url.Action("Index","TimeSheet")'><span>课程信息</span></a>
             </li>
-            <li class="normal @(ViewContext.RouteData.Values["controller"].ToString() == "Preparation" ? "active" : "")">
+            <li style="@teacherdisplay" class="normal @(ViewContext.RouteData.Values["controller"].ToString() == "Preparation" ? "active" : "")">
                 <a href='@Url.Action("Index","Preparation")'><span>备课</span></a>
             </li>
-            <li class="normal">
-                <a href=''><span>作业</span></a>
+            <li style="@teacherdisplay" class="normal @(ViewContext.RouteData.Values["controller"].ToString() == "CollectHomeWork" || ViewContext.RouteData.Values["controller"].ToString() == "ReviewHomeWork" ? "active" : "")">
+                <a href='@Url.Action("Index","CollectHomeWork")'><span>作业</span></a>
+            </li>
+            <li style="@studentdisplay" class="normal @(ViewContext.RouteData.Values["controller"].ToString() == "SubmitHomeWork" ? "active" : "")">
+                <a href='@Url.Action("Index","SubmitHomeWork")'><span>作业</span></a>
             </li>
             <li class="normal">
                 <a href=''><span>考试</span></a>

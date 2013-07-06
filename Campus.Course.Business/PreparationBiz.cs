@@ -13,7 +13,7 @@ using System.Web;
 
 namespace Campus.Course.Business
 {
-    public class Preparation : IPreparation
+    public class PreparationBiz : IPreparation
     {
         public Course.Model.Preparation GetPreparationByPId(CampusEntities context,int PId)
         {

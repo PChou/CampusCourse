@@ -80,11 +80,13 @@
   <ItemGroup>
     <Compile Include="BaseController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
-    <Compile Include="Controllers\CorrectsController.cs" />
+    <Compile Include="Controllers\CollectHomeWorkController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PreparationController.cs" />
+    <Compile Include="Controllers\ReviewHomeWorkController.cs" />
+    <Compile Include="Controllers\SubmitHomeWorkController.cs" />
     <Compile Include="Controllers\TimeSheetController.cs" />
     <Compile Include="CustomControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
@@ -267,6 +269,10 @@
       <Project>{29FEF391-2C44-47A1-B8EE-1A0704A3B641}</Project>
       <Name>Campus.Course.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Campus.Course.Utility\Campus.Course.Utility.csproj">
+      <Project>{c6e23478-3e74-4b38-bab8-96005c0f5452}</Project>
+      <Name>Campus.Course.Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Login\Index.cshtml" />
@@ -275,10 +281,19 @@
     <Content Include="Views\Preparation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Corrects\Index.cshtml" />
+    <Content Include="Views\CollectHomeWork\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Corrects\_CorrectsPartial.cshtml" />
+    <Content Include="Views\CollectHomeWork\_CollectHomeWorkPartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ReviewHomeWork\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SubmitHomeWork\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SubmitHomeWork\_SubmitHomeWorkPartial.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

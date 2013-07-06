@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Campus.Course.Business
 {
-    public class Teacher : ITeacher
+    public class TeacherBiz : ITeacher
     {
         public InstituteSheet GetInstituteInfoByTeacher(CampusEntities context, string TNo, DateTime? showday)
         {

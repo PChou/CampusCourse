@@ -11,5 +11,6 @@ namespace Campus.Course.Business.Interface
     {
         IEnumerable<TeachInfo> GetTeachInfoByTeacher(CampusEntities context, string TNo, int InsId);
         IEnumerable<TeachInfo> GetTeachInfoByStudent(CampusEntities context, string SNo, int InsId);
+        IEnumerable<Student> GetStudentsByTeachNo(CampusEntities context, string TeachNo);
     }
 }

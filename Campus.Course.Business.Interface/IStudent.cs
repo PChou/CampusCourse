@@ -9,6 +9,7 @@ namespace Campus.Course.Business.Interface
 {
     public interface IStudent
     {
+        Student GetStudentBySNo(CampusEntities context, string SNo);
         StudentInfo GetStudentBySNo(CampusEntities context, string SNo, DateTime baseDate);
         InstituteSheet GetInstituteInfoByStudent(CampusEntities context, string SNo, DateTime? showday);
     }

@@ -213,8 +213,8 @@
           <EntitySet Name="InstituteSheets" EntityType="Campus.Course.Model.InstituteSheet" />
           <EntitySet Name="Preparations" EntityType="Campus.Course.Model.Preparation" />
           <EntitySet Name="PreparationMeteirals" EntityType="Campus.Course.Model.PreparationMeteiral" />
-          <EntitySet Name="HomeWork" EntityType="Campus.Course.Model.HomeWork" />
           <EntitySet Name="HomeWorkPushes" EntityType="Campus.Course.Model.HomeWorkPush" />
+          <EntitySet Name="HomeWork" EntityType="Campus.Course.Model.HomeWork" />
           <FunctionImport Name="sp_PublishHomework">
             <Parameter Name="TimesheetId" Mode="In" Type="Int32" />
             <Parameter Name="DeadLine" Mode="In" Type="DateTime" />
@@ -351,7 +351,7 @@
           <Property Type="String" Name="Type" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="PhysicalStore" MaxLength="300" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="HomeWork">
+        <!--<EntityType Name="HomeWork">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -367,7 +367,7 @@
           <Property Type="String" Name="Group" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Commits" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="TeacherCommits" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
+        </EntityType>-->
         <EntityType Name="HomeWorkPush">
           <Key>
             <PropertyRef Name="ID" />
@@ -383,15 +383,36 @@
           <Property Type="DateTime" Name="PushDate" Precision="3" />
           <Property Type="String" Name="TeachNo" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+
         <EntityType Name="HomeWorkPushMeteiral">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+
           <Property Type="Int32" Name="HomeworkPushId" />
           <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Type" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="PhysicalStore" MaxLength="300" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="HomeWork">
+
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="HomeWorkPushID" />
+          <Property Type="String" Name="StudentNo" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TeachNo" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="PushDate" Precision="3" />
+          <Property Type="DateTime" Name="SubmitDate" Precision="3" />
+          <Property Type="DateTime" Name="ReviewDate" Precision="3" />
+          <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Score" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Group" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Commits" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TeacherCommits" MaxLength="Max" FixedLength="false" Unicode="true" />
+
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -534,7 +555,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HomeWork">
+
+          <!--<EntitySetMapping Name="HomeWork">
             <EntityTypeMapping TypeName="Campus.Course.Model.HomeWork">
               <MappingFragment StoreEntitySet="HomeWork">
                 <ScalarProperty Name="TeacherCommits" ColumnName="TeacherCommits" />
@@ -551,7 +573,8 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
-          </EntitySetMapping>
+          </EntitySetMapping>-->
+
           <EntitySetMapping Name="HomeWorkPushes">
             <EntityTypeMapping TypeName="Campus.Course.Model.HomeWorkPush">
               <MappingFragment StoreEntitySet="HomeWorkPush">
@@ -564,6 +587,24 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="TeachTimeSheetId" ColumnName="TeachTimeSheetId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HomeWork">
+            <EntityTypeMapping TypeName="Campus.Course.Model.HomeWork">
+              <MappingFragment StoreEntitySet="HomeWork">
+                <ScalarProperty Name="TeacherCommits" ColumnName="TeacherCommits" />
+                <ScalarProperty Name="Commits" ColumnName="Commits" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+                <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+                <ScalarProperty Name="PushDate" ColumnName="PushDate" />
+                <ScalarProperty Name="TeachNo" ColumnName="TeachNo" />
+                <ScalarProperty Name="StudentNo" ColumnName="StudentNo" />
+                <ScalarProperty Name="HomeWorkPushID" ColumnName="HomeWorkPushID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
