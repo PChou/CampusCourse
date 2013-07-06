@@ -24,5 +24,7 @@ namespace Campus.Course.Model
         public string Status { get; set; }
         public string Score { get; set; }
         public string Group { get; set; }
+        public string Commits { get; set; }
+        public string TeacherCommits { get; set; }
     }
 }

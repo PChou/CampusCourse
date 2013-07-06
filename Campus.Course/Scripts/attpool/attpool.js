@@ -193,81 +193,159 @@
 
 ; (function ($) {
 
+    //css
+    //attpool-table
+    //attpool-downlaod
+    //attpool-preview
+    //attpool-remove
     $.fn.attpool = function (option) {
 
+        var def = {
+            //{id:1,name:'',downloadurl:'',preview:true|false,removeurl:''}
+            data:[],
+            autorefresh: true,
+            startupload: '开始上传',
+            continueupload: '继续上传'
+            //uniqueId
+            //refreshurl:
+            //onBeforeLoad:
+            //onBeforeRemove:
+            //onRemoveCallback(data):删除后返回值的处理程序
+            //onPreview:
+        };
+
+        var option = $.extend(option, def);
+
         var div = $(this);
-        render();
-        initevents();
+        fetch();
+        
+        function fetch(){
+            if (option.autorefresh && option.refreshurl) {
+                var param = {},
+                    callback = function (data) {
+                        option.data = data;
+                    };
+                if (option.refreshparam) {
+                    param = option.refreshparam;
+                }
+                if (option.onBeforeLoad && typeof option.onBeforeLoad == 'function') {
+                    option.onBeforeLoad(param);
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: option.refreshurl,
+                    data: param,
+                    async: false,
+                    success: callback,
+                    dataType: 'json'
+                });
+            }
+            render(option.data);
+            initevents();
+        }
 
-        function render() {
-            var length = option.data.length;
-            var formstr = '<div class="file-box"><form action="' + option.uploadurl + '" method="post" enctype="multipart/form-data"><span class="file-literal">' + (length > 0 ? option.continueupload : option.startupload) + '</span><input type="file" name="fileField" class="file" id="fileToUpload" size="28"/></form></div>';
 
-            var html = [];
-            html.push('<table class="attpool-table">');
-            if (option.data != undefined) {
+        function render(data) {
+            if (data != undefined){
+                var length = data.length;
+                var formstr = '<div class="file-box"><form action="' + option.uploadurl + '" method="post" enctype="multipart/form-data"><span class="file-literal">' + (length > 0 ? option.continueupload : option.startupload)
+                    + '</span><input type="file" name="fileField" class="file" id="' + option.uniqueId + '" size="28"/></form></div>';
+
+                var html = [];
+                html.push('<table class="attpool-table">');
                 var trs = [];
                 var count = 0;
                 if (length == 0) {
                     trs.push('<tr><td>' + formstr + '</td><td></td></tr>');
                 }
-                $.each(option.data, function (index, r) {
+                $.each(data, function (index, r) {
                     count++;
                     if (count == 1) {
-                        trs.push('<tr id="' + r.id + '" rolspan="' + length + '">' + '<td>' + formstr + '</td><td>');
+                        //trs.push('<tr id="' + r.id + '" rolspan="' + length + '">' + '<td>' + formstr + '</td><td>');
+                        trs.push('<tr rolspan="' + length + '">' + '<td>' + formstr + '</td><td>');
                     }
                     else {
-                        trs.push('<tr id="' + r.id + '"><td></td><td>');
+                        //trs.push('<tr id="' + r.id + '"><td></td><td>');
+                        trs.push('<tr><td></td><td>');
                     }
                     trs.push(r.name);
                     trs.push('</td>');
-                    if (option.onDownload != undefined && typeof (option.onDownload) == "function") {
-                        trs.push('<td><a href="#" class="pool-downlaod">下载</a></td>');
+                    if (r.downloadurl) {
+                        trs.push('<td class="attpool-downlaod"><a href="#">下载</a></td>');
                     }
-                    if (option.onPreview != undefined && typeof (option.onPreview) == "function") {
-                        trs.push('<td><a href="#" class="pool-preview">预览</a></td>');
+                    else {
+                        trs.push('<td class="attpool-downlaod"><a href="#" style="display:none"></a></td>');
                     }
-                    if (option.onDelete != undefined && typeof (option.onDelete) == "function") {
-                        trs.push('<td><a href="#" class="pool-delete">删除</a></td>');
+                    if (r.preview) {
+                        trs.push('<td class="attpool-preview"><a href="#">预览</a></td>');
+                    }
+                    else {
+                        trs.push('<td class="attpool-preview"><a href="#" style="display:none"></a></td>');
+                    }
+                    if (r.removeurl) {
+                        trs.push('<td class="attpool-remove"><a href="#">删除</a></td>');
+                    }
+                    else {
+                        trs.push('<td class="attpool-remove"><a href="#" style="display:none"></a></td>');
                     }
                     trs.push('</tr>');
                 });
                 html.push(trs.join(''));
+                div.html(html.join(''));
             }
-
-            div.html(html.join(''));
         }
 
         function initevents() {
-            div.find(".pool-downlaod").each(function () {
+            div.find(".attpool-downlaod a").each(function (index) {
                 $(this).click(function () {
-                    option.onDownload($(this).parents().parents().attr('id'));
+                    window.open(option.data[index].downloadurl);
                 });
             });
-            div.find(".pool-preview").each(function () {
+            if (option.onPreview) {
+               div.find(".attpool-preview a").each(function (index) {
                 $(this).click(function () {
-                    option.onPreview($(this).parents().parents().attr('id'));
-                });
-            });
-            div.find(".pool-delete").each(function () {
+                    option.onPreview(option.data[index]);
+                    });
+                }); 
+            }
+            
+            div.find(".attpool-remove a").each(function (index) {
+
                 $(this).click(function () {
-                    var d = option.onDelete($(this).parents().parents().attr('id'));
-                    if (d == true)
-                    {
-                        if (option.autorefresh && option.refreshurl) {
-                            $.post(option.refreshurl, {}, function (data) {
-                                option.data = data;
-                                div.attpool(option);
-                            });
+                    var param = {};
+                    var onRemoveCallback = function () { };
+                    if (option.onRemoveCallback && typeof option.onRemoveCallback == 'function') {
+                        onRemoveCallback = option.onRemoveCallback;
+                    }
+                    if (option.onBeforeRemove && typeof option.onBeforeRemove == 'function') {
+                        if (option.onBeforeRemove(option.data[index], param) == true) {
+                            doRemove(option.data[index], param, onRemoveCallback);
                         }
                     }
+                    else {
+                        doRemove(option.data[index], param, onRemoveCallback);
+                    }
+
                 });
+
+                //$(this).click(function () {
+                //    var d = option.onDelete($(this).parents().parents().attr('id'));
+                //    if (d == true)
+                //    {
+                //        if (option.autorefresh && option.refreshurl) {
+                //            $.post(option.refreshurl, {}, function (data) {
+                //                option.data = data;
+                //                div.attpool(option);
+                //            });
+                //        }
+                //    }
+                //});
             });
-            div.find("#fileToUpload").change(function () {
+            div.find('#' + option.uniqueId).change(function () {
                 $.ajaxFileUpload({
                     url: option.uploadurl,
                     secureuri: false,
-                    fileElementId: 'fileToUpload',
+                    fileElementId: option.uniqueId,
                     dataType: 'json',
                     beforeSend: function () {
                         //$("#loading").show();
@@ -282,10 +360,11 @@
                             option.onSuccessed(data, status);
                         }
                         if (option.autorefresh && option.refreshurl) {
-                            $.post(option.refreshurl, {}, function (data) {
-                                option.data = data;
-                                div.attpool(option);
-                            });
+                            //$.post(option.refreshurl, {}, function (data) {
+                            //    option.data = data;
+                            //    div.attpool(option);
+                            //});
+                            fetch();
                         }
                     },
                     error: function (data, status, e) {
@@ -296,6 +375,18 @@
                 });
                 return false;
             });
+        }
+
+        function doRemove(data_row, param, callback){
+            $.ajax({
+                type: 'POST',
+                url: data_row.removeurl,
+                data: param,
+                async: false,
+                success: callback,
+                dataType: 'json'
+            });
+            fetch();
         }
 
         return this;

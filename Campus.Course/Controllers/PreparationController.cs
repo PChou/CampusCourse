@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Campus.Course.Controllers
 {
@@ -28,7 +29,7 @@ namespace Campus.Course.Controllers
 
         //
         // GET: /Preparation/
-        public ActionResult Index()
+        public ActionResult Index(string teachno, int? sheetid, int? prepid)
         {
             if (CurrentUser.IsStudent)
                 throw new Exception("The current user is not teacher.permission denied.");
@@ -39,78 +40,94 @@ namespace Campus.Course.Controllers
             var weekinfo = s_timesheet.CalWeekInQGrade(ins.BDate.Value, DateTime.Now);
             ViewBag.WeekInfo = weekinfo;
 
-            ViewBag.TeachInfoes = s_teach.GetTeachInfoByTeacher(null, CurrentUser.Teacher.Teacher.TeacherNo, ins.ID);
+            var teachinfoes = s_teach.GetTeachInfoByTeacher(null, CurrentUser.Teacher.Teacher.TeacherNo, ins.ID);
+            
+            ViewBag.TeachInfoes = teachinfoes;
+            PreparationDetailViewModel model = new PreparationDetailViewModel();
+            ViewData.Model = model;
+
+            if (!string.IsNullOrEmpty(teachno))
+            {
+                //ViewBag.TeachNo = teachno;
+                model.TeachNo = teachno;
+                int count = 0;
+                foreach (var a in teachinfoes)
+                {
+                    if (a.Teach.TeachNo == teachno)
+                    {
+                        ViewBag.AcitveIndex = count;
+                        break;
+                    }
+                    count++;
+                }
+            }
+            if (sheetid != null)
+            {
+                //ViewBag.SheetId = sheetid;
+                model.SheetId = sheetid.Value;
+                var homeworkpushes = s_homeworkpush.GetHomeWorkPushByWorkSheetId(null, sheetid.Value);
+                foreach (var work in homeworkpushes)
+                {
+                    HomeworkViewModel target = new HomeworkViewModel();
+                    target.HomeworkId = work.ID;
+                    //target.SheetId = work.TeachTimeSheetId.Value;
+                    target.Subject = work.Subject;
+                    target.Description = work.Description;
+                    target.DeadLine = work.DeadLine;
+                    target.PushDate = work.PushDate;
+                    model.HomeworkPushes.Add(target);
+                }
+            }
+            if (prepid != null)
+            {
+                //ViewBag.PrepId = prepid;
+                model.PreparationId = prepid.Value;
+                Course.Model.Preparation prepInfo = s_prep.GetPreparationByPId(null, prepid.Value);
+                if (prepInfo != null)
+                {
+                    model.PreparationId = prepInfo.ID;
+                    model.PreparationName = prepInfo.PrepName;
+                    model.PreparationContent = prepInfo.PrepContent; 
+                }
+
+                
+            }
 
             return View();
         }
 
-//        {
-        //    id:
-        //    sheetid:
-        //    name:
-        //    content:
-        //    teachno:
-        //    m:[
-        //    {id:type:name:path},
-        //    {id:type:name:path}
-        //    ]
-//          }
-        public ActionResult GetPreparation(int prepId, int sheetid)
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Index(string teachno, int? sheetid, int? prepid,PreparationDetailViewModel model)
         {
-            JsonObject o = new JsonObject();
-            o.MergeProperty("sheetid", new JsonConstant(sheetid));
-            if (prepId > 0)
-            {
-                var prepInfoes = s_prep.GetPreparationByPId(null, prepId);
+            Preparation prep = new Preparation();
+            prep.ID = model.PreparationId;
+            prep.PrepName = model.PreparationName;
+            prep.PrepContent = model.PreparationContent;
+            prep.TeachTimeSheetId = model.SheetId;
+            s_prep.SavePreparation(null, prep);
 
-
-                foreach (var oneprep in prepInfoes.GroupBy(m => m.PrepId))
-                {
-                    o.MergeProperty("id", new JsonConstant(oneprep.First().PrepId));                    
-                    o.MergeProperty("name", new JsonConstant(oneprep.First().PrepName ?? string.Empty));
-                    o.MergeProperty("content", new JsonConstant(oneprep.First().PrepContent ?? string.Empty));
-                    JsonCollection mcollection = new JsonCollection();
-                    o.MergeProperty("m", mcollection);
-                    foreach (var m in oneprep)
-                    {
-                        if (m.MeteiralId < 1)
-                            continue;
-                        JsonObject mo = new JsonObject();
-                        mo.MergeProperty("id", new JsonConstant(m.MeteiralId));
-                        mo.MergeProperty("type", new JsonConstant(m.MeteiralType));
-                        mo.MergeProperty("name", new JsonConstant(m.MeteiralName ?? string.Empty));
-                        mo.MergeProperty("path", new JsonConstant(m.MeteiralPath));
-                        mcollection.AppendObject(mo);
-                    }
-                }
-            }
-
-            return RawJson(o,JsonRequestBehavior.AllowGet);
- 
+            return View();
         }
 
-        //[
-            //{id:sheetid:subject:description:deadline,pushdate},
-            //{id:sheetid:subject:description:deadline,pushdate}
-        //]
-        public ActionResult GetHomworkPush(int TimeSheetId)
-        {
-            var homeworkpushes = s_homeworkpush.GetHomeWorkPushByWorkSheetId(null, TimeSheetId);
-            JsonCollection mcollection = new JsonCollection();
-            foreach (var push in homeworkpushes)
-            {
-                JsonObject o = new JsonObject();
-                o.MergeProperty("id", new JsonConstant(push.ID));
-                o.MergeProperty("sheetid", new JsonConstant(push.TeachTimeSheetId));
-                o.MergeProperty("subject", new JsonConstant(push.Subject));
-                o.MergeProperty("description", new JsonConstant(push.Description));
-                o.MergeProperty("deadline", new JsonConstant(push.DeadLine.Value.ToShortDateString()));
-                o.MergeProperty("pushdate", new JsonConstant(push.PushDate.Value.ToShortDateString()));
-                mcollection.AppendObject(o);
-            }
+        //public ActionResult GetHomworkPush(int TimeSheetId)
+        //{
+        //    var homeworkpushes = s_homeworkpush.GetHomeWorkPushByWorkSheetId(null, TimeSheetId);
+        //    JsonCollection mcollection = new JsonCollection();
+        //    foreach (var push in homeworkpushes)
+        //    {
+        //        JsonObject o = new JsonObject();
+        //        o.MergeProperty("id", new JsonConstant(push.ID));
+        //        o.MergeProperty("sheetid", new JsonConstant(push.TeachTimeSheetId));
+        //        o.MergeProperty("subject", new JsonConstant(push.Subject));
+        //        o.MergeProperty("description", new JsonConstant(push.Description));
+        //        o.MergeProperty("deadline", new JsonConstant(push.DeadLine.Value.ToShortDateString()));
+        //        o.MergeProperty("pushdate", new JsonConstant(push.PushDate.Value.ToShortDateString()));
+        //        mcollection.AppendObject(o);
+        //    }
 
-            return RawJson(mcollection, JsonRequestBehavior.AllowGet);
-        }
+        //    return RawJson(mcollection, JsonRequestBehavior.AllowGet);
+        //}
 
 
         //        {
@@ -121,46 +138,69 @@ namespace Campus.Course.Controllers
         //    teachno:
         //    error:
         //          }
-        [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult SavePreparation(Preparation prep)
-        {
-            JsonObject o = new JsonObject();
-            o.MergeProperty("sheetid", new JsonConstant(prep.TeachTimeSheetId));
-            try
-            {
-                var result = s_prep.SavePreparation(null,prep);
-                o.MergeProperty("id", new JsonConstant(result.ID));
-                o.MergeProperty("name", new JsonConstant(result.PrepName ?? string.Empty));
-                o.MergeProperty("content", new JsonConstant(result.PrepContent ?? string.Empty));
-            }
-            catch(Exception ex) { 
-                o.MergeProperty("error",new JsonConstant(ex.Message));
-            }
-            return RawJson(o, JsonRequestBehavior.DenyGet);
-        }
+        //[HttpPost]
+        //[ValidateInput(false)]
+        //public ActionResult SavePreparation(Preparation prep)
+        //{
+        //    JsonObject o = new JsonObject();
+        //    o.MergeProperty("sheetid", new JsonConstant(prep.TeachTimeSheetId));
+        //    try
+        //    {
+        //        var result = s_prep.SavePreparation(null,prep);
+        //        o.MergeProperty("id", new JsonConstant(result.ID));
+        //        o.MergeProperty("name", new JsonConstant(result.PrepName ?? string.Empty));
+        //        o.MergeProperty("content", new JsonConstant(result.PrepContent ?? string.Empty));
+        //    }
+        //    catch(Exception ex) { 
+        //        o.MergeProperty("error",new JsonConstant(ex.Message));
+        //    }
+        //    return RawJson(o, JsonRequestBehavior.DenyGet);
+        //}
 
 
         //{id:sheetid:subject:description:deadline,pushdate,error}
         [HttpPost]
-        public ActionResult SaveHomeworkPush(HomeWorkPush homework)
+        public ActionResult SaveHomeworkPush(HomeworkPushSubmitModel homework)
         {
-            JsonObject o = new JsonObject();
-            try
+            HomeWorkPush hp = new HomeWorkPush();
+            hp.Subject = homework.Subject;
+            hp.Description = homework.Description;
+            hp.DeadLine = homework.DeadLine;
+            hp.Evaluation = homework.Evaluation;
+            hp.TeachTimeSheetId = homework.SheetId;
+            hp.TeachNo = homework.TeachNo;
+            if (homework.HomeworkId != null)//create
             {
-                var hwp = s_homeworkpush.SaveHomeworkPush(null, homework);
-                o.MergeProperty("id", new JsonConstant(hwp.ID));
-                o.MergeProperty("sheetid", new JsonConstant(hwp.TeachTimeSheetId));
-                o.MergeProperty("subject", new JsonConstant(hwp.Subject));
-                o.MergeProperty("description", new JsonConstant(hwp.Description));
-                o.MergeProperty("deadline", new JsonConstant(hwp.DeadLine.Value.ToShortDateString()));
-                o.MergeProperty("pushdate", new JsonConstant(hwp.PushDate.Value.ToShortDateString()));
+                hp.ID = homework.HomeworkId.Value;
             }
-            catch(Exception ex)
-            {
-                o.MergeProperty("error", new JsonConstant(ex.Message));
-            }
-            return RawJson(o, JsonRequestBehavior.DenyGet);
+            s_homeworkpush.SaveHomeworkPush(null, hp);
+
+            RouteValueDictionary param = new RouteValueDictionary();
+            param.Add("teachno", homework.TeachNo);
+            param.Add("sheetid", homework.SheetId);
+            param.Add("prepid", homework.PreparationId);
+
+            return RedirectToAction("Index", param);
+
+            //return Index(homework.TeachNo, homework.SheetId, homework.PreparationId);
+
+
+            //JsonObject o = new JsonObject();
+            //try
+            //{
+            //    var hwp = s_homeworkpush.SaveHomeworkPush(null, homework);
+            //    o.MergeProperty("id", new JsonConstant(hwp.ID));
+            //    o.MergeProperty("sheetid", new JsonConstant(hwp.TeachTimeSheetId));
+            //    o.MergeProperty("subject", new JsonConstant(hwp.Subject));
+            //    o.MergeProperty("description", new JsonConstant(hwp.Description));
+            //    o.MergeProperty("deadline", new JsonConstant(hwp.DeadLine.Value.ToShortDateString()));
+            //    o.MergeProperty("pushdate", new JsonConstant(hwp.PushDate.Value.ToShortDateString()));
+            //}
+            //catch(Exception ex)
+            //{
+            //    o.MergeProperty("error", new JsonConstant(ex.Message));
+            //}
+            //return RawJson(o, JsonRequestBehavior.DenyGet);
         }
 
         //[
@@ -177,10 +217,73 @@ namespace Campus.Course.Controllers
                 JsonObject o = new JsonObject();
                 o.MergeProperty("id", new JsonConstant(pm.ID));
                 o.MergeProperty("name", new JsonConstant(pm.Name));
+                o.MergeProperty("downloadurl", new JsonConstant(string.Format("/File/DownloadPrepM?mId={0}", pm.ID)));
+                o.MergeProperty("preview", new JsonConstant(true));
+                o.MergeProperty("removeurl", new JsonConstant("/File/DeletePrepM"));
                 ms.AppendObject(o);
             }
 
             return RawJson(ms, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetHomeworkMateiral(int HomworkId)
+        {
+            JsonCollection ms = new JsonCollection();
+            var pms = s_prep.GetHomeworkPushMateiralByHomworkId(null, HomworkId);
+
+            foreach (var pm in pms)
+            {
+                JsonObject o = new JsonObject();
+                o.MergeProperty("id", new JsonConstant(pm.ID));
+                o.MergeProperty("name", new JsonConstant(pm.Name));
+                o.MergeProperty("downloadurl", new JsonConstant(string.Format("/File/DownloadHomeworkPushM?hId={0}", pm.ID)));
+                o.MergeProperty("preview", new JsonConstant(true));
+                o.MergeProperty("removeurl", new JsonConstant("/File/DeleteHomeworkPushM"));
+                ms.AppendObject(o);
+            }
+
+            return RawJson(ms, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult HomeworkMFunction(int Id)
+        {
+            string function = string.Format(@"
+                function setHomeworkM{0}(){{
+                var option = {{
+                            uniqueId:'{1}',
+                            uploadurl: '/File/UploadHomeworkM?HomworkId={0}',
+                            refreshurl: '/Preparation/GetHomeworkMateiral?HomworkId={0}',
+                            autorefresh: true,
+                            onPreview: function (row) {{
+                                alert('preview' + row.id);
+                            }},
+                            onBeforeRemove: function (r, param) {{
+                                if (confirm('确定删除?')) {{
+                                    param.mId = r.id;
+                                    return true;
+                                }}
+                                else {{
+                                    return false;
+                                }}
+                            }},
+                            onSuccessed: function (data, status) {{
+                                if (typeof (data.error) != 'undefined') {{
+                                    if (data.error == null || data.error == '') {{
+                                        alert('上传成功');
+                                    }}
+                                    else {{
+                                        alert(data.error);
+                                    }}
+                                }}
+                            }},
+                            onError: function (data, status, e) {{
+                                alert(e);
+                            }}
+                        }};
+                        $('#HomeworkMeteiral{0}').attpool(option);
+                }}
+            ", Id,Guid.NewGuid().ToString());
+            return Content(function);
         }
     }
 }
