@@ -64,7 +64,11 @@
                         {
                             var utlstr = "/ReviewHomeWork?TeachNo=" + l.TeachNo + "&SudentNo=" + l.StudentNo + "&CurrentHomeWorkId=" + l.ID;
                             var statuscn = "未交";
-                            if (l.Status == Campus.Course.Utility.HomeWorkStatus.Submit)
+                            if (l.Status == Campus.Course.Utility.HomeWorkStatus.New)
+                            {
+                                utlstr = "javascript:void(0);";
+                            }
+                            else if (l.Status == Campus.Course.Utility.HomeWorkStatus.Submit)
                             {
                                 statuscn = "已交";
                             }
@@ -99,6 +103,7 @@
             }
         });
     }
+    
 </script>
          
               
