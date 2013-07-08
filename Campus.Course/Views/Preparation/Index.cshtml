@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Campus.Course.PreparationDetailViewModel
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -18,12 +19,16 @@
 
     <script src="@Url.Content("~/Scripts/xheditor/xheditor-1.1.14-zh-cn.min.js")"></script>
 
+    @foreach (var homework in Model.HomeworkPushes)
+    {
+        @Html.Raw("<script src='/Preparation/HomeworkMFunction?Id=" + homework.HomeworkId.ToString() + "&r=" + DateTime.Now.Millisecond + "'></script>")
+    }
 }
 
 
 <script type="text/javascript">
 
-    function buildtree(div,data,editor)
+    function buildtree(div,data)
     {
         div.tree('destroy');
         div.tree({
@@ -44,6 +49,9 @@
             onCreateLi: function (node, $li) {
                 // Add date span after title
                 if (node.sheetid != undefined) {
+                    if(node.sheetid == '@Model.SheetId'){
+                        $li.addClass('jqtree-selected');
+                    }
                     $li.find('.jqtree-title').after('<span class="li-date-right">' + node.date + '</span>');
                 }
             }
@@ -52,95 +60,72 @@
                     if (event.node) {
                         // node was selected
                         var node = event.node;
-                        $.post(
-                            '/Preparation/GetPreparation',
-                            {
-                                prepId: node.prepid,
-                                sheetid: node.sheetid
-                            },
-                            function (data) {
-                                bindPrep(data, editor);
-                            });//post /Preparation/GetPreparation
-
-                       $.post(
-                            '/Preparation/GetHomworkPush',
-                            {
-                                TimeSheetId: node.sheetid
-                            },
-                            function (data) {
-                                bindHomework(data);
-                            });//post /Preparation/GetPreparation
-
+                        //redirect
+                        window.location = '/Preparation/Index?teachno=' + node.teachno + 
+                            '&sheetid=' + node.sheetid + 
+                            '&prepid=' + node.prepid;
                     }
 
                 }); //tree.select
         div.attr('loaded', 'true');
     }
-
-    function bindPrep(data)
+    //populate time sheet by teachno id
+    function populatesheets(div,id)
     {
-        if (data.id == undefined) {
-            $('#name').val('');
-            $('#prepId').val('');
-            //$('#content').text('');
-            if(editor != undefined)
-                editor.setSource('');
-            $('#PrepMeteiral').html('');
-        }
-        else {
-            $('#name').val(data.name);
-            //$('#content').text(data.content);
-            if (editor != undefined)
-                editor.setSource(data.content);
-            $('#prepId').val(data.id);
-   
-
-            if (data.m != undefined) {
-                bindPrepMets(data);
+        $.post(
+            '/TimeSheet/GetTimesheetsByTeachNo',
+            {
+                TeachNo: id,
+                QGradeBegin: '@ViewBag.QGradeBegin'
+            },
+            function (data) {
+                buildtree(div, data);
             }
-        }
-        $('#sheetid').val(data.sheetid);
-        if (data.error != undefined) {
-            alert(data.error);
-        }
+        );//post /TimeSheet/GetTimesheetsByTeachNo
     }
 
-    function bindPrepMets(data)
-    {
+    $(function () {
+
+        //左菜单
+        $('#menuleft').accordion({
+            heightStyle: "content",
+            collapsible: true,//default noactive
+            active: false,//default noactive
+            beforeActivate: function (event, ui) {
+                var div = ui.newPanel;
+                $('#teachno').val(div.attr('teachno'));
+                if (div.attr('loaded') == "false") {
+                    populatesheets(div, div.attr('teachno'));
+                }
+
+            }//accordion beforeActive
+        });
+
+        @if (Model.TeachNo != null && ViewBag.AcitveIndex != null)
+        {
+            @Html.Raw("$('#menuleft').accordion({ active: ");@ViewBag.AcitveIndex@Html.Raw(" });");
+        }
+
+        editor = $('#PreparationContent').xheditor({ tools: 'mini', height: '150px;' });
+
+        //Prep attachment pool
         var option = {
-            data: data.m,
-            uploadurl: '/File/UploadPrepM?PrepId=' + data.id,
-            refreshurl: '/Preparation/GetPrepMateiral?PrepId=' + data.id,
-            autorefresh:true,
-            startupload: '开始上传',
-            continueupload: '继续上传',
-            onPreview: function (id) {
-                alert('preview' + id);
+            //data: data.m,
+            uploadurl: '/File/UploadPrepM?PrepId=' + '@Model.PreparationId',
+            refreshurl: '/Preparation/GetPrepMateiral?PrepId=' + '@Model.PreparationId',
+            uniqueId:'@(Guid.NewGuid().ToString())',
+            autorefresh: true,
+            onPreview: function (row) {
+                alert('preview' + row.id);
             },
-            onDelete: function (id) {
+            onBeforeRemove: function (r, param) {
                 if (confirm("确定删除?")) {
-                    $.ajaxSetup({
-                        async: false
-                    });
-                    $.post('/File/DeletePrepM', { mId: id }, function (data) {
-                        if (data.error) {
-                            alert(data.error);
-                        }
-                    });
-                    $.ajaxSetup({
-                        async: true
-                    });
+                    param.mId = r.id;
                     return true;
                 }
                 else {
                     return false;
                 }
-            },
-            onDownload: function (id) {
-                window.open('/File/DownloadPrepM?mId=' + id);
-            },
-            onCompeleted: function () {
-
             },
             onSuccessed: function (data, status) {
                 if (typeof (data.error) != 'undefined') {
@@ -157,115 +142,20 @@
             }
         };
         $('#PrepMeteiral').attpool(option);
-    }
-
-    function bindHomework(data)
-    {
-        $li = _.template($('#homework-li-template').html());
-        $div = _.template($('#homework-content-template').html());
-
-        
-        var html = [];
-        html.push('<ul>');
-        _.each(data, function (e) {
-            html.push($li(e));
-        });
-        html.push('</ul>');
-        _.each(data, function (e) {
-            html.push($div(e));
-        });
-
-        //$("#homework_tabs").tabs("destroy");
-
-        $("#homework_tabs").html(html.join(''));
-
-        $("#homework_tabs").tabs("refresh").tabs("option", { active: 0 });
-    }
-
-    function savehomework(btn)
-    {
-        var pdiv = $(btn).parents('div.ui-tabs-panel');
-        var tabid = pdiv.attr('id');//tabs-2
-        var o = {
-            TeachTimeSheetId: $('input#sheetid').val(),
-            TeachNo: $('input#teachno').val(),
-        };
-        if (tabid != undefined || tabid.length < 6) {
-            $.extend(o, { ID: tabid.substring(5) });
-        }
-        $.extend(o, { Subject: pdiv.find('input[name="subject"]').val() });
-        $.extend(o, { Description: pdiv.find('input[name="description"]').val() });
-        $.extend(o, { DeadLine: pdiv.find('input[name="deadline"]').val() });
-
-        $.post('/Preparation/SaveHomeworkPush', o, function (data) {
-            alert(data);
-        });
-    }
-
-    //populate time sheet by teachno id
-    function populatesheets(div,id,editor)
-    {
-        $.post(
-            '/TimeSheet/GetTimesheetsByTeachNo',
-            {
-                TeachNo: id,
-                QGradeBegin: '@ViewBag.QGradeBegin'
-            },
-            function (data) {
-                buildtree(div, data, editor);
-            }
-        );//post /TimeSheet/GetTimesheetsByTeachNo
-    }
-
-    $(function () {
-
-        //保存
-        $("input#save_prep")
-          .button()
-          .click(function (event) {
-              event.preventDefault();
-              var id = $('#prepId').val();
-              $.post('/Preparation/SavePreparation',
-                  {
-                      ID: id == undefined ? 0 : id,
-                      TeachTimeSheetId: $('#sheetid').val(),
-                      PrepName: $('#name').val(),
-                      PrepContent: editor.getSource()
-                  },
-                  function (data) {
-                      bindPrep(data, editor);
-                      if (data.error == undefined) {
-                          alert('保存成功');
-                      }
-                      var teachno = $('#teachno').val();
-                      $.post(
-                        '/TimeSheet/GetTimesheetsByTeachNo',
-                        {
-                            TeachNo: teachno,
-                            QGradeBegin: '@ViewBag.QGradeBegin'
-                        },
-                         function (data) {
-                             buildtree($('#' + teachno), data);
-                      });
-              });
-        });
-
-        //左菜单
-        $('#menuleft').accordion({
-            heightStyle: "content",
-            collapsible: true,//default noactive
-            active:false,//default noactive
-            beforeActivate: function (event, ui) {
-                var div = ui.newPanel;
-                if (div.attr('loaded') == "false"){
-                    populatesheets(div,div.attr('teachno'),editor);
-                }
-                $('#teachno').val(div.attr('teachno'));
-            }//accordion beforeActive
-        });
 
         // 作业tab
         $("#homework_tabs").tabs();
+
+        $(".datetimepicker").datepicker();
+        $(".ui-button").button();
+
+        //新作业的流水号
+        newtabId = 1;
+
+        @foreach (var homework in Model.HomeworkPushes)
+        {
+            @Html.Raw("setHomeworkM")@homework.HomeworkId@Html.Raw("();")
+        }
 
         //添加作业
         $('#add_homework_tab')
@@ -275,13 +165,16 @@
                 $li = _.template($('#homework-li-template').html());
                 $div = _.template($('#homework-content-template').html());
                 var tabs = $("#homework_tabs");
-                var o = {id:'',sheetid:'',subject:'新建作业',description:'',deadline:'',pushdate:''};
+                var o = { id: newtabId, subject: '新建作业' };
+                newtabId++;
                 $("#homework_tabs").find(".ui-tabs-nav").append($li(o));
                 $("#homework_tabs").append($div(o));
                 tabs.tabs("refresh");
+                $(".datetimepicker").datepicker();
+                $(".ui-button").button();
             });
 
-        editor = $('#content').xheditor({ tools: 'mini', height: '150px;' });
+        
 
     });
 
@@ -304,61 +197,155 @@
 <div class="right_content">
 
     <h2>备课</h2>
+    <form method="post">
     <table style="width:100%">
-        <tr><td><input type="button" value="保存" id="save_prep"/></td></tr>
+        <tr><td><input class="ui-button" type="submit" value="保存"/></td></tr>
+        
         <tr><td><label>授课内容</label></td>
             <td>
-            <input type="text" id="name" />
-
-            <input type="hidden" id="prepId" />
-            <input type="hidden" id="sheetid" />
-            <input type="hidden" id="teachno" />
-
+            <input type="hidden" id="PreparationId" name="PreparationId" value="@Model.PreparationId" />
+            <input type="hidden" id="TeachNo" name="TeachNo" value="@Model.TeachNo" />
+            <input type="hidden" id="SheetId" name="SheetId" value="@Model.SheetId" />
+            <input type="text" id="PreparationName" name="PreparationName" value="@Model.PreparationName" />
             </td></tr>
-        <tr><td><label>授课详情</label></td><td> 
-            <textarea id="content" style="width:100%"></textarea></td></tr>
-        <tr><td><label>备课素材</label>
-            </td><td>
-    <div id="PrepMeteiral">
+        <tr><td><label>授课详情</label></td><td>
+            <textarea id="PreparationContent" name="PreparationContent" style="width:100%">@Html.Raw(Model.PreparationContent)</textarea></td></tr>
+    </table
+        ></form>
 
-    </div>
-            </td></tr>
+    <table>
+        <tr><td><label>备课素材</label></td><td> <div id="PrepMeteiral"></div></td></tr>
     </table>
 
     <h2>布置作业</h2>
     <input type="button" id="add_homework_tab" value="添加作业"/>
     <div id="homework_tabs">
+        <ul>
+            @foreach (var homework in Model.HomeworkPushes)
+            {
+                 <li><a href="#tab-(@homework.HomeworkId)">@homework.Subject</a></li>
+            }
+        </ul>
+        @foreach (var homework in Model.HomeworkPushes)
+        {
+            <form method="post" action="/Preparation/SaveHomeworkPush">
+            <div id="tab-(@homework.HomeworkId)">
+                <table>
+                    <tr>
+                        <td>
+                            <label>作业名</label></td>
+                        <td>
+                            <input type="hidden" name="PreparationId" value="@Model.PreparationId" />
+                            <input type="hidden" name="TeachNo" value="@Model.TeachNo" />
+                            <input type="hidden" name="HomeworkId" value="@homework.HomeworkId" />
+                            <input type="hidden" name="SheetId" value="@Model.SheetId" />
+                            <input type="text" name="Subject" value="@homework.Subject" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>作业描述</label></td>
+                        <td>
+                            <input type="text" name="Description" value="@homework.Description" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>考评标准</label></td>
+                        <td>
+                            <select name="Evaluation">
+                                <option>A\B\C</option>
+                            </select></td>
+                    </tr>
+                    <tr>
+                        <td>素材上传</td>
+                        <td>
+                            <div id="HomeworkMeteiral@(homework.HomeworkId)"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>作业发送给</label></td>
+                        <td>
+                            <input type="radio" value="all" checked />所有授课学生
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>作业截止时间</label></td>
+                        <td>
+                            <input type="text" class="datetimepicker" name="DeadLine" value="@homework.DeadLine" />
+                        </td>
+                    </tr>
 
+                </table>
+                <input type="submit" class="ui-button" value="保存"/>
+            </div> 
+                </form>
+        }
     </div>
 
 </div>
 
 <script type="text/template" id="homework-li-template" style="display:none;">
 
-    <li id="li<%= id %>"><a href="#tabs-<%= id %>"><%= subject %></a> 
+    <li><a href="#newtab-<%= id %>"><%= subject %></a> 
                 @*<span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span>*@
     </li>
 </script>
 
 <script type="text/template" id="homework-content-template" style="display:none;">
-       <div id="tabs-<%= id %>">
-        <table>
-            <tr><td><label>作业名</label></td><td>
-        <input type="text" name="subject" value="<%= subject %>"/></td></tr>
-            <tr><td><label>作业描述</label></td><td>
-        <input type="text" name="description" value="<%= description %>"/></td></tr>
-            <tr><td><label>考评标准</label></td><td>
-        <select name="evaluation"><option>A\B\C</option></select></td></tr>
-            <tr><td>素材上传</td><td>
+
+
+    <form method="post" action="/Preparation/SaveHomeworkPush">
+            <div id="newtab-<%= id %>">
                 <table>
-                </table></td></tr>
-            <tr><td><label>作业发送给</label></td><td>
-                <input type="radio" value="all" checked />所有授课学生
-                                                </td></tr>
-            <tr><td><label>作业截止时间</label></td><td>
-                <input type="text" name="deadline" value="<%= deadline %>" />
-                                                </td></tr>
-        </table>
-    <input type="button" value="保存" onclick="savehomework(this);"/>
+                    <tr>
+                        <td>
+                            <label>作业名</label></td>
+                        <td>
+                            <input type="hidden" name="PreparationId" value="@Model.PreparationId" />
+                            <input type="hidden" name="TeachNo" value="@Model.TeachNo" />
+                            <input type="hidden" name="HomeworkId" value="" />
+                            <input type="hidden" name="SheetId" value="@Model.SheetId" />
+                            <input type="text" name="Subject" value="<%= subject %>" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>作业描述</label></td>
+                        <td>
+                            <input type="text" name="Description" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>考评标准</label></td>
+                        <td>
+                            <select name="Evaluation">
+                                <option>A\B\C</option>
+                            </select></td>
+                    </tr>
+                    <tr>
+                        <td>素材上传</td>
+                        <td>先保存后上传
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>作业发送给</label></td>
+                        <td>
+                            <input type="radio" value="all" checked />所有授课学生
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>作业截止时间</label></td>
+                        <td>
+                            <input type="text" class="datetimepicker" name="DeadLine" value="" />
+                        </td>
+                    </tr>
+
+                </table>
+                <input type="submit" class="ui-button" value="保存"/>
+            </div> 
+
+                </form>
     </div>
 </script>

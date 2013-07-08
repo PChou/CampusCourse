@@ -19,6 +19,7 @@ namespace Campus.Course.Controllers
  
         }
 
+        #region prep meteiral
         //{error:''}
         [HttpPost]
         public ActionResult UploadPrepM(int PrepId)
@@ -69,6 +70,63 @@ namespace Campus.Course.Controllers
             }
             return RawJson(o, JsonRequestBehavior.DenyGet);
         }
+
+        #endregion
+
+        #region homeworkpush meteiral
+
+        //{error:''}
+        [HttpPost]
+        public ActionResult UploadHomeworkM(int HomworkId)
+        {
+            JsonObject o = new JsonObject();
+            try
+            {
+                var file = GetFile();
+                if (file == null)
+                    throw new NullReferenceException("no file get");
+                string targetbase = Server.MapPath("../Upload/HomeworkPush");
+                HomeWorkPushMeteiral hm = new HomeWorkPushMeteiral();
+                hm.Name = file.FileName;
+                hm.HomeworkPushId = HomworkId;
+                hm.Type = GetType(hm.Name);
+                s_prep.SaveHomeworkPushMateiral(null, hm, file, targetbase);
+                o.MergeProperty("error", new JsonConstant(null));
+            }
+            catch (Exception ex)
+            {
+                o.MergeProperty("error", new JsonConstant(ex.Message));
+            }
+            return RawJson(o, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult DownloadHomeworkPushM(int hId)
+        {
+            var f = s_prep.GetHomeworkPushMateiralById(null, hId);
+            if (f == null)
+                return new EmptyResult();
+            string filepath = Path.Combine(Server.MapPath("../Upload/HomeworkPush"), f.HomeworkPushId.ToString(), f.ID.ToString(), f.Name);
+            return ReturnFile(filepath, f.Name);
+        }
+
+        //{error:''}
+        [HttpPost]
+        public ActionResult DeleteHomeworkPushM(int mId)
+        {
+            JsonObject o = new JsonObject();
+            try
+            {
+                s_prep.DeletePrepMateiralById(null, mId);
+                o.MergeProperty("error", new JsonConstant(null));
+            }
+            catch (Exception ex)
+            {
+                o.MergeProperty("error", new JsonConstant(ex.Message));
+            }
+            return RawJson(o, JsonRequestBehavior.DenyGet);
+        }
+
+        #endregion
 
         private HttpPostedFileBase GetFile()
         {

@@ -111,6 +111,7 @@ namespace Campus.Course.Controllers
                         child.MergeProperty("sheetid", new JsonConstant(time.ID));
                         child.MergeProperty("prepid", new JsonConstant(time.PreparationID));
                         child.MergeProperty("date", new JsonConstant(time.Date.ToShortDateString()));
+                        child.MergeProperty("teachno",new JsonConstant(TeachNo));
                         tmp[week].AppendObject(child);
                     }
                     else
@@ -123,6 +124,7 @@ namespace Campus.Course.Controllers
                         child.MergeProperty("sheetid", new JsonConstant(time.ID));
                         child.MergeProperty("prepid", new JsonConstant(time.PreparationID));
                         child.MergeProperty("date", new JsonConstant(time.Date.ToShortDateString()));
+                        child.MergeProperty("teachno", new JsonConstant(TeachNo));
                         JsonCollection children = new JsonCollection();
                         children.AppendObject(child);
                         each.MergeProperty("children", children);
