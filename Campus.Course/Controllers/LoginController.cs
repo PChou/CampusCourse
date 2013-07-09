@@ -52,6 +52,7 @@ namespace Campus.Course.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session["V_CurrentUser"] = null;
             return Redirect(FormsAuthentication.LoginUrl);
         }
     }
