@@ -188,8 +188,8 @@ li {
 .icons {
     display: block;
     float: left;
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 40px;
     background: url('/Content/images/buttom_icon.png') 0 0 no-repeat;
 }
 
@@ -199,7 +199,7 @@ li {
 }
 
 .icon_note {
-    background-position: -295px -30px;
+    background-position: -341px -38px;
 }
 
 .table_form {

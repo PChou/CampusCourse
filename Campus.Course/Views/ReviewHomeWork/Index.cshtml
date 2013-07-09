@@ -85,7 +85,7 @@
 </script>
 <div class="center_content">
     <div>
-        <input type="button" id="btn_beforeStu" onclick="beforestudent()" value="上一位"/>
+        <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="btn_beforeStu" onclick="beforestudent()" value="上一位"/>
         <select id="ddl_students" onchange="ddl_studentschange()">
             @foreach (Campus.Course.Model.Student t in ViewBag.Students)
             {
@@ -98,13 +98,18 @@
                 
             }
         </select>
-        <input type="button" id="btn_afterStu" onclick="afterstudent()" value="下一位"/>
+        <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="btn_afterStu" onclick="afterstudent()" value="下一位"/>
     </div>
     <div id="menuHomeWork">
         @foreach (Campus.Course.Model.Business.HomeWorkInfo t in ViewBag.HomeWorks)
         {
             var statuscn = "未交";
-            if (t.HomeWork.Status == Campus.Course.Utility.HomeWorkStatus.Submit)
+            var display = "display:block;";
+            if (t.HomeWork.Status == Campus.Course.Utility.HomeWorkStatus.New)
+            {
+                display = "display:none;";
+            }
+            else if (t.HomeWork.Status == Campus.Course.Utility.HomeWorkStatus.Submit)
             {
                 statuscn = "已交";
             }
@@ -125,28 +130,32 @@
                            <div class="parameter_input"><span>@Html.DisplayFor(model=>t.HomeWorkPush.Description)</span></div>       
                       </li>
                       <li>
-                           <div style="height:100px">
+                           <div style="height:100px;@display">
                  
                            </div>  
                       </li>
-                       <li>
-                           <div class="parameter_name"><span>老师评语</span></div>
+                      <li>
+                           <div class="parameter_name"><span>作业描述</span></div>
+                           <div class="parameter_input"><span>@Html.DisplayFor(model=>t.HomeWork.Commits)</span></div>
+                      </li>
+                      <li>
+                           <div class="parameter_name" style="@display"><span>老师评语</span></div>
                             @{
                                 var teachercommitsid = "teachercommits" + t.HomeWork.ID;
-                                <div class="parameter_input"><span><input type="text" id="@teachercommitsid" value="@t.HomeWork.TeacherCommits" /></span></div>   
+                                <div class="parameter_input" style="@display"><span><input type="text" id="@teachercommitsid" value="@t.HomeWork.TeacherCommits" /></span></div>   
                              }    
                       </li>
                       <li>
-                           <div class="parameter_name"><span>作业评分</span></div>
+                           <div class="parameter_name" style="@display"><span>作业评分</span></div>
                            @{
                                 var scoreid = "score" + t.HomeWork.ID;
-                                <div class="parameter_input"><span><input type="text" id="@scoreid" value="@t.HomeWork.Score" /></span></div>       
+                                <div class="parameter_input" style="@display"><span><input type="text" id="@scoreid" value="@t.HomeWork.Score" /></span></div>       
                             }
                       </li>
                       <li>
                            @{
                                var jsfunction = "reviewhomework("+t.HomeWork.ID+")";
-                          <input type="button" value="submit" onclick="@jsfunction"/>
+                          <input type="button" style="@display" class="ui-button ui-widget ui-state-default ui-corner-all" value="submit" onclick="@jsfunction"/>
                            }
                       </li>
                   </ul>
