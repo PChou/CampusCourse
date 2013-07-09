@@ -97,6 +97,7 @@
     <Compile Include="JsonDateTime.cs" />
     <Compile Include="JsonEncoding.cs" />
     <Compile Include="JsonObject.cs" />
+    <Compile Include="JsonpResult.cs" />
     <Compile Include="Models\PreparationDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RawJsonResult.cs" />

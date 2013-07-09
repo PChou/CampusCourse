@@ -107,7 +107,12 @@ namespace Campus.Course.Controllers
             prep.TeachTimeSheetId = model.SheetId;
             s_prep.SavePreparation(null, prep);
 
-            return View();
+            RouteValueDictionary param = new RouteValueDictionary();
+            param.Add("teachno", teachno);
+            param.Add("sheetid", model.SheetId);
+            param.Add("prepid", model.PreparationId);
+
+            return RedirectToAction("Index", param);
         }
 
         //public ActionResult GetHomworkPush(int TimeSheetId)
