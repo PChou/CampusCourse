@@ -24,7 +24,7 @@ namespace Campus.Course.Controllers
             _HomeWork = __HomeWork;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int? TimeSheetId)
         {
             if (!CurrentUser.IsStudent)
                 throw new Exception("The current user is not student.permission denied.");
@@ -34,21 +34,81 @@ namespace Campus.Course.Controllers
             ViewBag.QGradeBegin = ins.BDate;
             var weekinfo = _timesheet.CalWeekInQGrade(ins.BDate.Value, DateTime.Now);
             ViewBag.WeekInfo = weekinfo;
-
             ViewBag.TeachInfoes = _teach.GetTeachInfoByStudent(null, CurrentUser.Student.Student.StudentNo, ins.ID);
+            if (TimeSheetId != null)
+            {
+                ViewBag.HomeWorks = _HomeWork.GetHomeWorkInfoBySheetId(null, (int)TimeSheetId);
+            }
+            else
+            {
+                ViewBag.HomeWorks = new List<HomeWorkInfo>();
+            }
             return View();
-        }
-
-        public ActionResult SubmitHomeWorkPartialView(int TimeSheetId)
-        {
-            List<HomeWorkInfo> list = _HomeWork.GetHomeWorkInfoBySheetId(null, TimeSheetId);
-            ViewBag.HomeWorks = list;
-            return PartialView("_SubmitHomeWorkPartial");
         }
 
         public void submithomework(int id, string commits)
         {
             _HomeWork.SubmitHomeWork(null, id, commits);
+        }
+
+        public ActionResult GetHomeworkMateiral(int HomworkId)
+        {
+            JsonCollection ms = new JsonCollection();
+            var pms = _HomeWork.GetHomeworkMateiralByHomworkId(null, HomworkId);
+
+            foreach (var pm in pms)
+            {
+                JsonObject o = new JsonObject();
+                o.MergeProperty("id", new JsonConstant(pm.ID));
+                o.MergeProperty("name", new JsonConstant(pm.Name));
+                o.MergeProperty("downloadurl", new JsonConstant(string.Format("/File/DownloadHomeworkSubmitM?hId={0}", pm.ID)));
+                o.MergeProperty("preview", new JsonConstant(true));
+                o.MergeProperty("removeurl", new JsonConstant("/File/DeleteHomeworkSubmitM"));
+                ms.AppendObject(o);
+            }
+
+            return RawJson(ms, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult HomeworkMFunction(int Id)
+        {
+            string function = string.Format(@"
+                function setHomeworkM{0}(){{
+                var option = {{
+                            uniqueId:'{1}',
+                            uploadurl: '/File/UploadHomeworkSubmitM?HomworkId={0}',
+                            refreshurl: '/SubmitHomeWork/GetHomeworkMateiral?HomworkId={0}',
+                            autorefresh: true,
+                            onPreview: function (row) {{
+                                alert('preview' + row.id);
+                            }},
+                            onBeforeRemove: function (r, param) {{
+                                if (confirm('确定删除?')) {{
+                                    param.mId = r.id;
+                                    return true;
+                                }}
+                                else {{
+                                    return false;
+                                }}
+                            }},
+                            onSuccessed: function (data, status) {{
+                                if (typeof (data.error) != 'undefined') {{
+                                    if (data.error == null || data.error == '') {{
+                                        alert('上传成功');
+                                    }}
+                                    else {{
+                                        alert(data.error);
+                                    }}
+                                }}
+                            }},
+                            onError: function (data, status, e) {{
+                                alert(e);
+                            }}
+                        }};
+                        $('#HomeworkMeteiral{0}').attpool(option);
+                }}
+            ", Id, Guid.NewGuid().ToString());
+            return Content(function);
         }
 
     }

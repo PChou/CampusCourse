@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace Campus.Course.Business.Interface
 {
@@ -15,5 +16,9 @@ namespace Campus.Course.Business.Interface
         void ReviewHomeWork(CampusEntities context, int id, string score, string commits);
         void SubmitHomeWork(CampusEntities context, int id, string commits);
         List<HomeWorkInfo> GetHomeWorkInfoBySheetId(CampusEntities context, int TeachTimeSheetId);
+        IEnumerable<HomeWorkMeteiral> GetHomeworkMateiralByHomworkId(CampusEntities context, int hId);
+        HomeWorkMeteiral SaveHomeworkMateiral(CampusEntities context, HomeWorkMeteiral meteriral, HttpPostedFileBase file, string targetbase);
+        HomeWorkMeteiral GetHomeworkMateiralById(CampusEntities context, int hId);
+        void DeleteHomeWorkMeteiralById(CampusEntities context, int mId);
     }
 }

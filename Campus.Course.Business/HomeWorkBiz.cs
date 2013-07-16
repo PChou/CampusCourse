@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using Campus.Course.Utility;
+using System.Web;
+using System.IO;
 
 namespace Campus.Course.Business
 {
@@ -181,6 +183,135 @@ namespace Campus.Course.Business
             campus.HomeWorks.Attach(homework);
             campus.Entry(homework).State = EntityState.Modified;
             campus.SaveChanges();
+        }
+
+
+
+        public IEnumerable<HomeWorkMeteiral> GetHomeworkMateiralByHomworkId(CampusEntities context, int hId)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            try
+            {
+                var q = from m in campus.HomeWorkMeteirals
+                        where m.HomeworkPushId == hId
+                        select m;
+                return q.ToArray();
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
+        }
+
+        public HomeWorkMeteiral SaveHomeworkMateiral(CampusEntities context, HomeWorkMeteiral meteriral, HttpPostedFileBase file, string targetbase)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            //TODO Transaction support
+            //TransactionScope scope = null;
+            try
+            {
+                //scope = new TransactionScope();
+                campus.HomeWorkMeteirals.Add(meteriral);
+                campus.SaveChanges();
+
+                int Id = meteriral.ID;
+                string path = Path.Combine(targetbase, meteriral.HomeworkPushId.ToString(), Id.ToString());
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                string target = Path.Combine(path, file.FileName);
+                if (File.Exists(target))
+                {
+                    throw new Exception("Duplicate file " + file.FileName);
+                }
+                else
+                {
+                    file.SaveAs(target);
+                }
+
+                //scope.Complete();
+                return meteriral;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
+        }
+
+        public HomeWorkMeteiral GetHomeworkMateiralById(CampusEntities context, int hId)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            try
+            {
+                var q = from m in campus.HomeWorkMeteirals
+                        where m.ID == hId
+                        select m;
+                return q.FirstOrDefault();
+
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
+        }
+
+        public void DeleteHomeWorkMeteiralById(CampusEntities context, int mId)
+        {
+            CampusEntities campus = null;
+            if (context == null)
+            {
+                campus = new CampusEntities();
+            }
+            else
+            {
+                campus = context;
+            }
+            try
+            {
+                var q = from m in campus.HomeWorkMeteirals
+                        where m.ID == mId
+                        select m;
+                campus.HomeWorkMeteirals.Remove(q.First());
+                campus.SaveChanges();
+
+            }
+            finally
+            {
+                if (context == null)
+                    campus.Dispose();
+            }
         }
     }
 }

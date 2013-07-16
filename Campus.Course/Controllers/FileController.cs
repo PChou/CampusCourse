@@ -12,11 +12,12 @@ namespace Campus.Course.Controllers
     public class FileController : BaseController
     {
         private IPreparation s_prep = null;
+        private IHomeWorkBiz s_homework = null;
 
-        public FileController(IPreparation _prep)
+        public FileController(IPreparation _prep, IHomeWorkBiz _homework)
         {
             s_prep = _prep;
- 
+            s_homework = _homework;
         }
 
         #region prep meteiral
@@ -117,6 +118,62 @@ namespace Campus.Course.Controllers
             try
             {
                 s_prep.DeletePrepMateiralById(null, mId);
+                o.MergeProperty("error", new JsonConstant(null));
+            }
+            catch (Exception ex)
+            {
+                o.MergeProperty("error", new JsonConstant(ex.Message));
+            }
+            return RawJson(o, JsonRequestBehavior.DenyGet);
+        }
+
+        #endregion
+
+
+        #region homeworksubmit meteiral
+
+        //{error:''}
+        //[HttpPost]
+        public ActionResult UploadHomeworkSubmitM(int HomworkId)
+        {
+            JsonObject o = new JsonObject();
+            try
+            {
+                var file = GetFile();
+                if (file == null)
+                    throw new NullReferenceException("no file get");
+                string targetbase = Server.MapPath("../Upload/HomeworkSubmit");
+                HomeWorkMeteiral hm = new HomeWorkMeteiral();
+                hm.Name = file.FileName;
+                hm.HomeworkPushId = HomworkId;
+                hm.Type = GetType(hm.Name);
+                s_homework.SaveHomeworkMateiral(null, hm, file, targetbase);
+                o.MergeProperty("error", new JsonConstant(null));
+            }
+            catch (Exception ex)
+            {
+                o.MergeProperty("error", new JsonConstant(ex.Message));
+            }
+            return RawJson(o, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult DownloadHomeworkSubmitM(int hId)
+        {
+            var f = s_homework.GetHomeworkMateiralById(null, hId);
+            if (f == null)
+                return new EmptyResult();
+            string filepath = Path.Combine(Server.MapPath("../Upload/HomeworkSubmit"), f.HomeworkPushId.ToString(), f.ID.ToString(), f.Name);
+            return ReturnFile(filepath, f.Name);
+        }
+
+        //{error:''}
+        //[HttpPost]
+        public ActionResult DeleteHomeworkSubmitM(int mId)
+        {
+            JsonObject o = new JsonObject();
+            try
+            {
+                s_homework.DeleteHomeWorkMeteiralById(null, mId);
                 o.MergeProperty("error", new JsonConstant(null));
             }
             catch (Exception ex)

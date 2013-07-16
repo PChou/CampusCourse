@@ -19,6 +19,7 @@
         <EntityTypeShape EntityType="Campus.Course.Model.HomeWork" Width="1.5" PointX="8.75" PointY="0.75" />
         <EntityTypeShape EntityType="Campus.Course.Model.HomeWorkPush" Width="1.5" PointX="8.75" PointY="5.75" />
         <EntityTypeShape EntityType="Campus.Course.Model.HomeWorkPushMeteiral" Width="1.5" PointX="8.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Campus.Course.Model.HomeWorkMeteiral" Width="1.5" PointX="5.1842900501490989" PointY="5.8174544748931449" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
