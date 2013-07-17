@@ -52,6 +52,28 @@ namespace Campus.Course.Controllers
             return RawJson(root, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetTimeSheetByTeacher(string SNo, DateTime? showdate, string viewtype)
+        {
+            JsonEncoding root;
+            DateTime startTime = default(DateTime);
+            DateTime endTime = default(DateTime);
+
+            try
+            {
+                CalculateDateDuration(viewtype, showdate, out startTime, out endTime);
+
+                var sheet = s_timesheet.GetSheetCourseInfoByTeacher(null, SNo, startTime, endTime);
+
+                root = BuildTimeSheetJson(sheet, startTime, endTime, null);
+            }
+            catch (Exception ex)
+            {
+                root = BuildTimeSheetJson(null, startTime, endTime, ex);
+            }
+
+            return RawJson(root, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult GetTimeSheetByClass(string CNo, DateTime? showdate, string viewtype)
         {
             JsonEncoding root;
@@ -76,19 +98,22 @@ namespace Campus.Course.Controllers
 
         public ActionResult GetTimeSheetInfo(string SNo,DateTime showdate)
         {
-            var stuInfo = s_timesheet.GetTimeSheetInfo(null, SNo, showdate);
+            var stuInfo = s_timesheet.GetTimeSheetInfo(null, SNo, !CurrentUser.IsStudent ,showdate);
             JsonObject j = new JsonObject();
             j.MergeProperty("grade", new JsonConstant(stuInfo.ClassGrade));
             j.MergeProperty("gradeq", new JsonConstant(stuInfo.ClassGradeQ));
             j.MergeProperty("currentdate", new JsonConstant(string.Format("{0}年{1}月{2}日",showdate.Year,showdate.Month,showdate.Day)));
-            //计算周次
-            if (stuInfo.QB != null)//非假期才计算,这时showdate >= stuInfo.QB && showdate <= stuInfo.QE
-            {
-                int chinaDayOfWeekOffset = stuInfo.QB.Value.DayOfWeek == DayOfWeek.Sunday ? 6 : (int)stuInfo.QB.Value.DayOfWeek - 1;
-                var startTime = stuInfo.QB.Value.AddDays(chinaDayOfWeekOffset * -1);
-                var a = showdate - startTime;
-                j.MergeProperty("currentweek", new JsonConstant(string.Format("第{0}周", a.Days / 7 + 1)));
-            }
+            ////计算周次
+            //if (stuInfo.QB != null)//非假期才计算,这时showdate >= stuInfo.QB && showdate <= stuInfo.QE
+            //{
+
+            //    int chinaDayOfWeekOffset = stuInfo.QB.Value.DayOfWeek == DayOfWeek.Sunday ? 6 : (int)stuInfo.QB.Value.DayOfWeek - 1;
+            //    var startTime = stuInfo.QB.Value.AddDays(chinaDayOfWeekOffset * -1);
+            //    var a = showdate - startTime;
+            //    j.MergeProperty("currentweek", new JsonConstant(string.Format("第{0}周", a.Days / 7 + 1)));
+            //}
+            var winfo = s_timesheet.CalWeekInQGrade(stuInfo.QB.Value, showdate);
+            j.MergeProperty("currentweek", new JsonConstant(string.Format("第{0}周", winfo.Week)));
                 
             return RawJson(j, JsonRequestBehavior.AllowGet);
         }

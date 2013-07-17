@@ -10,9 +10,10 @@ namespace Campus.Course.Business.Interface
     public interface ITimeSheet
     {
         IEnumerable<SheetCourseInfo> GetSheetCourseInfoByStudent(CampusEntities context, string StudentNo, DateTime StartDate, DateTime EndDate);
+        IEnumerable<SheetCourseInfo> GetSheetCourseInfoByTeacher(CampusEntities context, string StudentNo, DateTime StartDate, DateTime EndDate);
         IEnumerable<SheetCourseInfo> GetSheetCourseInfoByClass(CampusEntities context, string ClassNo, DateTime StartDate, DateTime EndDate);
 
-        TimeSheetInfo GetTimeSheetInfo(CampusEntities context, string SNo, DateTime baseDate);
+        TimeSheetInfo GetTimeSheetInfo(CampusEntities context, string SNo, bool IsTeacher,DateTime baseDate);
 
         IEnumerable<Class> GetClasses(CampusEntities context);
 

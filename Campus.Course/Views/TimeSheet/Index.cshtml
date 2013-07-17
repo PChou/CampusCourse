@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = (ViewContext.Controller as Campus.Course.BaseController).CurrentUser;
 }
 
 @section ScriptAndCss{
@@ -27,7 +28,7 @@ $(function(){
         var day = this.showday.getFullYear() + '-' + (this.showday.getMonth() + 1) + '-' + this.showday.getDate();
         $.post('/TimeSheet/GetTimeSheetInfo',
             {
-                SNo: '20062319',
+                SNo: '@user.UserNo',
                 showdate: day
             },
             function (data) {
@@ -54,8 +55,9 @@ $(function(){
         showday: new Date(), //当前视图的显示时间
         ViewCmdhandler: function () { },    //查看的响应事件
         afterRender : updateStInfo,
-        extParam: [{ name: "SNo", value: "20062319" }, { name: "CNo", value: "" }],
-        url: "/TimeSheet/GetTimeSheetByStudent",  //url for get event data by ajax request(post)
+        extParam: [{ name: "SNo", value: "@user.UserNo" }, { name: "CNo", value: "" }],
+	    //url: "/TimeSheet/GetTimeSheetByStudent",  //url for get event data by ajax request(post)
+        @(user.IsStudent ? Html.Raw("url: '/TimeSheet/GetTimeSheetByStudent',") : Html.Raw("url: '/TimeSheet/GetTimeSheetByTeacher',"))
     };
 	
 	op.height = 550; //container height;
