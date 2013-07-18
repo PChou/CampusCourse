@@ -92,20 +92,26 @@ namespace Campus.Course.Business
                     select new HomeWorkInfo { HomeWork = work, HomeWorkPush = push };
             List<HomeWorkInfo> result = q.ToList();
             TimeSheetBiz biz = new TimeSheetBiz();
+            DateTime now = DateTime.Now;
+            var insti = from stud in campus.Students
+                        join clas in campus.Classes on stud.ClassNo equals clas.ClassNo
+                        join ins in campus.InstituteSheets on clas.Institute equals ins.Name
+                        where ins.BDate <= now && ins.EDate >= now && stud.StudentNo == StudentNo
+                        select ins;
+            var bdate = insti.First().BDate;
             foreach (var item in result)
-            { 
-                var insti = from ins in campus.InstituteSheets
-                            join teach in campus.Teaches on ins.ID equals teach.InstituteId
-                            where teach.TeachNo == item.HomeWork.TeachNo
-                            select ins;
-                var bdate = insti.First().BDate;
-                WeekInQGrade week = biz.CalWeekInQGrade((DateTime)bdate, (DateTime)item.HomeWorkPush.PushDate);
+            {
+                WeekInQGrade week = biz.CalWeekInQGrade((DateTime)bdate, (DateTime)item.HomeWorkPush.TeachTimeSheetDate);
                 item.WeekInQGrade = week;
+                //var pushmetiral = from m in campus.HomeWorkPushMeteirals
+                //                  where m.HomeworkPushId == item.HomeWorkPush.ID
+                //                  select m;
+                //item.HomeWorkPushMeteiralList = pushmetiral.ToList();
             }
             return result;
         }
 
-        public List<HomeWorkInfo> GetHomeWorkInfoBySheetId(CampusEntities context, int TeachTimeSheetId)
+        public List<HomeWorkInfo> GetStudentHomeWorkInfoBySheetId(CampusEntities context, int TeachTimeSheetId, string StudentNo)
         {
             CampusEntities campus = null;
             if (context == null)
@@ -118,20 +124,26 @@ namespace Campus.Course.Business
             }
             var q = from work in campus.HomeWorks
                     join push in campus.HomeWorkPushes on work.HomeWorkPushID equals push.ID
-                    where push.TeachTimeSheetId == TeachTimeSheetId
+                    where push.TeachTimeSheetId == TeachTimeSheetId && work.StudentNo == StudentNo
                     orderby work.PushDate descending
                     select new HomeWorkInfo { HomeWork = work, HomeWorkPush = push };
             List<HomeWorkInfo> result = q.ToList();
             TimeSheetBiz biz = new TimeSheetBiz();
+            DateTime now = DateTime.Now;
+            var insti = from stud in campus.Students
+                    join clas in campus.Classes on stud.ClassNo equals clas.ClassNo
+                    join ins in campus.InstituteSheets on clas.Institute equals ins.Name
+                    where ins.BDate <= now && ins.EDate >= now && stud.StudentNo == StudentNo
+                    select ins;
+            var bdate = insti.First().BDate;
             foreach (var item in result)
             {
-                var insti = from ins in campus.InstituteSheets
-                            join teach in campus.Teaches on ins.ID equals teach.InstituteId
-                            where teach.TeachNo == item.HomeWork.TeachNo
-                            select ins;
-                var bdate = insti.First().BDate;
-                WeekInQGrade week = biz.CalWeekInQGrade((DateTime)bdate, (DateTime)item.HomeWorkPush.PushDate);
+                WeekInQGrade week = biz.CalWeekInQGrade((DateTime)bdate, (DateTime)item.HomeWorkPush.TeachTimeSheetDate);
                 item.WeekInQGrade = week;
+                //var pushmetiral = from m in campus.HomeWorkPushMeteirals
+                //                  where m.HomeworkPushId == item.HomeWorkPush.ID
+                //                  select m;
+                //item.HomeWorkPushMeteiralList = pushmetiral.ToList();
             }
             return result;
         }
@@ -201,7 +213,7 @@ namespace Campus.Course.Business
             try
             {
                 var q = from m in campus.HomeWorkMeteirals
-                        where m.HomeworkPushId == hId
+                        where m.HomeworkId == hId
                         select m;
                 return q.ToArray();
             }
@@ -232,7 +244,7 @@ namespace Campus.Course.Business
                 campus.SaveChanges();
 
                 int Id = meteriral.ID;
-                string path = Path.Combine(targetbase, meteriral.HomeworkPushId.ToString(), Id.ToString());
+                string path = Path.Combine(targetbase, meteriral.HomeworkId.ToString(), Id.ToString());
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);

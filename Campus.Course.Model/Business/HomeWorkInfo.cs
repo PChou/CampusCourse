@@ -9,5 +9,6 @@ namespace Campus.Course.Model.Business
         public WeekInQGrade WeekInQGrade { get; set; }
         public HomeWorkPush HomeWorkPush { get; set; }
         public HomeWork HomeWork { get; set; }
+        //public List<HomeWorkPushMeteiral> HomeWorkPushMeteiralList { get; set; }
     }
 }

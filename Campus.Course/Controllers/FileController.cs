@@ -22,7 +22,7 @@ namespace Campus.Course.Controllers
 
         #region prep meteiral
         //{error:''}
-        [HttpPost]
+        //[HttpPost]
         public ActionResult UploadPrepM(int PrepId)
         {
             JsonObject o = new JsonObject();
@@ -56,7 +56,7 @@ namespace Campus.Course.Controllers
         }
 
         //{error:''}
-        [HttpPost]
+        //[HttpPost]
         public ActionResult DeletePrepM(int mId)
         {
             JsonObject o = new JsonObject();
@@ -77,7 +77,7 @@ namespace Campus.Course.Controllers
         #region homeworkpush meteiral
 
         //{error:''}
-        [HttpPost]
+        //[HttpPost]
         public ActionResult UploadHomeworkM(int HomworkId)
         {
             JsonObject o = new JsonObject();
@@ -111,7 +111,7 @@ namespace Campus.Course.Controllers
         }
 
         //{error:''}
-        [HttpPost]
+        //[HttpPost]
         public ActionResult DeleteHomeworkPushM(int mId)
         {
             JsonObject o = new JsonObject();
@@ -145,7 +145,7 @@ namespace Campus.Course.Controllers
                 string targetbase = Server.MapPath("../Upload/HomeworkSubmit");
                 HomeWorkMeteiral hm = new HomeWorkMeteiral();
                 hm.Name = file.FileName;
-                hm.HomeworkPushId = HomworkId;
+                hm.HomeworkId = HomworkId;
                 hm.Type = GetType(hm.Name);
                 s_homework.SaveHomeworkMateiral(null, hm, file, targetbase);
                 o.MergeProperty("error", new JsonConstant(null));
@@ -162,7 +162,7 @@ namespace Campus.Course.Controllers
             var f = s_homework.GetHomeworkMateiralById(null, hId);
             if (f == null)
                 return new EmptyResult();
-            string filepath = Path.Combine(Server.MapPath("../Upload/HomeworkSubmit"), f.HomeworkPushId.ToString(), f.ID.ToString(), f.Name);
+            string filepath = Path.Combine(Server.MapPath("../Upload/HomeworkSubmit"), f.HomeworkId.ToString(), f.ID.ToString(), f.Name);
             return ReturnFile(filepath, f.Name);
         }
 

@@ -39,10 +39,10 @@ namespace Campus.Course.Model
         public DbSet<InstituteSheet> InstituteSheets { get; set; }
         public DbSet<Preparation> Preparations { get; set; }
         public DbSet<PreparationMeteiral> PreparationMeteirals { get; set; }
-        public DbSet<HomeWorkPush> HomeWorkPushes { get; set; }
         public DbSet<HomeWork> HomeWorks { get; set; }
-        public DbSet<HomeWorkPushMeteiral> HomeWorkPushMeteirals { get; set; }
+        public DbSet<HomeWorkPush> HomeWorkPushes { get; set; }
         public DbSet<HomeWorkMeteiral> HomeWorkMeteirals { get; set; }
+        public DbSet<HomeWorkPushMeteiral> HomeWorkPushMeteirals { get; set; }
     
         public virtual int sp_PublishHomework(Nullable<int> timesheetId, Nullable<System.DateTime> deadLine, string teachNo, string subject, string description, string notice, string evaluation, string htmlContent)
         {

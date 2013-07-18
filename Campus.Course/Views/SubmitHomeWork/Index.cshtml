@@ -15,6 +15,7 @@
     @foreach (var homework in ViewBag.HomeWorks)
     {
         @Html.Raw("<script src='/SubmitHomeWork/HomeworkMFunction?Id=" + homework.HomeWork.ID + "&r=" + DateTime.Now.Millisecond + "'></script>")
+        @Html.Raw("<script src='/SubmitHomeWork/HomeworkPushMFunction?Id=" + homework.HomeWorkPush.ID + "&r=" + DateTime.Now.Millisecond + "'></script>")
     }
 }
 <script type="text/javascript">
@@ -34,9 +35,11 @@
                         },
                         function (data) {
                             buildtree(div, data);
+                            
                         }
                     );
                 }
+                
             }
         });
         $('#menuHomeWork').accordion({
@@ -52,7 +55,12 @@
         @foreach (var homework in ViewBag.HomeWorks)
         {       
              @Html.Raw("setHomeworkM")@homework.HomeWork.ID@Html.Raw("();");
+            
+             @Html.Raw("setHomeworkPushM")@homework.HomeWorkPush.ID@Html.Raw("();");
         }
+
+        var index = @ViewBag.CurrentTeachNoIndex
+        $('#menuleft').accordion({ active: index });
     });
 
         function buildtree(div, data) {
@@ -73,7 +81,10 @@
 
                 onCreateLi: function (node, $li) {
                     // Add 'icon' span before title
-                    if (node.id != undefined) {
+                    if (node.sheetid != undefined) {
+                        if (node.sheetid == '@ViewBag.CurrentTimeSheetId') {
+                            $li.addClass('jqtree-selected');
+                        }
                         $li.find('.jqtree-title').after('<span class="li-date-right">' + node.date + '</span>');
                     }
                 }
@@ -83,7 +94,7 @@
                          // node was selected
                          var node = event.node;
                          //redirect
-                         window.location = '/SubmitHomeWork/Index?TimeSheetId=' + node.sheetid;
+                         window.location = '/SubmitHomeWork/Index?TeachNo=' + node.teachno + '&TimeSheetId=' + node.sheetid;
                      }
                      else {
                          return false;
@@ -125,33 +136,39 @@
 <div class="right_content" id="PartialContent">
 <div id="menuHomeWork">
    @foreach (Campus.Course.Model.Business.HomeWorkInfo t in ViewBag.HomeWorks)
-        {
-            var statuscn = "未交";
-            if (t.HomeWork.Status == Campus.Course.Utility.HomeWorkStatus.Submit)
-            {
-                statuscn = "已交";
-            }
-            else if (t.HomeWork.Status == Campus.Course.Utility.HomeWorkStatus.Late)
-            {
-                statuscn = "晚交";
-            }
-            var reviwedcn = t.HomeWork.Score == null ? "未批改" : t.HomeWork.Score;
+   {
+       var statuscn = "未交";
+       if (t.HomeWork.Status == Campus.Course.Utility.HomeWorkStatus.Submit)
+       {
+           statuscn = "已交";
+       }
+       else if (t.HomeWork.Status == Campus.Course.Utility.HomeWorkStatus.Late)
+       {
+           statuscn = "晚交";
+       }
+       var reviwedcn = t.HomeWork.Score == null ? "未批改" : t.HomeWork.Score;
             <h3>第 @t.WeekInQGrade.Week 周 | @t.HomeWorkPush.Subject | @statuscn | @reviwedcn</h3> 
             <div id="@t.HomeWork.ID" loaded="false">
                   <ul class="form_input_area">
                       <li>
                            <div class="parameter_name"><span>作业题目</span></div>
-                           <div class="parameter_input"><span>@Html.DisplayFor(model=>t.HomeWorkPush.Subject)</span></div>       
+                           <div class="parameter_input"><span>@Html.DisplayFor(model => t.HomeWorkPush.Subject)</span></div>       
                       </li>
                       <li>
                            <div class="parameter_name"><span>作业要求</span></div>
-                           <div class="parameter_input"><span>@Html.DisplayFor(model=>t.HomeWorkPush.Description)</span></div>       
+                           <div class="parameter_input"><span>@Html.DisplayFor(model => t.HomeWorkPush.Description)</span></div>       
                       </li>
                       <li>
                            <div class="parameter_name"><span>作业素材</span></div>
+                          <div>
+                           @{
+       var HomeworkPushMeteiral = "HomeworkPushMeteiral" + t.HomeWorkPush.ID;
+                                <div id="@HomeworkPushMeteiral" class="Meteiral"></div>
+                            }
+                          </div>
                            <div>
                            @{
-                                var HomeworkMeteiral = "HomeworkMeteiral" + t.HomeWork.ID;
+       var HomeworkMeteiral = "HomeworkMeteiral" + t.HomeWork.ID;
                                 <div id="@HomeworkMeteiral" class="Meteiral"></div>
                             }
                            </div>  
@@ -160,7 +177,7 @@
                            <div class="parameter_name"><span>作业描述</span></div>
                            <div>
                            @{
-                               var commits = "commits" + t.HomeWork.ID;
+       var commits = "commits" + t.HomeWork.ID;
                                <textarea id="@commits" style="width:400px;" rows="5" >@t.HomeWork.Commits</textarea>
                             }
                            </div>  
@@ -168,12 +185,12 @@
 
                       <li>
                            @{
-                                var jsfunction = "submithomework(" + t.HomeWork.ID + ")";
+       var jsfunction = "submithomework(" + t.HomeWork.ID + ")";
                                <input type="button" value="submit" onclick="@jsfunction"/>
                            }
                       </li>
                   </ul>
             </div>
-        }
+   }
 </div>
 </div>

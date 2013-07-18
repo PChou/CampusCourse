@@ -15,7 +15,7 @@ namespace Campus.Course.Model
     public partial class HomeWorkMeteiral
     {
         public int ID { get; set; }
-        public Nullable<int> HomeworkPushId { get; set; }
+        public Nullable<int> HomeworkId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public string PhysicalStore { get; set; }

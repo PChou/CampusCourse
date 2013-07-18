@@ -79,13 +79,14 @@
           <Property Name="Group" Type="nvarchar" MaxLength="50" />
           <Property Name="Commits" Type="nvarchar(max)" />
           <Property Name="TeacherCommits" Type="nvarchar(max)" />
+          <Property Name="TeachTimeSheetDate" Type="datetime" />
         </EntityType>
         <EntityType Name="HomeWorkMeteiral">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="HomeworkPushId" Type="int" />
+          <Property Name="HomeworkId" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
           <Property Name="PhysicalStore" Type="nvarchar" MaxLength="300" />
@@ -104,6 +105,7 @@
           <Property Name="DeadLine" Type="datetime" />
           <Property Name="PushDate" Type="datetime" />
           <Property Name="TeachNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="TeachTimeSheetDate" Type="datetime" />
         </EntityType>
         <EntityType Name="HomeWorkPushMeteiral">
           <Key>
@@ -214,8 +216,6 @@
           <EntitySet Name="InstituteSheets" EntityType="Campus.Course.Model.InstituteSheet" />
           <EntitySet Name="Preparations" EntityType="Campus.Course.Model.Preparation" />
           <EntitySet Name="PreparationMeteirals" EntityType="Campus.Course.Model.PreparationMeteiral" />
-          <EntitySet Name="HomeWorkPushes" EntityType="Campus.Course.Model.HomeWorkPush" />
-          <EntitySet Name="HomeWork" EntityType="Campus.Course.Model.HomeWork" />
           <FunctionImport Name="sp_PublishHomework">
             <Parameter Name="TimesheetId" Mode="In" Type="Int32" />
             <Parameter Name="DeadLine" Mode="In" Type="DateTime" />
@@ -226,8 +226,10 @@
             <Parameter Name="Evaluation" Mode="In" Type="String" />
             <Parameter Name="HtmlContent" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="HomeWorkPushMeteirals" EntityType="Campus.Course.Model.HomeWorkPushMeteiral" />
+          <EntitySet Name="HomeWork" EntityType="Campus.Course.Model.HomeWork" />
+          <EntitySet Name="HomeWorkPushes" EntityType="Campus.Course.Model.HomeWorkPush" />
           <EntitySet Name="HomeWorkMeteirals" EntityType="Campus.Course.Model.HomeWorkMeteiral" />
+          <EntitySet Name="HomeWorkPushMeteirals" EntityType="Campus.Course.Model.HomeWorkPushMeteiral" />
         </EntityContainer>
         <EntityType Name="Class">
           <Key>
@@ -370,35 +372,7 @@
           <Property Type="String" Name="Commits" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="TeacherCommits" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>-->
-        <EntityType Name="HomeWorkPush">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="TeachTimeSheetId" />
-          <Property Type="String" Name="Subject" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Notice" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="HtmlContent" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Evaluation" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="DeadLine" Precision="3" />
-          <Property Type="DateTime" Name="PushDate" Precision="3" />
-          <Property Type="String" Name="TeachNo" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-
-        <EntityType Name="HomeWorkPushMeteiral">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-
-          <Property Type="Int32" Name="HomeworkPushId" />
-          <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Type" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="PhysicalStore" MaxLength="300" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="HomeWork">
-
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -414,9 +388,35 @@
           <Property Type="String" Name="Group" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Commits" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="TeacherCommits" MaxLength="Max" FixedLength="false" Unicode="true" />
-
+          <Property Type="DateTime" Name="TeachTimeSheetDate" Precision="3" />
+        </EntityType>
+        <EntityType Name="HomeWorkPush">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="TeachTimeSheetId" />
+          <Property Type="String" Name="Subject" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Notice" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="HtmlContent" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Evaluation" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="DeadLine" Precision="3" />
+          <Property Type="DateTime" Name="PushDate" Precision="3" />
+          <Property Type="String" Name="TeachNo" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="TeachTimeSheetDate" Precision="3" />
         </EntityType>
         <EntityType Name="HomeWorkMeteiral">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="HomeworkId" />
+          <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Type" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PhysicalStore" MaxLength="300" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="HomeWorkPushMeteiral">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -586,26 +586,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>-->
-
-          <EntitySetMapping Name="HomeWorkPushes">
-            <EntityTypeMapping TypeName="Campus.Course.Model.HomeWorkPush">
-              <MappingFragment StoreEntitySet="HomeWorkPush">
-                <ScalarProperty Name="TeachNo" ColumnName="TeachNo" />
-                <ScalarProperty Name="PushDate" ColumnName="PushDate" />
-                <ScalarProperty Name="DeadLine" ColumnName="DeadLine" />
-                <ScalarProperty Name="Evaluation" ColumnName="Evaluation" />
-                <ScalarProperty Name="HtmlContent" ColumnName="HtmlContent" />
-                <ScalarProperty Name="Notice" ColumnName="Notice" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Subject" ColumnName="Subject" />
-                <ScalarProperty Name="TeachTimeSheetId" ColumnName="TeachTimeSheetId" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HomeWork">
             <EntityTypeMapping TypeName="Campus.Course.Model.HomeWork">
               <MappingFragment StoreEntitySet="HomeWork">
+                <ScalarProperty Name="TeachTimeSheetDate" ColumnName="TeachTimeSheetDate" />
                 <ScalarProperty Name="TeacherCommits" ColumnName="TeacherCommits" />
                 <ScalarProperty Name="Commits" ColumnName="Commits" />
                 <ScalarProperty Name="Group" ColumnName="Group" />
@@ -621,13 +605,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HomeWorkPushMeteirals">
-            <EntityTypeMapping TypeName="Campus.Course.Model.HomeWorkPushMeteiral">
-              <MappingFragment StoreEntitySet="HomeWorkPushMeteiral">
-                <ScalarProperty Name="PhysicalStore" ColumnName="PhysicalStore" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="HomeworkPushId" ColumnName="HomeworkPushId" />
+          <EntitySetMapping Name="HomeWorkPushes">
+            <EntityTypeMapping TypeName="Campus.Course.Model.HomeWorkPush">
+              <MappingFragment StoreEntitySet="HomeWorkPush">
+                <ScalarProperty Name="TeachTimeSheetDate" ColumnName="TeachTimeSheetDate" />
+                <ScalarProperty Name="TeachNo" ColumnName="TeachNo" />
+                <ScalarProperty Name="PushDate" ColumnName="PushDate" />
+                <ScalarProperty Name="DeadLine" ColumnName="DeadLine" />
+                <ScalarProperty Name="Evaluation" ColumnName="Evaluation" />
+                <ScalarProperty Name="HtmlContent" ColumnName="HtmlContent" />
+                <ScalarProperty Name="Notice" ColumnName="Notice" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="TeachTimeSheetId" ColumnName="TeachTimeSheetId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -635,6 +625,17 @@
           <EntitySetMapping Name="HomeWorkMeteirals">
             <EntityTypeMapping TypeName="Campus.Course.Model.HomeWorkMeteiral">
               <MappingFragment StoreEntitySet="HomeWorkMeteiral">
+                <ScalarProperty Name="PhysicalStore" ColumnName="PhysicalStore" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="HomeworkId" ColumnName="HomeworkId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HomeWorkPushMeteirals">
+            <EntityTypeMapping TypeName="Campus.Course.Model.HomeWorkPushMeteiral">
+              <MappingFragment StoreEntitySet="HomeWorkPushMeteiral">
                 <ScalarProperty Name="PhysicalStore" ColumnName="PhysicalStore" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

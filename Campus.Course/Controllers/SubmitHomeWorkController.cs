@@ -15,16 +15,18 @@ namespace Campus.Course.Controllers
         private ITimeSheet _timesheet = null;
         private ITeach _teach = null;
         private IHomeWorkBiz _HomeWork = null;
+        private IPreparation _prep = null;
 
-        public SubmitHomeWorkController(IStudent __student, ITimeSheet __timesheet, ITeach __teach, IHomeWorkBiz __HomeWork)
+        public SubmitHomeWorkController(IStudent __student, ITimeSheet __timesheet, ITeach __teach, IHomeWorkBiz __HomeWork, IPreparation __prep)
         {
             _student = __student;
             _timesheet = __timesheet;
             _teach = __teach;
             _HomeWork = __HomeWork;
+            _prep = __prep;
         }
 
-        public ActionResult Index(int? TimeSheetId)
+        public ActionResult Index(string TeachNo, int? TimeSheetId, int? HomeworkId)
         {
             if (!CurrentUser.IsStudent)
                 throw new Exception("The current user is not student.permission denied.");
@@ -32,17 +34,28 @@ namespace Campus.Course.Controllers
             ViewBag.Grade = ins.Grade;
             ViewBag.QGrade = ins.QGrade;
             ViewBag.QGradeBegin = ins.BDate;
-            var weekinfo = _timesheet.CalWeekInQGrade(ins.BDate.Value, DateTime.Now);
-            ViewBag.WeekInfo = weekinfo;
-            ViewBag.TeachInfoes = _teach.GetTeachInfoByStudent(null, CurrentUser.Student.Student.StudentNo, ins.ID);
-            if (TimeSheetId != null)
+            ViewBag.WeekInfo = _timesheet.CalWeekInQGrade(ins.BDate.Value, DateTime.Now);
+            var TeachInfoes = _teach.GetTeachInfoByStudent(null, CurrentUser.Student.Student.StudentNo, ins.ID).ToList();
+            ViewBag.TeachInfoes = TeachInfoes;
+
+            ViewBag.HomeWorks = new List<HomeWorkInfo>();
+            ViewBag.CurrentTeachNoIndex = false;
+            ViewBag.CurrentTimeSheetId = -1;
+
+            if (TeachNo != null)
             {
-                ViewBag.HomeWorks = _HomeWork.GetHomeWorkInfoBySheetId(null, (int)TimeSheetId);
+                if (TimeSheetId != null)
+                {
+                    ViewBag.HomeWorks = _HomeWork.GetStudentHomeWorkInfoBySheetId(null, (int)TimeSheetId, CurrentUser.Student.Student.StudentNo);
+                    ViewBag.CurrentTimeSheetId = TimeSheetId;
+                }
+                else
+                {
+                    ViewBag.HomeWorks = _HomeWork.GetStudentHomeWorkInfoByTeachNo(null, TeachNo.ToString(), CurrentUser.Student.Student.StudentNo);
+                }
+                ViewBag.CurrentTeachNoIndex = TeachInfoes.FindIndex(delegate(TeachInfo p) { return p.Teach.TeachNo == TeachNo.ToString(); });
             }
-            else
-            {
-                ViewBag.HomeWorks = new List<HomeWorkInfo>();
-            }
+
             return View();
         }
 
@@ -64,6 +77,24 @@ namespace Campus.Course.Controllers
                 o.MergeProperty("downloadurl", new JsonConstant(string.Format("/File/DownloadHomeworkSubmitM?hId={0}", pm.ID)));
                 o.MergeProperty("preview", new JsonConstant(true));
                 o.MergeProperty("removeurl", new JsonConstant("/File/DeleteHomeworkSubmitM"));
+                ms.AppendObject(o);
+            }
+
+            return RawJson(ms, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetHomeworkPushMateiral(int HomworkPushId)
+        {
+            JsonCollection ms = new JsonCollection();
+            var pms = _prep.GetHomeworkPushMateiralByHomworkId(null, HomworkPushId);
+
+            foreach (var pm in pms)
+            {
+                JsonObject o = new JsonObject();
+                o.MergeProperty("id", new JsonConstant(pm.ID));
+                o.MergeProperty("name", new JsonConstant(pm.Name));
+                o.MergeProperty("downloadurl", new JsonConstant(string.Format("/File/DownloadHomeworkPushM?hId={0}", pm.ID)));
+                o.MergeProperty("preview", new JsonConstant(true));
                 ms.AppendObject(o);
             }
 
@@ -106,6 +137,28 @@ namespace Campus.Course.Controllers
                             }}
                         }};
                         $('#HomeworkMeteiral{0}').attpool(option);
+                }}
+            ", Id, Guid.NewGuid().ToString());
+            return Content(function);
+        }
+
+        public ActionResult HomeworkPushMFunction(int Id)
+        {
+            string function = string.Format(@"
+                function setHomeworkPushM{0}(){{
+                var option = {{
+                            uniqueId:'{1}',
+                            refreshurl: '/SubmitHomeWork/GetHomeworkPushMateiral?HomworkPushId={0}',
+                            autorefresh: false,
+                            onPreview: function (row) {{
+                                alert('preview' + row.id);
+                            }},
+                           
+                            onError: function (data, status, e) {{
+                                alert(e);
+                            }}
+                        }};
+                        $('#HomeworkPushMeteiral{0}').attpool(option);
                 }}
             ", Id, Guid.NewGuid().ToString());
             return Content(function);
