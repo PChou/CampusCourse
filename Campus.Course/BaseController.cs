@@ -11,6 +11,7 @@ namespace Campus.Course
 {
     public class BaseController : Controller
     {
+
         protected RawJsonResult RawJson(JsonEncoding raw,JsonRequestBehavior behavior)
         {
             if (raw == null)

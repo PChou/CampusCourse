@@ -24,5 +24,6 @@ namespace Campus.Course.Model
         public Nullable<System.DateTime> DeadLine { get; set; }
         public Nullable<System.DateTime> PushDate { get; set; }
         public string TeachNo { get; set; }
+        public Nullable<System.DateTime> TeachTimeSheetDate { get; set; }
     }
 }

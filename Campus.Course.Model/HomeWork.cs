@@ -26,5 +26,6 @@ namespace Campus.Course.Model
         public string Group { get; set; }
         public string Commits { get; set; }
         public string TeacherCommits { get; set; }
+        public Nullable<System.DateTime> TeachTimeSheetDate { get; set; }
     }
 }

@@ -84,6 +84,9 @@
     <Compile Include="HomeWork.cs">
       <DependentUpon>Campus.tt</DependentUpon>
     </Compile>
+    <Compile Include="HomeWorkMeteiral.cs">
+      <DependentUpon>Campus.tt</DependentUpon>
+    </Compile>
     <Compile Include="HomeWorkPush.cs">
       <DependentUpon>Campus.tt</DependentUpon>
     </Compile>
