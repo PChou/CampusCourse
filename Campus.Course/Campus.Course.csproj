@@ -203,6 +203,11 @@
     <Content Include="Content\images\username.png" />
     <Content Include="Content\images\_c.gif" />
     <Content Include="Content\images\_h.gif" />
+    <Content Include="quint\myProject.js" />
+    <Content Include="quint\myTests.js" />
+    <Content Include="quint\qunit-1.12.0.css" />
+    <Content Include="quint\qunit-1.12.0.js" />
+    <Content Include="quint\test.html" />
     <Content Include="Scripts\attpool\attpool.js" />
     <Content Include="Scripts\calendar\jquery.js" />
     <Content Include="Scripts\global.js" />
