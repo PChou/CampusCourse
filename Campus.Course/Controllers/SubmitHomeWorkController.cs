@@ -113,6 +113,7 @@ namespace Campus.Course.Controllers
                             onPreview: function (row) {{
                                 alert('preview' + row.id);
                             }},
+                            
                             onBeforeRemove: function (r, param) {{
                                 if (confirm('确定删除?')) {{
                                     param.mId = r.id;
@@ -150,6 +151,7 @@ namespace Campus.Course.Controllers
                             uniqueId:'{1}',
                             refreshurl: '/SubmitHomeWork/GetHomeworkPushMateiral?HomworkPushId={0}',
                             autorefresh: false,
+                            readonly:true,
                             onPreview: function (row) {{
                                 alert('preview' + row.id);
                             }},

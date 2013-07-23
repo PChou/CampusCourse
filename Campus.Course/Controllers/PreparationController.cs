@@ -165,6 +165,7 @@ namespace Campus.Course.Controllers
 
         //{id:sheetid:subject:description:deadline,pushdate,error}
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult SaveHomeworkPush(HomeworkPushSubmitModel homework)
         {
             HomeWorkPush hp = new HomeWorkPush();

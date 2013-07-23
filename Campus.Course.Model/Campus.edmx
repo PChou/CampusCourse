@@ -200,6 +200,16 @@
           <Property Name="Location" Type="nvarchar" MaxLength="50" />
           <Property Name="TeachNo" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Function Name="sp_PublishHomework" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TimesheetId" Type="int" Mode="In" />
+          <Parameter Name="DeadLine" Type="datetime" Mode="In" />
+          <Parameter Name="TeachNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="Subject" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar" Mode="In" />
+          <Parameter Name="Notice" Type="nvarchar" Mode="In" />
+          <Parameter Name="Evaluation" Type="nvarchar" Mode="In" />
+          <Parameter Name="HtmlContent" Type="nvarchar(max)" Mode="In" />
+        </Function>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -644,6 +654,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_PublishHomework" FunctionName="Campus.Course.Model.Store.sp_PublishHomework" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

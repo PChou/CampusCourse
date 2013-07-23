@@ -250,7 +250,8 @@
                 var length = data.length;
                 var formstr = '<div class="file-box"><form action="' + option.uploadurl + '" method="post" enctype="multipart/form-data"><span class="file-literal">' + (length > 0 ? option.continueupload : option.startupload)
                     + '</span><input type="file" name="fileField" class="file" id="' + option.uniqueId + '" size="28"/></form></div>';
-
+                if (option.readonly)
+                    var formstr = '';
                 var html = [];
                 html.push('<table class="attpool-table">');
                 var trs = [];
