@@ -45,5 +45,45 @@ namespace Campus.Course.Controllers
         {
             _HomeWork.ReviewHomeWork(null, id, score, commits);
         }
+
+        public ActionResult GetHomeworkMateiral(int HomworkId)
+        {
+            JsonCollection ms = new JsonCollection();
+            var pms = _HomeWork.GetHomeworkMateiralByHomworkId(null, HomworkId);
+
+            foreach (var pm in pms)
+            {
+                JsonObject o = new JsonObject();
+                o.MergeProperty("id", new JsonConstant(pm.ID));
+                o.MergeProperty("name", new JsonConstant(pm.Name));
+                o.MergeProperty("downloadurl", new JsonConstant(string.Format("/File/DownloadHomeworkSubmitM?hId={0}", pm.ID)));
+                o.MergeProperty("preview", new JsonConstant(true));
+                ms.AppendObject(o);
+            }
+
+            return RawJson(ms, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult HomeworkMFunction(int Id)
+        {
+            string function = string.Format(@"
+                function setHomeworkM{0}(){{
+                var option = {{
+                            uniqueId:'{1}',
+                            refreshurl: '/ReviewHomeWork/GetHomeworkMateiral?HomworkId={0}',
+                            autorefresh: false,
+                            readonly:true,
+                            onPreview: function (row) {{
+                                alert('preview' + row.id);
+                            }},
+                            onError: function (data, status, e) {{
+                                alert(e);
+                            }}
+                        }};
+                        $('#HomeworkMeteiral{0}').attpool(option);
+                }}
+            ", Id, Guid.NewGuid().ToString());
+            return Content(function);
+        }
     }
 }
