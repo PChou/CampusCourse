@@ -150,6 +150,7 @@
     <Content Include="Content\images\marquee4.jpg" />
     <Content Include="Content\images\marquee5.jpg" />
     <Content Include="Content\images\marquee6.jpg" />
+    <Content Include="crossdomain.xml" />
     <Content Include="Global.asax" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\images\+c.gif" />
@@ -203,6 +204,7 @@
     <Content Include="Content\images\username.png" />
     <Content Include="Content\images\_c.gif" />
     <Content Include="Content\images\_h.gif" />
+    <Content Include="helloworld.swf" />
     <Content Include="quint\myProject.js" />
     <Content Include="quint\myTests.js" />
     <Content Include="quint\qunit-1.12.0.css" />
@@ -241,6 +243,7 @@
     <Content Include="Scripts\xheditor\xheditor_skin\default\img\wmp.gif" />
     <Content Include="Scripts\xheditor\xheditor_skin\default\img\wordimg.gif" />
     <Content Include="Scripts\xheditor\xheditor_skin\default\ui.css" />
+    <Content Include="Upload.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

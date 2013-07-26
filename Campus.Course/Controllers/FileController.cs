@@ -98,7 +98,7 @@ namespace Campus.Course.Controllers
             {
                 o.MergeProperty("error", new JsonConstant(ex.Message));
             }
-            return RawJson(o, JsonRequestBehavior.DenyGet);
+            return RawJson(o, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DownloadHomeworkPushM(int hId)
