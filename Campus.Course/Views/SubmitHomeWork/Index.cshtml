@@ -11,6 +11,7 @@
     <link href="@Url.Content("~/Content/css/lib/jqtree/jqtree.css")" rel="stylesheet" />
     <script src="@Url.Content("~/Scripts/attpool/attpool.js")"></script>
     <link href="@Url.Content("~/Content/css/lib/attpool/attpool.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/xheditor/xheditor-1.1.14-zh-cn.min.js")"></script>
 
     @foreach (var homework in ViewBag.HomeWorks)
     {
@@ -149,47 +150,53 @@
        var reviwedcn = t.HomeWork.Score == null ? "未批改" : t.HomeWork.Score;
             <h3>第 @t.WeekInQGrade.Week 周 | @t.HomeWorkPush.Subject | @statuscn | @reviwedcn</h3> 
             <div id="@t.HomeWork.ID" loaded="false">
-                  <ul class="form_input_area">
-                      <li>
-                           <div class="parameter_name"><span>作业题目</span></div>
-                           <div class="parameter_input"><span>@Html.DisplayFor(model => t.HomeWorkPush.Subject)</span></div>       
-                      </li>
-                      <li>
-                           <div class="parameter_name"><span>作业要求</span></div>
-                           <div class="parameter_input"><span>@Html.DisplayFor(model => t.HomeWorkPush.Description)</span></div>       
-                      </li>
-                      <li>
-                           <div class="parameter_name"><span>作业素材</span></div>
-                          <div>
-                           @{
-       var HomeworkPushMeteiral = "HomeworkPushMeteiral" + t.HomeWorkPush.ID;
+                  <table class="tableshow">
+                      <tr>
+                           <td class="title">作业题目：</td>
+                           <td class="datail">@Html.DisplayFor(model => t.HomeWorkPush.Subject)</td>       
+                      </tr>
+                      <tr>
+                           <td class="title">作业要求：</td>
+                           <td class="datail">@Html.Raw(t.HomeWorkPush.Description)</td>       
+                      </tr>
+                      <tr>
+                          <td class="title">作业素材：</td>
+                          <td class="datail">
+                              @{
+                                 var HomeworkPushMeteiral = "HomeworkPushMeteiral" + t.HomeWorkPush.ID;
                                 <div id="@HomeworkPushMeteiral" class="Meteiral"></div>
-                            }
-                          </div>
-                           <div>
-                           @{
-       var HomeworkMeteiral = "HomeworkMeteiral" + t.HomeWork.ID;
+                              }
+                          </td>
+                       </tr>
+                       <tr>
+                           <td class="title">上传作业：</td>
+                           <td class="datail">
+                              @{
+                                var HomeworkMeteiral = "HomeworkMeteiral" + t.HomeWork.ID;
                                 <div id="@HomeworkMeteiral" class="Meteiral"></div>
-                            }
-                           </div>  
-                      </li>
-                      <li>
-                           <div class="parameter_name"><span>作业描述</span></div>
-                           <div>
-                           @{
-       var commits = "commits" + t.HomeWork.ID;
-                               <textarea id="@commits" style="width:400px;" rows="5" >@t.HomeWork.Commits</textarea>
-                            }
-                           </div>  
-                      </li>
+                               }
+                           </td> 
+                      </tr>
+                      <tr>
+                           <td class="title">作业描述：</td> 
+                           <td><div>
+                               @{
+                                var commits = "commits" + t.HomeWork.ID;
+                               <textarea id="@commits" class="xheditor-mini {}" style="width:100%;height:200px">@t.HomeWork.Commits</textarea>
+                                }
+                               </div>
+                           </td>  
+                      </tr>
 
-                      <li>
+                      <tr>
+                          <td colspan="2">
                            @{
-       var jsfunction = "submithomework(" + t.HomeWork.ID + ")";
-                               <input type="button" value="submit" onclick="@jsfunction"/>
+                               var jsfunction = "submithomework(" + t.HomeWork.ID + ")";
+                               <input type="button" value="保存" class="ui-button ui-widget ui-state-default ui-corner-all" onclick="@jsfunction"/>
                            }
-                      </li>
-                  </ul>
+                           </td> 
+                      </tr>
+                  </table>
             </div>
    }
 </div>

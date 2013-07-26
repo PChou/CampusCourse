@@ -59,6 +59,7 @@ namespace Campus.Course.Controllers
             return View();
         }
 
+        [ValidateInput(false)]
         public void submithomework(int id, string commits)
         {
             _HomeWork.SubmitHomeWork(null, id, commits);

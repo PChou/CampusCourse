@@ -21,31 +21,31 @@
      var divid = "homework_" + i;
      <div class="form_main_content" id="@divid" style="@stylestr">
          <div class="content_border">
-              <div class="content_title">
+              <div class="middle_title">
                     <span>基础信息</span>
                </div>
-              <ul class="form_input_area">
-                  <li>
-                       <div class="parameter_name"><span>作业题目</span></div>
-                       <div class="parameter_input"><span>@list[i].HomeWorkPush.Subject</span></div>       
-                  </li>
-                  <li>
-                       <div class="parameter_name"><span>作业要求</span></div>
-                       <div class="parameter_input"><span>@list[i].HomeWorkPush.Description</span></div>       
-                  </li>
-              </ul>
+              <table class="tableshow">
+                  <tr>
+                       <td class="title">作业题目：</td>
+                       <td class="datail">@list[i].HomeWorkPush.Subject</td>       
+                  </tr>
+                  <tr>
+                       <td class="title"><span>作业要求：</span></td>
+                       <td class="datail">@Html.Raw(@list[i].HomeWorkPush.Description)</td>       
+                  </tr>
+              </table>
           </div>
           <div>
               @{
-                  var allcount = list[i].AllCount;
-                  var submitcount = list[i].SubmitCount;
-                  var latecount = list[i].LateCount;
-                  var newcount = list[i].NewCount;
+     var allcount = list[i].AllCount;
+     var submitcount = list[i].SubmitCount;
+     var latecount = list[i].LateCount;
+     var newcount = list[i].NewCount;
                }
               <span>按时交作业 @submitcount/@allcount  迟交作业 @latecount/@allcount  未交作业 @newcount/@allcount</span>
           </div>
           <div class="content_border">
-               <div class="content_title">
+               <div class="middle_title">
                     <span>学生作业</span>
                </div>
               <div>

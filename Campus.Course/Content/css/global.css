@@ -309,6 +309,13 @@ li {
    .content_title .icons {
         margin: 5px;
     }
+.middle_title {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: solid 1px #C5C5C5;
+    background: url('/Content/images/buttom_title.png') 0 0 repeat-x;
+}
+
 .form_content {
     margin: 10px 20px;
     margin-bottom: 50px;
@@ -336,43 +343,6 @@ li {
             }
 
 
-    .form_content .form_input_area > li {
-        display: inline-block;
-        width: 100%;
-        padding: 5px 0;
-        border-bottom: solid 1px #EFEFEF;
-    }
-
-        .form_content .form_input_area > li > div {
-            width: 49%;
-            float: left;
-            height: 100%;
-        }
-
-            .form_content .form_input_area > li > div.one_line {
-                width: 100%;
-            }
-
-
-    .form_content .form_input_area .parameter_name {
-        width: 40%;
-        float: left;
-        text-align: right;
-        height: 100%;
-        line-height: 30px;
-        font-weight: bold;
-    }
-
-
-
-    .form_content .form_input_area .parameter_input {
-        width: 57%;
-        height: 100%;
-        float: right;
-        line-height: 30px;
-        padding-left: 10px;
-    }
-
     .form_content .form_main_content,
     .form_content .form_main_content_title {
         padding: 10px 0;
@@ -394,3 +364,27 @@ li {
 .fr {
     float: right;
 }
+
+.tableshow
+{
+    width:100%;
+    height:100%;
+}
+    .tableshow tr
+    {
+        display:inline-table;
+        width: 100%;
+        padding: 5px 0;
+        border-bottom: solid 1px #EFEFEF;
+    }
+
+    .tableshow .title
+    {
+          width:15%;
+          font-size: 16px;
+          font-weight:bold;
+    }
+    .tableshow .datail
+    {
+          width:75%;
+    }
